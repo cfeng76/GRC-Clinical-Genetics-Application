@@ -1,0 +1,25 @@
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.exe.config
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.exe
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.pdb
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.Login.resources
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.Properties.Resources.resources
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.csproj.GenerateResource.Cache
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.exe
+Z:\GRC Management\MS_VS2015_Projects\Development\GRC_Clinical_Genetics_App\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.pdb
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.exe.config
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.exe.manifest
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.application
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.exe
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Debug\GRC Clinical Genetics Application.pdb
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.csprojResolveAssemblyReference.cache
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.AddClinicalContact.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.ApplicationForm.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.Dashboard.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.DocumentViewer.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.Login.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.Properties.Resources.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.csproj.GenerateResource.Cache
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.exe.manifest
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.application
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.exe
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.pdb

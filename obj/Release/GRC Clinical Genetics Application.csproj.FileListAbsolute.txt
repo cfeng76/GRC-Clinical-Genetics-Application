@@ -1,0 +1,17 @@
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Release\GRC Clinical Genetics Application.exe.config
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Release\GRC Clinical Genetics Application.exe.manifest
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Release\GRC Clinical Genetics Application.application
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Release\GRC Clinical Genetics Application.exe
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\bin\Release\GRC Clinical Genetics Application.pdb
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC_Clinical_Genetics_Application.AddClinicalContact.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC_Clinical_Genetics_Application.ApplicationForm.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC_Clinical_Genetics_Application.Dashboard.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC_Clinical_Genetics_Application.DocumentViewer.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC_Clinical_Genetics_Application.Login.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC_Clinical_Genetics_Application.Properties.Resources.resources
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.csproj.GenerateResource.Cache
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.exe.manifest
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.application
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.exe
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.pdb
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.csprojResolveAssemblyReference.cache
