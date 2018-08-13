@@ -155,7 +155,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
+            this.NonPTLLLabel = new System.Windows.Forms.Label();
             this.DateBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemographicsBox)).BeginInit();
@@ -722,7 +722,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(754, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(737, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -931,7 +931,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(732, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(715, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1660,17 +1660,17 @@
             this.label6.TabIndex = 173;
             this.label6.Text = "or";
             // 
-            // label27
+            // NonPTLLLabel
             // 
-            this.label27.AutoSize = true;
-            this.label27.BackColor = System.Drawing.Color.Gainsboro;
-            this.label27.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label27.Location = new System.Drawing.Point(661, 576);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(172, 90);
-            this.label27.TabIndex = 174;
-            this.label27.Text = "*If test requested is not on \r\npre-approved list, \r\nclick \'Non pre-approved test\'" +
+            this.NonPTLLLabel.AutoSize = true;
+            this.NonPTLLLabel.BackColor = System.Drawing.Color.Gainsboro;
+            this.NonPTLLLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NonPTLLLabel.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.NonPTLLLabel.Location = new System.Drawing.Point(661, 576);
+            this.NonPTLLLabel.Name = "NonPTLLLabel";
+            this.NonPTLLLabel.Size = new System.Drawing.Size(172, 90);
+            this.NonPTLLLabel.TabIndex = 174;
+            this.NonPTLLLabel.Text = "*If test requested is not on \r\npre-approved list, \r\nclick \'Non pre-approved test\'" +
     "\r\nand complete the\r\n\"Test Information (Continued)\"\r\nsection below";
             // 
             // DateBox
@@ -1691,7 +1691,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(869, 718);
             this.Controls.Add(this.DateBox);
-            this.Controls.Add(this.label27);
+            this.Controls.Add(this.NonPTLLLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label22);
@@ -1965,7 +1965,7 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label NonPTLLLabel;
         private System.Windows.Forms.TextBox DateBox;
     }
 }

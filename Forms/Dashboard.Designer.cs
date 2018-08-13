@@ -528,7 +528,6 @@
         private System.Windows.Forms.Label NameLabel;
         private System.Windows.Forms.PictureBox Bar1;
         private System.Windows.Forms.Button NewApplicationButton;
-        private System.Windows.Forms.DataGridView ApplicationListTableView;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox GRCNumberTextBox;
         private System.Windows.Forms.Label label4;
@@ -551,5 +550,6 @@
         private System.Windows.Forms.Button ResetButton;
         private System.Windows.Forms.Label NumLabel2;
         private System.Windows.Forms.Label NumLabel1;
+        internal System.Windows.Forms.DataGridView ApplicationListTableView;
     }
 }

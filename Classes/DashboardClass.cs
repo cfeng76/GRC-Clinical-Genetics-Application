@@ -15,13 +15,14 @@ namespace GRC_Clinical_Genetics_Application
         private int userID;
         private int result;
 
-        public DashboardClass() { }
+        public DashboardClass(int user) {
+            userID = user;
+        }
 
-        public string UpdateGreeting(int id)
+        public string UpdateGreeting()
         {
-            userID = id;
             dashCon.GRC_Connection.Open();
-            SqlCommand cmd = dashCon.NameCommand(id);
+            SqlCommand cmd = dashCon.NameCommand(userID);
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {

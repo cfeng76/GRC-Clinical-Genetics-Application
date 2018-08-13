@@ -26,13 +26,14 @@ namespace GRC_Clinical_Genetics_Application
         private int openMetricsID = 1;
         private int urgentMetricsID = 2;
         private bool logOut = false;
-        DashboardClass dashboard = new DashboardClass();
+        DashboardClass dashboard;
 
         public Dashboard(int id)
         {
             InitializeComponent();
             this.userID = id;
-            this.NameLabel.Text = dashboard.UpdateGreeting(userID);
+            dashboard = new DashboardClass(userID);
+            this.NameLabel.Text = dashboard.UpdateGreeting();
             InitializeDataTable();
         }
 
@@ -46,7 +47,7 @@ namespace GRC_Clinical_Genetics_Application
 
             UpdateMetricLabels();
         }
-        private void UpdateMetricLabels()
+        internal void UpdateMetricLabels()
         {
             NumLabel1.Text = dashboard.UpdateMetrics(openMetricsID).ToString();
             NumLabel2.Text = dashboard.UpdateMetrics(urgentMetricsID).ToString();

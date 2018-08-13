@@ -87,15 +87,17 @@ namespace GRC_Clinical_Genetics_Application
         #endregion
         ApplicationFormClass app = new ApplicationFormClass();
         Connections formConnection = new Connections();
+        DashboardClass dsbClass;
         Dashboard dashBoard;
         const int textboxWidth = 818;
 
         public ApplicationForm(Dashboard dsb, int empID, bool existingApplication, int existingAppID = 0) {
             InitializeComponent();
-            //dashBoard = dsb;
+            dashBoard = dsb;
             employee_ID = empID;
             existApp = existingAppID;
-            
+            dsbClass = new DashboardClass(employee_ID);
+
             SecondDeleteButton.Width = DeleteButton.Width;
             SecondSaveButton.Width = SaveButton.Width;
             SecondFinalizeButton.Width = FinalizeButton.Width;
@@ -186,6 +188,7 @@ namespace GRC_Clinical_Genetics_Application
             DeleteButton.Visible = !finalized;
             SaveButton.Visible = !finalized;
             NewTestReqLinkLabel.Visible = !finalized;
+            NonPTLLLabel.Visible = NewTestReqLinkLabel.Visible;
 
             BrowseButton.Visible = !finalized;
             UploadButton.Visible = !finalized;
@@ -938,6 +941,11 @@ namespace GRC_Clinical_Genetics_Application
                 }
 
             }
+
+            DataTable dt = dsbClass.UpdateAppTable(true);
+            dashBoard.ApplicationListTableView.DataSource = dt;
+            dashBoard.UpdateMetricLabels();
+
         }
 
     }
