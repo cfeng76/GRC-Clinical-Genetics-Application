@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace GRC_Clinical_Genetics_Application
+namespace GRC_Clinical_Genetics_Application //GRC ADDITION
 {
     public partial class Dashboard : Form
     {
@@ -29,7 +29,7 @@ namespace GRC_Clinical_Genetics_Application
         DashboardClass dashboard;
 
         public Dashboard(int id)
-        {
+        {//GRC
             InitializeComponent();
             this.userID = id;
             dashboard = new DashboardClass(userID);
