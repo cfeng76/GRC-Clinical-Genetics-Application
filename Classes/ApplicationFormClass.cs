@@ -563,7 +563,6 @@ namespace GRC_Clinical_Genetics_Application
                     for (int i = 0; i < 5; i++)
                     {
                         combobox[i] = sdr[i].ToString();
-                        Console.WriteLine(combobox[i]);
                     }
                 }
             }

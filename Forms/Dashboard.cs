@@ -121,6 +121,11 @@ namespace GRC_Clinical_Genetics_Application
                 return;
             }
             //open existing application
+            if (e.ColumnIndex == 1)
+            {
+                Console.WriteLine(ApplicationListTableView.Rows[e.RowIndex].Cells[1].Value);
+                return;
+            }
             ApplicationForm newApp = new ApplicationForm(this, userID, true, applicationNum);
             newApp.Show();
         }

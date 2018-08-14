@@ -444,7 +444,7 @@
             this.ResetButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResetButton.Location = new System.Drawing.Point(1321, 145);
             this.ResetButton.Name = "ResetButton";
-            this.ResetButton.Size = new System.Drawing.Size(80, 23);
+            this.ResetButton.Size = new System.Drawing.Size(78, 23);
             this.ResetButton.TabIndex = 36;
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = false;
