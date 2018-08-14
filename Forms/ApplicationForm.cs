@@ -415,6 +415,9 @@ namespace GRC_Clinical_Genetics_Application
                     urgentSelection, newTest, finalized, 2, geneticsID, subtype, sendOutLab, otherLab, otherLabDetail,
                     newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
                 MessageBox.Show("Application created!");
+                DataTable dt = dsbClass.UpdateAppTable(true);
+                dashBoard.ApplicationListTableView.DataSource = dt;
+                dashBoard.UpdateMetricLabels();
                 this.Close();   
             }
 
@@ -434,6 +437,9 @@ namespace GRC_Clinical_Genetics_Application
                 app.SetTestID(PTLLTest, labName);
                 MessageBox.Show("Application Submitted!");
                 app.SubmitApplication(currentAppID, employee_ID);
+                DataTable dt = dsbClass.UpdateAppTable(true);
+                dashBoard.ApplicationListTableView.DataSource = dt;
+                dashBoard.UpdateMetricLabels();
                 this.Close();
             }
         }
@@ -925,6 +931,9 @@ namespace GRC_Clinical_Genetics_Application
             }else if (saved)
             {
                 MessageBox.Show("Application Saved!");
+                DataTable dt = dsbClass.UpdateAppTable(true);
+                dashBoard.ApplicationListTableView.DataSource = dt;
+                dashBoard.UpdateMetricLabels();
             }
             else if (!loadExisting && !saved && !deleted && !finalized)
             {
@@ -941,10 +950,6 @@ namespace GRC_Clinical_Genetics_Application
                 }
 
             }
-
-            DataTable dt = dsbClass.UpdateAppTable(true);
-            dashBoard.ApplicationListTableView.DataSource = dt;
-            dashBoard.UpdateMetricLabels();
 
         }
 
