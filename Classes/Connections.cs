@@ -21,6 +21,8 @@ namespace GRC_Clinical_Genetics_Application
         {
 
         }
+
+        #region Clinical App
         public SqlCommand LoginCommand(string user)
         {
             SqlCommand loginCommand = new SqlCommand("Select [login], [password], [PwdReset], [ID] from [GRC].[dbo].[Employees] where [login]='" + user + "' ", GRC_Connection);
@@ -365,6 +367,66 @@ namespace GRC_Clinical_Genetics_Application
         {
             return new SqlCommand("SELECT [Source Default Location],[Destination Default Location] FROM [GRC].[dbo].[CBO App Document Type] where [Document Type Name] = '" + documentType + "' ", GRC_Connection);
         }
+        #endregion
+
+        #region GRC
+        public SqlDataAdapter getCustomOrdersDatatable(string GRCnum, string status, string patientFirstName, string patientLastName, int PHN, bool isUrgent, bool showAll, int id, string AppStat)
+        {
+            string cmdString = "SELECT [GRC ID], [Status Name] as 'Status', PAT.[Last Name] + ', ' + PAT.[First Name] as 'Patient', PAT.[Personal Health Number] as 'PHN',  CONVERT(VARCHAR(10), PAT.DOB , 126) as 'Date of Birth', CASE when[IsUrgent] = 1 then 'Yes' else 'No' end as 'Is Urgent?', CASE when O.[Paperwork Received Date] IS NULL then 'No' else 'Yes' end as 'Paperwork Received?', [Received Date] as 'Application Submission Date' , E.[First Name] + ' ' + E.[Last Name] as 'Submitted by' FROM [GRC].[dbo].[Orders] O inner join [GRC].[dbo].Patients As PAT on pat.ID = o.[Patient ID] inner join [GRC].[dbo].[Orders Status] OSTAT on OSTAT.[Status ID] = o.[Status ID] inner join [GRC].[dbo].employees E on e.ID = o.[Employee ID] where [GRC ID] is not null ";
+            if (GRCnum != "")
+            {
+                cmdString = cmdString + " and O.[GRC ID] LIKE '%" + GRCnum + "%' ";
+            }
+            //if (AppStat != "Any")
+            //{
+            //cmdString = cmdString + " and ASTAT.[Status Name] LIKE '%" + AppStat + "%' ";
+            // }
+            if (status != "Any")
+            {
+                cmdString = cmdString + " and OSTAT.[Status Name] LIKE '%" + status + "%'";
+            }
+            if (patientFirstName != "")
+            {
+                cmdString = cmdString + " and PAT.[First Name] LIKE '%" + patientFirstName + "%' ";
+            }
+            if (patientLastName != "")
+            {
+                cmdString = cmdString + " and PAT.[Last Name] LIKE '%" + patientLastName + "%' ";
+            }
+            if (PHN != 0)
+            {
+                cmdString = cmdString + " and PAT.[Personal Health Number] LIKE '%" + PHN + "%' ";
+            }
+            if (isUrgent == true)
+            {
+                cmdString = cmdString + " and O.[isUrgent] = 1 ";
+            }
+            if (showAll == false)
+            {
+                cmdString = cmdString + " and O.[Employee ID] = " + id.ToString();
+            }
+
+            SqlDataAdapter dataTable = new SqlDataAdapter(cmdString, GRC_Connection);
+            return dataTable;
+        }
+
+        public SqlDataAdapter getDefaultOrdersDatatable(int ID)
+        {
+            SqlDataAdapter dataTable = new SqlDataAdapter("SELECT[GRC ID], [Status Name] as 'Status', [Patients].[Last Name] + ', ' + [Patients].[First Name] as 'Patient', [Patients].[Personal Health Number] as 'PHN',  CONVERT(VARCHAR(10), Patients.DOB , 126) as 'Date of Birth', CASE when[IsUrgent] = 1 then 'Yes' else 'No' end as 'Is Urgent?', CASE when Orders.[Paperwork Received Date] IS NULL then 'No' else 'Yes' end as 'Paperwork Received?', [Received Date] as 'Application Submission Date' , [Employees].[First Name] + ' ' + Employees.[Last Name] as 'Submitted by' FROM [GRC].[dbo].[Orders], [GRC].[dbo].Patients, [GRC].[dbo].[Orders Status], [GRC].[dbo].employees where [Patient ID] = [GRC].[dbo].Patients.ID and[GRC].[dbo].[Orders].[Status ID] = [GRC].[dbo].[Orders Status].[Status ID] and [Employee ID] = [GRC].[dbo].employees.ID and [Employee ID] = " + ID, GRC_Connection);
+            return dataTable;
+        }
+        internal SqlCommand GetOrderID(string grcID)
+        {
+            return new SqlCommand("select [Order ID]  FROM [GRC].[dbo].[Orders] where [GRC ID] = '" + grcID + "' ", GRC_Connection);
+        }
+        internal SqlCommand GetExistingGRC(int OrderID)
+        {
+            // Get GRC Data
+            SqlCommand cmd = new SqlCommand("SELECT[Order ID],[Order Date],[Received Date],[GRC ID],[GRC Coordinator ID],[Employee ID],[Customer ID],[Lab ID] ,[Patient Care Provider ID],[Patient Care Provider Contact ID],[Patient ID],[Patient Specimen Type ID],[Counsellor 1],[IsReviewed1],[Counsellor 2],[IsReviewed2],[Counsellor 3],[IsReviewed3],[Approved Letter ID],[Approved Notification Via ID],[Approved Notification Date],[Declined Letter ID],[Declined Notification Via ID],[Declined Notification Date],[Withdraw Letter ID],[Withdraw Notification Via ID],[Withdraw Notification Date],[Appeal Letter ID],[Appeal Notification Via ID],[Appeal Notification Date],[ReSubmission Letter ID],[ReSubmission Notification Via ID],[ReSubmission Notification Date],[Notified Name],[Notified Address],[Notified City],[Notified State/Province],[Notified ZIP/Postal Code],[Notified Country/Region],[More Info 1 Letter ID],[More Info 1  Date],[More info 2 Letter ID],[More Info 2  Date],[More Info 3 Letter ID],[More Info 3  Date],[Shipper ID],[Shipped Date],[Ship Lab],[Ship Name],[Ship Address],[Ship City],[Ship State/Province],[Ship ZIP/Postal Code],[Ship Country/Region],[Shipping Fee],[Shipping Notes],[Taxes],[Payment Type],[Paid Date],[Paid Currency ID],[Tax Rate],[Tax Status],[IsUrgent],[Urgent Reason],[Urgent Other Reasons],[IsPatientClinicallyAffected],[IsFetalTesting],[IsFetalPostmortemTest],[IsFamilialMutation],[IsOtherReasonForTesting],[Reason For Testing ID],[IsApplicationCompleted],[IsApplicationApproved],[IsApplicationApprovedNotified],[Approved Reasons],[Approved Other Reasons],[IsApplicationDeclined],[IsApplicationDeclinedNotified],[Declined Reasons],[Declined Other Reasons],[IsApplicationWithdrawn],[IsApplicationWithdrawnNotified],[Withdraw Reasons],[Withdraw Other Reasons],[IsAppealed],[IsAppealedNotified],[Appeal Decision],[IsResumission],[IsResumissiondNotified],[Resubmission Decision],[IsApplicationScanned],[IsClinicalReviewRequired],[Updated By],[Disease1 ID],[Disease2 ID],[Test Requested ID],[Current Task ID],[Current Task Updated Date]  ,[Current Task Updated Time],[Current Task Updated By],[Updated Date],[Updated Time],[UPdated  User Name],[UPdated  Computer Name],[Attachments],[Notes],[Status ID],[upsize_ts],[IsResultsReceived],[Invoice Amount],[Paid Amount],[IsSampleShipped],[IsPaymentApproved],[Paperwork Received Date],[Shippers Reference ID],[Applications_ID] FROM [GRC].[dbo].[Orders]  WHERE [Order ID] = '" + OrderID + "' ", GRC_Connection);
+            return cmd;
+        }
+
+        #endregion
     }
 }
 

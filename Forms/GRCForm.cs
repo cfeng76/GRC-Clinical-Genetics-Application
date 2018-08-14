@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GRC_Clinical_Application
+namespace GRC_Clinical_Genetics_Application
 {
     public partial class GRCForm : Form
     {
@@ -91,7 +91,7 @@ namespace GRC_Clinical_Application
         const int textboxWidth = 818;
         const int backgroundWidth = 840;
 
-        public GRCForm(int empID, bool existingApplication, int existingOrderID = 0) {
+        public GRCForm(int empID, bool existingApplication = true, int existingOrderID = 0) {
             InitializeComponent();
             employee_ID = empID;
             existOrderID = existingOrderID;
@@ -111,10 +111,6 @@ namespace GRC_Clinical_Application
             {
                 loadExisting = true;
                 currentOrderID = existingOrderID;
-            } else
-            {
-                finalized = false;
-                currentOrderID = GRC.GenerateApplicationID(empID);
             }
             foreach (Control c in this.Controls)
             {
@@ -170,11 +166,7 @@ namespace GRC_Clinical_Application
             PTLLTextBox.DisplayMember = "Product Name";
             PTLLTextBox.DataSource = GRC.GetTestList(clinicalSpecialty);
 
-            if (loadExisting)
-            {
-                GRC.GetGRCApplication(existOrderID); // Call GRC Class
-                finalized = GRC.IsReadOnly();
-            }
+            GRC.GetGRCApplication(existOrderID); // Call GRC Class
 
         }
         private void ApplicationForm_Shown(object sender, EventArgs e)
@@ -193,10 +185,8 @@ namespace GRC_Clinical_Application
             SecondDeleteButton.Visible = !finalized && newTest;
             SecondSaveButton.Visible = !finalized && newTest;
 
-            if (loadExisting)
-            {
-                FillApplication();
-            }
+            FillApplication();
+            
             if (finalized)
             {
                 foreach (Control c in this.Controls)
@@ -795,7 +785,6 @@ namespace GRC_Clinical_Application
         private void FillApplication()
         {
             ApplicationNumberLabel.Text = ApplicationNumberLabel.Text + existOrderID;
-            NewPatientButton.Hide();
             newTest = GRC.IsNewTest();
             ChangeSecondPageVisibility(newTest);
 

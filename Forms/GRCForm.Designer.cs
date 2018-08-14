@@ -1,4 +1,4 @@
-﻿namespace GRC_Clinical_Application
+﻿namespace GRC_Clinical_Genetics_Application
 {
     partial class GRCForm
     {

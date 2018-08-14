@@ -23,3 +23,4 @@ C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical 
 C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.application
 C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.exe
 C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC Clinical Genetics Application.pdb
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Debug\GRC_Clinical_Genetics_Application.GRCForm.resources

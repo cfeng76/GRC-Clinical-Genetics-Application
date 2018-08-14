@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.HeaderLabel1 = new System.Windows.Forms.Label();
             this.LogoutButton = new System.Windows.Forms.Button();
             this.AHSLogo = new System.Windows.Forms.PictureBox();
             this.NameLabel = new System.Windows.Forms.Label();
@@ -62,26 +62,27 @@
             this.ResetButton = new System.Windows.Forms.Button();
             this.NumLabel2 = new System.Windows.Forms.Label();
             this.NumLabel1 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
+            this.GRCSearchButton = new System.Windows.Forms.Button();
+            this.GRCDashboardButton = new System.Windows.Forms.Button();
             label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AHSLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Bar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ApplicationListTableView)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // HeaderLabel1
             // 
-            label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.HeaderLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            label1.AutoSize = true;
-            label1.BackColor = System.Drawing.Color.Transparent;
-            label1.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label1.ForeColor = System.Drawing.SystemColors.HotTrack;
-            label1.Location = new System.Drawing.Point(241, 35);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(482, 34);
-            label1.TabIndex = 1;
-            label1.Text = "GRC Clinical Genetics Dashboard";
+            this.HeaderLabel1.AutoSize = true;
+            this.HeaderLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.HeaderLabel1.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeaderLabel1.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.HeaderLabel1.Location = new System.Drawing.Point(241, 35);
+            this.HeaderLabel1.Name = "HeaderLabel1";
+            this.HeaderLabel1.Size = new System.Drawing.Size(482, 34);
+            this.HeaderLabel1.TabIndex = 1;
+            this.HeaderLabel1.Text = "GRC Clinical Genetics Dashboard";
             // 
             // label2
             // 
@@ -174,31 +175,31 @@
             // 
             // ApplicationListTableView
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.ApplicationListTableView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            this.ApplicationListTableView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.ApplicationListTableView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ApplicationListTableView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.ApplicationListTableView.BackgroundColor = System.Drawing.Color.AliceBlue;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ApplicationListTableView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ApplicationListTableView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.ApplicationListTableView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ApplicationListTableView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ApplicationListTableView.DefaultCellStyle = dataGridViewCellStyle9;
             this.ApplicationListTableView.Location = new System.Drawing.Point(12, 183);
             this.ApplicationListTableView.Name = "ApplicationListTableView";
             this.ApplicationListTableView.ReadOnly = true;
@@ -472,6 +473,31 @@
             this.NumLabel1.TabIndex = 38;
             this.NumLabel1.Text = "null";
             // 
+            // GRCSearchButton
+            // 
+            this.GRCSearchButton.BackColor = System.Drawing.Color.Cyan;
+            this.GRCSearchButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GRCSearchButton.Location = new System.Drawing.Point(1235, 145);
+            this.GRCSearchButton.Name = "GRCSearchButton";
+            this.GRCSearchButton.Size = new System.Drawing.Size(80, 23);
+            this.GRCSearchButton.TabIndex = 39;
+            this.GRCSearchButton.Text = "Search";
+            this.GRCSearchButton.UseVisualStyleBackColor = false;
+            this.GRCSearchButton.Visible = false;
+            this.GRCSearchButton.Click += new System.EventHandler(this.GRCSearchButton_Click);
+            // 
+            // GRCDashboardButton
+            // 
+            this.GRCDashboardButton.BackColor = System.Drawing.Color.OrangeRed;
+            this.GRCDashboardButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GRCDashboardButton.Location = new System.Drawing.Point(1007, 99);
+            this.GRCDashboardButton.Name = "GRCDashboardButton";
+            this.GRCDashboardButton.Size = new System.Drawing.Size(182, 23);
+            this.GRCDashboardButton.TabIndex = 40;
+            this.GRCDashboardButton.Text = "GRC Dashboard";
+            this.GRCDashboardButton.UseVisualStyleBackColor = false;
+            this.GRCDashboardButton.Click += new System.EventHandler(this.GRCDashboardButton_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -479,6 +505,8 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1411, 585);
+            this.Controls.Add(this.GRCDashboardButton);
+            this.Controls.Add(this.GRCSearchButton);
             this.Controls.Add(this.NumLabel1);
             this.Controls.Add(this.NumLabel2);
             this.Controls.Add(this.ResetButton);
@@ -506,7 +534,7 @@
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(label2);
             this.Controls.Add(this.AHSLogo);
-            this.Controls.Add(label1);
+            this.Controls.Add(this.HeaderLabel1);
             this.Controls.Add(this.LogoutButton);
             this.Controls.Add(this.Bar1);
             this.Name = "Dashboard";
@@ -551,5 +579,8 @@
         private System.Windows.Forms.Label NumLabel2;
         private System.Windows.Forms.Label NumLabel1;
         internal System.Windows.Forms.DataGridView ApplicationListTableView;
+        private System.Windows.Forms.Label HeaderLabel1;
+        private System.Windows.Forms.Button GRCSearchButton;
+        private System.Windows.Forms.Button GRCDashboardButton;
     }
 }

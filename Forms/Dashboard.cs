@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,8 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
         private int urgentMetricsID = 2;
         private bool logOut = false;
         DashboardClass dashboard;
+        private bool isClinicalApp = true;
+        Connections grcConnect = new Connections();
 
         public Dashboard(int id)
         {//GRC
@@ -111,18 +114,60 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
 
         private void ApplicationListTableView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex < 0)
+            //if(e.RowIndex < 0)
+            //{
+            //    return;
+            //}
+            //int applicationNum = (ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value != DBNull.Value) ? Convert.ToInt32(ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value) : 0;
+            //if (applicationNum == 0)
+            //{
+            //    return;
+            //}
+            ////open existing application
+            //ApplicationForm newApp = new ApplicationForm(this, userID, true, applicationNum);
+            //newApp.Show();
+            if (isClinicalApp == true)
             {
-                return;
+                if (e.RowIndex < 0)
+                {
+                    return;
+                }
+                int applicationNum = (ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value != DBNull.Value) ? Convert.ToInt32(ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value) : 0;
+                if (applicationNum == 0)
+                {
+                    return;
+                }
+                //open existing application
+                ApplicationForm newApp = new ApplicationForm(this, userID, true, applicationNum);
+                newApp.Show();
             }
-            int applicationNum = (ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value != DBNull.Value) ? Convert.ToInt32(ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value) : 0;
-            if (applicationNum == 0)
-            {
-                return;
+            else
+            { // open GRC Application
+                if (e.RowIndex < 0)
+                {
+                    return;
+                }
+                string GRCID = (ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value != DBNull.Value) ? ApplicationListTableView.Rows[e.RowIndex].Cells[0].Value.ToString() : "";
+                int orderID = 0;
+
+                grcConnect.GRC_Connection.Open();
+                SqlCommand cmd = grcConnect.GetOrderID(GRCID);
+                SqlDataReader sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    orderID = Convert.ToInt32(sdr[0]);
+                }
+                grcConnect.GRC_Connection.Close();
+                if (GRCID == "")
+
+                {
+                    return;
+                }
+                MessageBox.Show(orderID.ToString());
+                //open existing application
+                GRCForm newApp = new GRCForm(userID, true, orderID);
+                newApp.Show();
             }
-            //open existing application
-            ApplicationForm newApp = new ApplicationForm(this, userID, true, applicationNum);
-            newApp.Show();
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
@@ -142,6 +187,55 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
                     ((ComboBox)c).SelectedItem = "Any";
                 }
             }
+        }
+        private void GRCDashboardButton_Click(object sender, EventArgs e)
+        {
+            isClinicalApp = !isClinicalApp;
+            if (isClinicalApp == false)
+            {
+                SearchButton.Hide();
+                GRCSearchButton.Show();
+                GRCDashboardButton.Text = "Clinical Application";
+                HeaderLabel1.Text = "GRC Dashboard";
+                listAllCheckBox.Checked = true;
+
+                defaultData = (GRCNumber == "" && ApplicationStatus == "Any" && GRCStatus == "Any" && patientFirstName == "" && patientLastName == "" && PHNTextBox.Text == "" && !isUrgent && !listAll) ? true : false;
+                ApplicationListTableView.DataSource = null;
+                DataTable dt = dashboard.UpdateGRCTable(true);
+                ApplicationListTableView.DataSource = dt;
+            }
+            else
+            {
+                SearchButton.Show();
+                GRCSearchButton.Hide();
+                GRCDashboardButton.Text = "GRC Application";
+                HeaderLabel1.Text = "Clinical Genetics Dashboard";
+                listAllCheckBox.Checked = false;
+                defaultData = (GRCNumber == "" && ApplicationStatus == "Any" && GRCStatus == "Any" && patientFirstName == "" && patientLastName == "" && PHNTextBox.Text == "" && !isUrgent && !listAll) ? true : false;
+                ApplicationListTableView.DataSource = null;
+                DataTable dt = dashboard.UpdateAppTable(defaultData, GRCNumber, GRCStatus, patientFirstName, patientLastName, personalHealthNumber, isUrgent, listAll, ApplicationStatus);
+                ApplicationListTableView.DataSource = dt;
+            }
+
+
+        }
+
+        private void GRCSearchButton_Click(object sender, EventArgs e)
+        {
+            GRCNumber = GRCNumberTextBox.Text;
+            ApplicationStatus = AppStatus.SelectedItem.ToString();
+            GRCStatus = StatusComboBox.SelectedItem.ToString();
+            patientFirstName = PatientFirstNameTextBox.Text;
+            patientLastName = PatientLastNameTextBox.Text;
+            personalHealthNumber = (PHNTextBox.Text != "") ? Convert.ToInt32(PHNTextBox.Text) : 0;
+
+            isUrgent = (UrgentCheckBox.CheckState == CheckState.Checked) ? true : false;
+            listAll = (listAllCheckBox.CheckState == CheckState.Checked) ? true : false;
+
+            defaultData = (GRCNumber == "" && ApplicationStatus == "Any" && GRCStatus == "Any" && patientFirstName == "" && patientLastName == "" && PHNTextBox.Text == "" && !isUrgent && !listAll) ? true : false;
+            ApplicationListTableView.DataSource = null;
+            DataTable dt = dashboard.UpdateGRCTable(defaultData, GRCNumber, GRCStatus, patientFirstName, patientLastName, personalHealthNumber, isUrgent, listAll, ApplicationStatus);
+            ApplicationListTableView.DataSource = dt;
         }
 
     }
