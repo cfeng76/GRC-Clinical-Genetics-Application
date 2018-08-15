@@ -109,6 +109,11 @@ namespace GRC_Clinical_Genetics_Application
             newApp.Show();
         }
 
+        private void NewResultButton_Click(object sender, EventArgs e)
+        {
+            ResultsForm newResult = new ResultsForm();
+            newResult.Show();
+        }
         private void ApplicationListTableView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex < 0)
@@ -148,6 +153,5 @@ namespace GRC_Clinical_Genetics_Application
                 }
             }
         }
-
     }
 }
