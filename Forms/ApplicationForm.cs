@@ -183,7 +183,7 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ApplicationForm_Shown(object sender, EventArgs e)
         {
-            SubmitButton.Visible = (finalized && app.GetStatusID() != 3) ? true : false;
+            SubmitButton.Visible = (finalized && app.GetStatusID() != 3) ? true : false; 
             FinalizeButton.Visible = !finalized;
             DeleteButton.Visible = !finalized;
             SaveButton.Visible = !finalized;
@@ -245,7 +245,6 @@ namespace GRC_Clinical_Genetics_Application
                 FirstNameTextBox.Text = app.GetFirstName();
                 LastNameTextBox.Text = app.GetLastName();
                 PostalCodeTextBox.Text = app.GetZIP();
-                //DOBPicker.Value = app.GetDOB(DOBPicker.MinDate);
                 DateBox.Text = app.GetDOB(DOBPicker.MinDate).ToString("yyyy/MM/dd");
                 gender = app.GetGender();
                 if (gender != null)
@@ -259,7 +258,6 @@ namespace GRC_Clinical_Genetics_Application
                 FirstNameTextBox.Text = "";
                 LastNameTextBox.Text = "";
                 PostalCodeTextBox.Text = "";
-                //DOBPicker.Value = DateTime.Now;
                 DateBox.Text = DateTime.Now.ToString("yyyy/MM/dd");
                 gender = "";
                 if (gender != null)
@@ -351,26 +349,6 @@ namespace GRC_Clinical_Genetics_Application
         #endregion
 
         #region CLICK EVENTS
-
-        private void NewPatientButton_Click(object sender, EventArgs e)
-        {
-            PHN = PHNTextBox.Text;
-            noPHN = (NoPHNCheckBox.CheckState == CheckState.Checked) ? true : false;
-            alternateID = AlternateIDTextbox.Text;
-            alternateExplanation = AlternateIDExplanationTextbox.Text;
-            firstName = FirstNameTextBox.Text;
-            lastName = LastNameTextBox.Text;
-            postalCode = PostalCodeTextBox.Text;
-            //DOB = DOBPicker.Value.ToString();
-            DOB = DateBox.Text;
-            DataRowView drv = GenderComboBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                gender = drv.Row["Gender"] as string;
-            }
-            genderID = app.GetGenderID(gender);
-            CheckPatient();
-        }
 
         private void FinalizeButton_Click(object sender, EventArgs e)
         {
@@ -821,7 +799,6 @@ namespace GRC_Clinical_Genetics_Application
 
             drv = PreferredLabTextBox.SelectedItem as DataRowView;
             labName = (drv != null) ? drv.Row["Company"] as string : "";
-            //ADD THESE BELOW
             var checkedButton = this.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
             sendOutLab = (checkedButton != null) ? checkedButton.Text : "";
 
@@ -850,7 +827,6 @@ namespace GRC_Clinical_Genetics_Application
         private void FillApplication()
         {
             ApplicationNumberLabel.Text = ApplicationNumberLabel.Text + existApp;
-            NewPatientButton.Hide();
             newTest = app.IsNewTest();
             ChangeSecondPageVisibility(newTest);
 

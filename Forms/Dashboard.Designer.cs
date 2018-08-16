@@ -410,6 +410,7 @@
             this.NewResultButton.Text = "New Result";
             this.NewResultButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.NewResultButton.UseVisualStyleBackColor = false;
+            this.NewResultButton.Click += new System.EventHandler(this.NewResultButton_Click);
             // 
             // AppStatus
             // 
