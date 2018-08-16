@@ -237,9 +237,6 @@ namespace GRC_Clinical_Genetics_Application
             } else if((testReq == null || testReq == "") && !newTest){
                 MessageBox.Show("Please provide a test request.");
                 return false;
-            //} else if(testReq.Contains("familial") && gene == "") {
-            //    MessageBox.Show("Please specify the gene type");
-            //    return false;
             } else if (otherLab && otherLabDetail == "") {
                 MessageBox.Show("Please provide other lab details.");
                 return false;

@@ -95,7 +95,6 @@
             this.AdditionalDetailsTextBox = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.OtherLabTextBox = new System.Windows.Forms.TextBox();
-            this.NewPatientButton = new System.Windows.Forms.Button();
             this.OrderingPhysicianTextBox = new System.Windows.Forms.TextBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -722,7 +721,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(737, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(720, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -931,7 +930,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(715, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(698, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -955,22 +954,6 @@
             this.OtherLabTextBox.Name = "OtherLabTextBox";
             this.OtherLabTextBox.Size = new System.Drawing.Size(249, 20);
             this.OtherLabTextBox.TabIndex = 95;
-            // 
-            // NewPatientButton
-            // 
-            this.NewPatientButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.NewPatientButton.BackColor = System.Drawing.Color.SpringGreen;
-            this.NewPatientButton.FlatAppearance.BorderColor = System.Drawing.Color.SpringGreen;
-            this.NewPatientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.NewPatientButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NewPatientButton.Location = new System.Drawing.Point(695, 138);
-            this.NewPatientButton.Name = "NewPatientButton";
-            this.NewPatientButton.Size = new System.Drawing.Size(85, 26);
-            this.NewPatientButton.TabIndex = 98;
-            this.NewPatientButton.Text = "New Patient?";
-            this.NewPatientButton.UseVisualStyleBackColor = false;
-            this.NewPatientButton.Visible = false;
-            this.NewPatientButton.Click += new System.EventHandler(this.NewPatientButton_Click);
             // 
             // OrderingPhysicianTextBox
             // 
@@ -1187,6 +1170,8 @@
             // 
             // DocumentTypeComboBox
             // 
+            this.DocumentTypeComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.DocumentTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DocumentTypeComboBox.FormattingEnabled = true;
             this.DocumentTypeComboBox.Location = new System.Drawing.Point(141, 890);
             this.DocumentTypeComboBox.MaxDropDownItems = 100;
@@ -1751,7 +1736,6 @@
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.OrderingPhysicianTextBox);
-            this.Controls.Add(this.NewPatientButton);
             this.Controls.Add(this.OtherLabTextBox);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.AdditionalDetailsTextBox);
@@ -1905,7 +1889,6 @@
         private System.Windows.Forms.TextBox AdditionalDetailsTextBox;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox OtherLabTextBox;
-        private System.Windows.Forms.Button NewPatientButton;
         private System.Windows.Forms.TextBox OrderingPhysicianTextBox;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox5;
