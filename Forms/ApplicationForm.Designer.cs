@@ -721,7 +721,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(720, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(703, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -930,7 +930,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(698, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(681, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1674,7 +1674,7 @@
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(869, 718);
+            this.ClientSize = new System.Drawing.Size(869, 750);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.NonPTLLLabel);
             this.Controls.Add(this.label6);
