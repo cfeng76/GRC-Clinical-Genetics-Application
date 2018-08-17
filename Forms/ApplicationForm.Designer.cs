@@ -696,7 +696,7 @@
             this.SubmitButton.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SubmitButton.Location = new System.Drawing.Point(524, 943);
             this.SubmitButton.Name = "SubmitButton";
-            this.SubmitButton.Size = new System.Drawing.Size(97, 41);
+            this.SubmitButton.Size = new System.Drawing.Size(95, 41);
             this.SubmitButton.TabIndex = 61;
             this.SubmitButton.Text = "SUBMIT";
             this.SubmitButton.UseVisualStyleBackColor = false;
@@ -721,7 +721,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(703, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(840, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -930,7 +930,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(681, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(818, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1672,9 +1672,8 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(869, 750);
+            this.ClientSize = new System.Drawing.Size(874, 760);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.NonPTLLLabel);
             this.Controls.Add(this.label6);
@@ -1803,6 +1802,8 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.TestContinuedBackGround);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(890, 1100);
+            this.MinimumSize = new System.Drawing.Size(890, 200);
             this.Name = "ApplicationForm";
             this.Text = "ApplicationForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ApplicationForm_FormClosing);

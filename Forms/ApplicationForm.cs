@@ -98,12 +98,12 @@ namespace GRC_Clinical_Genetics_Application
             existApp = existingAppID;
             dsbClass = new DashboardClass(employee_ID);
 
-            SecondDeleteButton.Width = DeleteButton.Width;
-            SecondSaveButton.Width = SaveButton.Width;
-            SecondFinalizeButton.Width = FinalizeButton.Width;
-            SecondSubmitButton.Width = SubmitButton.Width;
-            AdditionalDetailsTextBox.Width = textboxWidth;
-            TestContinuedBackGround.Width = ClinicianInformationBox.Width;
+            SecondDeleteButton.Width = DeleteButton.Width + 17;
+            SecondSaveButton.Width = SaveButton.Width + 17;
+            SecondFinalizeButton.Width = FinalizeButton.Width + 17;
+            SecondSubmitButton.Width = SubmitButton.Width + 17;
+            AdditionalDetailsTextBox.Width = textboxWidth + 17;
+            TestContinuedBackGround.Width = ClinicianInformationBox.Width + 17;
 
             PHNTextBox.AutoCompleteCustomSource = app.Search(demographics, 0);
             FirstNameTextBox.AutoCompleteCustomSource = app.Search(demographics, 1);
