@@ -710,6 +710,25 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
             
         }
+        private int CGappTestID()
+        {
+            int id = 0;
+            AppCon.GRC_Connection.Open();
+            SqlCommand cmd;
+            if (isNewTest)
+            {
+                cmd = AppCon.CGapptestID("CG Applicaction NewTest Request");
+            }else
+            {
+                cmd = AppCon.CGapptestID("CG Applicaction Pre-Approved Test");
+            }
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                id = Convert.ToInt32(sdr[0]);
+            }
+            return id;
+        }
 
         internal void CreateNewPatient(string pHN, string firstN, string lastN, int genID, string dOB, string postCode, string mRN, string altID, string altExpl)
         {
@@ -762,7 +781,7 @@ namespace GRC_Clinical_Genetics_Application
             isNewTest = v;
             string GRC_ID = "";
             int GRCNum = 0;
-            //int CGapptestID = (isNewTest) ? 1 : 2;
+            int CGapptestID = CGappTestID(); //add to CreateOrder(); instead of actual testID
             GetApplication(currentAppID);
             string urgent = GetFreeTextboxes(12);
             //Get next GRC ID
