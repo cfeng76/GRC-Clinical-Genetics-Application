@@ -153,7 +153,7 @@
             this.GeneWarningLabel = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.OrLabel = new System.Windows.Forms.Label();
             this.NonPTLLLabel = new System.Windows.Forms.Label();
             this.DateBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -721,7 +721,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(840, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(806, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -930,7 +930,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(818, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(784, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1634,16 +1634,16 @@
             this.label26.TabIndex = 172;
             this.label26.Text = "First Name:";
             // 
-            // label6
+            // OrLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Gainsboro;
-            this.label6.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(521, 609);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 15);
-            this.label6.TabIndex = 173;
-            this.label6.Text = "or";
+            this.OrLabel.AutoSize = true;
+            this.OrLabel.BackColor = System.Drawing.Color.Gainsboro;
+            this.OrLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OrLabel.Location = new System.Drawing.Point(521, 609);
+            this.OrLabel.Name = "OrLabel";
+            this.OrLabel.Size = new System.Drawing.Size(19, 15);
+            this.OrLabel.TabIndex = 173;
+            this.OrLabel.Text = "or";
             // 
             // NonPTLLLabel
             // 
@@ -1676,7 +1676,7 @@
             this.ClientSize = new System.Drawing.Size(874, 760);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.NonPTLLLabel);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.OrLabel);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.GeneWarningLabel);
@@ -1948,7 +1948,7 @@
         private System.Windows.Forms.Label GeneWarningLabel;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label OrLabel;
         private System.Windows.Forms.Label NonPTLLLabel;
         private System.Windows.Forms.TextBox DateBox;
     }

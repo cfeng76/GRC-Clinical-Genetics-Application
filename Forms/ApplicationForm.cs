@@ -188,6 +188,7 @@ namespace GRC_Clinical_Genetics_Application
             DeleteButton.Visible = !finalized;
             SaveButton.Visible = !finalized;
             NewTestReqLinkLabel.Visible = !finalized;
+            OrLabel.Visible = !finalized;
             NonPTLLLabel.Visible = NewTestReqLinkLabel.Visible;
 
             BrowseButton.Visible = !finalized;
@@ -414,7 +415,7 @@ namespace GRC_Clinical_Genetics_Application
                 CaptureInformation();
                 app.SetTestID(PTLLTest, labName);
                 MessageBox.Show("Application Submitted!");
-                app.SubmitApplication(currentAppID, employee_ID);
+                app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType);
                 DataTable dt = dsbClass.UpdateAppTable(true);
                 dashBoard.ApplicationListTableView.DataSource = dt;
                 dashBoard.UpdateMetricLabels();

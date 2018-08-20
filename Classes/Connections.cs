@@ -365,6 +365,11 @@ namespace GRC_Clinical_Genetics_Application
         {
             return new SqlCommand("SELECT [Source Default Location],[Destination Default Location] FROM [GRC].[dbo].[CBO App Document Type] where [Document Type Name] = '" + documentType + "' ", GRC_Connection);
         }
+
+        internal SqlCommand CreateOrderDetails(string gRC_ID, int testID, string gene, string sample)
+        {
+            return new SqlCommand("insert into [GRC].[dbo].[Order Details] ([Order ID], [Product ID], [Quantity], [Unit Price], [Discount], [Status ID], [Required Sample Type], [Send Sample Type], TestIsPreApproved, Genes) Select O.[Order ID], " + testID + ", 1, P.[List Price], 0, 0, '" + sample + "', 'DNA', 1, '" + gene + "' from [GRC].[dbo].[Orders] O, [GRC].[dbo].[Products] P where O.[GRC ID] = '" + gRC_ID + "' and P.ID =" + testID, GRC_Connection);
+        }
     }
 }
 

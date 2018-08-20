@@ -757,10 +757,12 @@ namespace GRC_Clinical_Genetics_Application
 
         }
 
-        internal void SubmitApplication(int currentAppID, int employeeID)
+        internal void SubmitApplication(int currentAppID, int employeeID, bool v, string gene, string sample)
         {
+            isNewTest = v;
             string GRC_ID = "";
             int GRCNum = 0;
+            //int CGapptestID = (isNewTest) ? 1 : 2;
             GetApplication(currentAppID);
             string urgent = GetFreeTextboxes(12);
             //Get next GRC ID
@@ -778,9 +780,15 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Open();
             cmd = AppCon.UpdateGRCID(nextGRC);
             cmd.ExecuteNonQuery();
-            //create order
+            //create new order
             cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, testID, 0, currentAppID);
             cmd.ExecuteNonQuery();
+            //Create Order Details if PTLL
+            if (!isNewTest)
+            {
+                cmd = AppCon.CreateOrderDetails(GRC_ID, testID, gene, sample);
+                cmd.ExecuteNonQuery(); 
+            }
             //update app status
             cmd = AppCon.SubmittedAppUpdate(currentAppID, GRC_ID);
             cmd.ExecuteNonQuery();
