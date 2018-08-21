@@ -101,7 +101,7 @@
             // 
             this.LogoutButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LogoutButton.AutoSize = true;
-            this.LogoutButton.Location = new System.Drawing.Point(1316, 12);
+            this.LogoutButton.Location = new System.Drawing.Point(1284, 12);
             this.LogoutButton.Name = "LogoutButton";
             this.LogoutButton.Size = new System.Drawing.Size(83, 23);
             this.LogoutButton.TabIndex = 0;
@@ -146,7 +146,7 @@
             this.Bar1.InitialImage = null;
             this.Bar1.Location = new System.Drawing.Point(12, 94);
             this.Bar1.Name = "Bar1";
-            this.Bar1.Size = new System.Drawing.Size(1387, 33);
+            this.Bar1.Size = new System.Drawing.Size(1355, 33);
             this.Bar1.TabIndex = 10;
             this.Bar1.TabStop = false;
             // 
@@ -203,7 +203,7 @@
             this.ApplicationListTableView.Name = "ApplicationListTableView";
             this.ApplicationListTableView.ReadOnly = true;
             this.ApplicationListTableView.RowHeadersWidth = 60;
-            this.ApplicationListTableView.Size = new System.Drawing.Size(1387, 213);
+            this.ApplicationListTableView.Size = new System.Drawing.Size(1355, 213);
             this.ApplicationListTableView.TabIndex = 12;
             this.ApplicationListTableView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ApplicationListTableView_CellDoubleClick);
             // 
@@ -445,7 +445,7 @@
             this.ResetButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResetButton.Location = new System.Drawing.Point(1321, 145);
             this.ResetButton.Name = "ResetButton";
-            this.ResetButton.Size = new System.Drawing.Size(57, 23);
+            this.ResetButton.Size = new System.Drawing.Size(46, 23);
             this.ResetButton.TabIndex = 36;
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = false;
@@ -477,9 +477,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1411, 585);
+            this.ClientSize = new System.Drawing.Size(1379, 585);
             this.Controls.Add(this.NumLabel1);
             this.Controls.Add(this.NumLabel2);
             this.Controls.Add(this.ResetButton);
