@@ -15,3 +15,4 @@ C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical 
 C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.application
 C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.exe
 C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.pdb
+C:\Users\christianfeng\Documents\GRC Clinical Genetics Application\GRC Clinical Genetics Application\obj\Release\GRC Clinical Genetics Application.csprojResolveAssemblyReference.cache
