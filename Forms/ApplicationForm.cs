@@ -415,7 +415,7 @@ namespace GRC_Clinical_Genetics_Application
                 CaptureInformation();
                 app.SetTestID(PTLLTest, labName);
                 MessageBox.Show("Application Submitted!");
-                app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType);
+                app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType, comments);
                 DataTable dt = dsbClass.UpdateAppTable(true);
                 dashBoard.ApplicationListTableView.DataSource = dt;
                 dashBoard.UpdateMetricLabels();
