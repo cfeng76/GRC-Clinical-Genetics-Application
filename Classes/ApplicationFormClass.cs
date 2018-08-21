@@ -727,6 +727,7 @@ namespace GRC_Clinical_Genetics_Application
             {
                 id = Convert.ToInt32(sdr[0]);
             }
+            AppCon.GRC_Connection.Close();
             return id;
         }
 
@@ -800,7 +801,7 @@ namespace GRC_Clinical_Genetics_Application
             cmd = AppCon.UpdateGRCID(nextGRC);
             cmd.ExecuteNonQuery();
             //create new order
-            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, testID, 0, currentAppID);
+            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, CGapptestID, 0, currentAppID);
             cmd.ExecuteNonQuery();
             //Create Order Details if PTLL
             if (!isNewTest)
