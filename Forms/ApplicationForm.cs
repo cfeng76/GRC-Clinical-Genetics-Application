@@ -747,6 +747,14 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void CaptureInformation()
         {
+            foreach (Control c in this.Controls)
+            {
+                if (c is TextBox)
+                {
+                    ((TextBox)c).Text = ((TextBox)c).Text.Replace("'", "");
+                }
+            }
+
             PHN = PHNTextBox.Text;
             MRN = MRNTextBox.Text;
             noPHN = (NoPHNCheckBox.CheckState == CheckState.Checked) ? true : false;
