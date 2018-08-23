@@ -156,12 +156,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.NewApplicationButton.AutoSize = true;
             this.NewApplicationButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.NewApplicationButton.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.NewApplicationButton.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.NewApplicationButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.NewApplicationButton.FlatAppearance.BorderSize = 0;
             this.NewApplicationButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGray;
             this.NewApplicationButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.NewApplicationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NewApplicationButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.NewApplicationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NewApplicationButton.Location = new System.Drawing.Point(427, 99);
             this.NewApplicationButton.Name = "NewApplicationButton";
@@ -215,9 +215,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 148);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 15);
+            this.label3.Size = new System.Drawing.Size(48, 15);
             this.label3.TabIndex = 13;
-            this.label3.Text = "GRC #";
+            this.label3.Text = "GRC ID";
             // 
             // GRCNumberTextBox
             // 
@@ -410,6 +410,7 @@
             this.NewResultButton.Text = "New Result";
             this.NewResultButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.NewResultButton.UseVisualStyleBackColor = false;
+            this.NewResultButton.Visible = false;
             this.NewResultButton.Click += new System.EventHandler(this.NewResultButton_Click);
             // 
             // AppStatus

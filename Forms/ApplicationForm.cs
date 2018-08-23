@@ -355,7 +355,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             CaptureInformation();
             
-            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode)
+            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode, DOB)
                 && !app.OrderPhysicianFieldEmpty(orderingPhysician)
                 && app.TestInfoCorrect(isUrgent, otherReason, urgentExpl, otherReasonExpl, diagnosis, clinicalSpecialty, PTLLTest, gene, newTest, otherLab, otherLabDetail, urgentSelection))
             {
@@ -373,11 +373,16 @@ namespace GRC_Clinical_Genetics_Application
            
             if (canFinalize)
             {
+                saved = true;
                 CheckPatient();
                 if (createNewPatient && !noPHN)
                 {
                     app.CreateNewPatient(PHN, firstName, lastName, genderID, DOB, postalCode, MRN, alternateID, alternateExplanation);
                     MessageBox.Show("Patient " + firstName + " " + lastName + " has been created!");
+                }
+                else if (!createNewPatient && !saved)
+                {
+                    return;
                 }
 
                 if (MessageBox.Show("Once an application has been finalized, it will be sent to the GRC for review. You will not be able to make any further edits or upload documents to this application. Please confirm that you would like to proceed.",
@@ -394,9 +399,6 @@ namespace GRC_Clinical_Genetics_Application
                     urgentSelection, newTest, finalized, 2, geneticsID, subtype, sendOutLab, otherLab, otherLabDetail,
                     newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
                 MessageBox.Show("Application created!");
-                DataTable dt = dsbClass.UpdateAppTable(true);
-                dashBoard.ApplicationListTableView.DataSource = dt;
-                dashBoard.UpdateMetricLabels();
                 this.Close();   
             }
 
@@ -416,16 +418,14 @@ namespace GRC_Clinical_Genetics_Application
                 app.SetTestID(PTLLTest, labName);
                 MessageBox.Show("Application Submitted!");
                 app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType, comments);
-                DataTable dt = dsbClass.UpdateAppTable(true);
-                dashBoard.ApplicationListTableView.DataSource = dt;
-                dashBoard.UpdateMetricLabels();
+                saved = true;
                 this.Close();
             }
         }
         private void SaveButton_Click(object sender, EventArgs e)
         {
             CaptureInformation();
-            if (!app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode))
+            if (!app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode, DOB))
             {
                 return;
             }
@@ -442,12 +442,16 @@ namespace GRC_Clinical_Genetics_Application
             if (createNewPatient) {
                 app.CreateNewPatient(PHN, firstName, lastName, genderID, DOB, postalCode, MRN, alternateID, alternateExplanation);
                 MessageBox.Show("Patient " + firstName + " " + lastName + " has been created!");
+            }else if(!createNewPatient && !saved)
+            {
+                return;
             }
  
             app.CreateNewApplication(PHN, primaryContact, secondaryContact, isUrgent, urgentExpl, 
                 reasonCheckboxes, otherReason, otherReasonExpl, diagnosis, gene, comments, urgentSelection, 
                 newTest, finalized, 1, geneticsID, subtype, sendOutLab, otherLab, otherLabDetail,
                 newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
+            MessageBox.Show("Application Saved!");
             this.Close();
         }
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -649,12 +653,13 @@ namespace GRC_Clinical_Genetics_Application
         #region OTHER FUNCTIONS
         private void CheckPatient()
         {
-            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode))
+            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode, DOB))
             {
                 if (!app.PatientExists(PHN, firstName, lastName, DOB, genderID) && !noPHN)
                 {
                     DialogResult dr = MessageBox.Show("Patient does not exist! Would you like to create a new record for this patient?", "New Patient!", MessageBoxButtons.YesNo);
                     createNewPatient = (dr == DialogResult.Yes) ? true : false;
+                    saved = createNewPatient;
                 }
                 else
                 {
@@ -900,6 +905,7 @@ namespace GRC_Clinical_Genetics_Application
 
         private void ApplicationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            DataTable dt;
             if (deleted)
             {
                 if (MessageBox.Show("Are you sure you want to delete this application?",
@@ -912,11 +918,13 @@ namespace GRC_Clinical_Genetics_Application
                 else
                 {
                     app.ClearApplication();
+                    dt = dsbClass.UpdateAppTable(true);
+                    dashBoard.ApplicationListTableView.DataSource = dt;
+                    dashBoard.UpdateMetricLabels();
                 }
             }else if (saved)
             {
-                MessageBox.Show("Application Saved!");
-                DataTable dt = dsbClass.UpdateAppTable(true);
+                dt = dsbClass.UpdateAppTable(true);
                 dashBoard.ApplicationListTableView.DataSource = dt;
                 dashBoard.UpdateMetricLabels();
             }

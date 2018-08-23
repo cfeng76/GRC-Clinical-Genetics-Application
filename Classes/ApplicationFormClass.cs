@@ -170,14 +170,13 @@ namespace GRC_Clinical_Genetics_Application
             return isPatient;
         }
 
-        public bool DemographicFieldsCorrect(string PHN, bool noPHN, string alternateID, string alternateExplanation, string fName, string lName, string post)
+        public bool DemographicFieldsCorrect(string PHN, bool noPHN, string alternateID, string alternateExplanation, string fName, string lName, string post, string dob)
         {
             bool isComplete = false;
             if ((PHN != "" && PHN.Length >= 9 && !noPHN) ||
                (PHN == "" && noPHN && alternateID != "" && alternateExplanation != "")){
                 isComplete = true;
-            }
-            else{
+            }else{
                 isComplete = false;
                 MessageBox.Show("Please enter a valid Personal Health Number or Alternate ID with details before saving/finalizing.");
                 return isComplete;
@@ -185,8 +184,7 @@ namespace GRC_Clinical_Genetics_Application
 
             if (fName != "" && lName != ""){
                 isComplete = true;
-            }
-            else{
+            }else{
                 isComplete = false;
                 MessageBox.Show("Please enter a full name before saving/finalizing.");
                 return isComplete;
@@ -197,6 +195,16 @@ namespace GRC_Clinical_Genetics_Application
             }else{
                 isComplete = false;
                 MessageBox.Show("Please enter a valid Postal Code/ZIP before saving/finalizing.");
+                return isComplete;
+            }
+            DateTime result;
+            if(dob != "" && DateTime.TryParse(dob, out result))
+            {
+                isComplete = true;
+            }else
+            {
+                isComplete = false;
+                MessageBox.Show("Please enter a valid Date of Birth.");
                 return isComplete;
             }
 

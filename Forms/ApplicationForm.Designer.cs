@@ -156,6 +156,7 @@
             this.OrLabel = new System.Windows.Forms.Label();
             this.NonPTLLLabel = new System.Windows.Forms.Label();
             this.DateBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemographicsBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClinicianInformationBox)).BeginInit();
@@ -721,7 +722,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(789, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(772, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -930,7 +931,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(767, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(750, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1668,12 +1669,24 @@
             this.DateBox.TabIndex = 175;
             this.DateBox.Leave += new System.EventHandler(this.DateBox_Leave);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Gainsboro;
+            this.label6.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(103, 238);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.TabIndex = 176;
+            this.label6.Text = "(YYYY/MM/DD)";
+            // 
             // ApplicationForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(874, 760);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.NonPTLLLabel);
             this.Controls.Add(this.OrLabel);
@@ -1951,5 +1964,6 @@
         private System.Windows.Forms.Label OrLabel;
         private System.Windows.Forms.Label NonPTLLLabel;
         private System.Windows.Forms.TextBox DateBox;
+        private System.Windows.Forms.Label label6;
     }
 }
