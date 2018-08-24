@@ -464,6 +464,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             newTest = !newTest; //make second page appear
             ChangeSecondPageVisibility(newTest);
+            SecondSaveButton.Focus();
         }
         private void OtherLabCheckBox_CheckedChanged(object sender, EventArgs e)
         {
