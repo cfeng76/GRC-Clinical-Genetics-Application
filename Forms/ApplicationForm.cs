@@ -183,6 +183,7 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ApplicationForm_Shown(object sender, EventArgs e)
         {
+            ViewResultButton.Visible = (app.GetStatusID() == 3) ? true : false;
             SubmitButton.Visible = (finalized && app.GetStatusID() != 3) ? true : false; 
             FinalizeButton.Visible = !finalized;
             DeleteButton.Visible = !finalized;
@@ -350,6 +351,12 @@ namespace GRC_Clinical_Genetics_Application
         #endregion
 
         #region CLICK EVENTS
+
+        private void NewResultButton_Click(object sender, EventArgs e)
+        {
+            ResultsForm newRes = new ResultsForm(existApp, employee_ID);
+            newRes.Show();
+        }
 
         private void FinalizeButton_Click(object sender, EventArgs e)
         {
@@ -608,7 +615,7 @@ namespace GRC_Clinical_Genetics_Application
             }
             documentType = documentType.Trim();
             string path = app.GetDirectory(1, documentType);
-            //If file has same name as another document associated with this application, replace old document
+
             if (filename == null){
                 MessageBox.Show("Please select a valid document.");
             }else{ 
@@ -946,6 +953,5 @@ namespace GRC_Clinical_Genetics_Application
             }
 
         }
-
     }
 }

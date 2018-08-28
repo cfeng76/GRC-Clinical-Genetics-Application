@@ -27,6 +27,31 @@ namespace GRC_Clinical_Genetics_Application
             return loginCommand;
         }
 
+        internal SqlCommand GetOrderID(int appID)
+        {
+            return new SqlCommand("Select [Order ID], [Lab ID] from [GRC].[dbo].[Orders] where [Applications_ID] = " + appID, GRC_Connection);
+        }
+
+        internal SqlCommand NewResult(int orderID, int labID, int empId)
+        {
+            return new SqlCommand("insert into [GRC].[dbo].[Result Orders] ([Order ID], [Supplier ID], [Created By], [Created Date]) values (" + orderID + ", " + labID + ", " + empId + ", Convert(VARCHAR(10), GETDATE(), 126))", GRC_Connection);
+        }
+
+        internal SqlCommand UpdateResultsDestination(int documentID, string path)
+        {
+            return new SqlCommand("Update [GRC].[dbo].[Result Documents] set [Document Destination] = '" + path + "' where [DocumentID] = '" + documentID + "'", GRC_Connection);
+        }
+
+        internal SqlCommand DeleteResult(int orderID, int v)
+        {
+            if(v == 0)
+            {
+                return new SqlCommand("delete from [GRC].[dbo].[Result Documents] where [OrderID] = " + orderID, GRC_Connection);
+            }else
+            {
+                return new SqlCommand("delete from [GRC].[dbo].[Result Orders] where [Order ID] = " + orderID, GRC_Connection);
+            }
+        }
         public SqlCommand NameCommand(int id)
         {
             SqlCommand cmd = new SqlCommand("Select [ID], [First Name], [Last Name] from [GRC].[dbo].[Employees] where id =" + id , GRC_Connection);

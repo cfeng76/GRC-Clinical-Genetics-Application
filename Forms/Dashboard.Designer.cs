@@ -56,7 +56,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.NumOpenAppsLabel = new System.Windows.Forms.Label();
             this.NumUrgentAppsLabel = new System.Windows.Forms.Label();
-            this.NewResultButton = new System.Windows.Forms.Button();
             this.AppStatus = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.ResetButton = new System.Windows.Forms.Button();
@@ -390,28 +389,6 @@
             this.NumUrgentAppsLabel.TabIndex = 32;
             this.NumUrgentAppsLabel.Text = "# of Urgent Applications: ";
             // 
-            // NewResultButton
-            // 
-            this.NewResultButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.NewResultButton.AutoSize = true;
-            this.NewResultButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.NewResultButton.BackColor = System.Drawing.Color.MediumPurple;
-            this.NewResultButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.NewResultButton.FlatAppearance.BorderSize = 0;
-            this.NewResultButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGray;
-            this.NewResultButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.NewResultButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.NewResultButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NewResultButton.Location = new System.Drawing.Point(547, 99);
-            this.NewResultButton.Name = "NewResultButton";
-            this.NewResultButton.Size = new System.Drawing.Size(72, 23);
-            this.NewResultButton.TabIndex = 33;
-            this.NewResultButton.Text = "New Result";
-            this.NewResultButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.NewResultButton.UseVisualStyleBackColor = false;
-            this.NewResultButton.Click += new System.EventHandler(this.NewResultButton_Click);
-            // 
             // AppStatus
             // 
             this.AppStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -484,7 +461,6 @@
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.AppStatus);
-            this.Controls.Add(this.NewResultButton);
             this.Controls.Add(this.NumUrgentAppsLabel);
             this.Controls.Add(this.NumOpenAppsLabel);
             this.Controls.Add(this.label8);
@@ -544,7 +520,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label NumOpenAppsLabel;
         private System.Windows.Forms.Label NumUrgentAppsLabel;
-        private System.Windows.Forms.Button NewResultButton;
         private System.Windows.Forms.ComboBox AppStatus;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button ResetButton;

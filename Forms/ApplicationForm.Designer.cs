@@ -157,6 +157,7 @@
             this.NonPTLLLabel = new System.Windows.Forms.Label();
             this.DateBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.ViewResultButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemographicsBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClinicianInformationBox)).BeginInit();
@@ -248,6 +249,7 @@
             this.NoPHNCheckBox.TabIndex = 90;
             this.NoPHNCheckBox.Text = "No PHN?";
             this.NoPHNCheckBox.UseVisualStyleBackColor = false;
+            this.NoPHNCheckBox.Visible = false;
             this.NoPHNCheckBox.CheckedChanged += new System.EventHandler(this.NoPHNCheckBox_CheckedChanged);
             // 
             // AlternateIDTextbox
@@ -722,7 +724,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(755, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(704, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -931,7 +933,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(733, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(682, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -971,7 +973,7 @@
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.pictureBox4.Location = new System.Drawing.Point(585, 50);
+            this.pictureBox4.Location = new System.Drawing.Point(378, 50);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(27, 19);
             this.pictureBox4.TabIndex = 100;
@@ -980,7 +982,7 @@
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
-            this.pictureBox5.Location = new System.Drawing.Point(699, 50);
+            this.pictureBox5.Location = new System.Drawing.Point(506, 50);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(27, 19);
             this.pictureBox5.TabIndex = 101;
@@ -991,7 +993,7 @@
             this.label23.AutoSize = true;
             this.label23.BackColor = System.Drawing.Color.Gainsboro;
             this.label23.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(618, 55);
+            this.label23.Location = new System.Drawing.Point(411, 55);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(75, 13);
             this.label23.TabIndex = 102;
@@ -1002,7 +1004,7 @@
             this.label25.AutoSize = true;
             this.label25.BackColor = System.Drawing.Color.Gainsboro;
             this.label25.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(732, 55);
+            this.label25.Location = new System.Drawing.Point(539, 55);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(72, 13);
             this.label25.TabIndex = 103;
@@ -1680,12 +1682,25 @@
             this.label6.TabIndex = 176;
             this.label6.Text = "(YYYY/MM/DD)";
             // 
+            // ViewResultButton
+            // 
+            this.ViewResultButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.ViewResultButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ViewResultButton.Location = new System.Drawing.Point(760, 50);
+            this.ViewResultButton.Name = "ViewResultButton";
+            this.ViewResultButton.Size = new System.Drawing.Size(81, 25);
+            this.ViewResultButton.TabIndex = 177;
+            this.ViewResultButton.Text = "View Results";
+            this.ViewResultButton.UseVisualStyleBackColor = false;
+            this.ViewResultButton.Click += new System.EventHandler(this.NewResultButton_Click);
+            // 
             // ApplicationForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(874, 760);
+            this.Controls.Add(this.ViewResultButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.NonPTLLLabel);
@@ -1965,5 +1980,6 @@
         private System.Windows.Forms.Label NonPTLLLabel;
         private System.Windows.Forms.TextBox DateBox;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button ViewResultButton;
     }
 }
