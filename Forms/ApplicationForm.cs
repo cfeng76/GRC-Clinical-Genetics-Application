@@ -356,6 +356,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             ResultsForm newRes = new ResultsForm(existApp, employee_ID);
             newRes.Show();
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void FinalizeButton_Click(object sender, EventArgs e)
@@ -652,7 +653,7 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ViewDocumentsLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DocumentViewer appDocs = new DocumentViewer(currentAppID, savedFileName);
+            DocumentViewer appDocs = new DocumentViewer(currentAppID, 1);
             appDocs.Show();
         }
 

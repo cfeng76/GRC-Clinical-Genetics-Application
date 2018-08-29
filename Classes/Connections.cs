@@ -37,6 +37,16 @@ namespace GRC_Clinical_Genetics_Application
             return new SqlCommand("insert into [GRC].[dbo].[Result Orders] ([Order ID], [Supplier ID], [Created By], [Created Date]) values (" + orderID + ", " + labID + ", " + empId + ", Convert(VARCHAR(10), GETDATE(), 126))", GRC_Connection);
         }
 
+        internal SqlDataAdapter GetOutcomeList()
+        {
+            return new SqlDataAdapter("select [Label Name] from [GRC].[dbo].[CBO Result Outcome] where IsOutcometTest = 1 and IsActive = 1", GRC_Connection);
+        }
+
+        internal SqlDataAdapter GetVariantList()
+        {
+            return new SqlDataAdapter("select [Value Name] from [GRC].[dbo].[CBO Result Outcome] where IsVariantClass = 1 and IsActive = 1", GRC_Connection);
+        }
+
         internal SqlCommand UpdateResultsDestination(int documentID, string path)
         {
             return new SqlCommand("Update [GRC].[dbo].[Result Documents] set [Document Destination] = '" + path + "' where [DocumentID] = '" + documentID + "'", GRC_Connection);
@@ -52,16 +62,31 @@ namespace GRC_Clinical_Genetics_Application
                 return new SqlCommand("delete from [GRC].[dbo].[Result Orders] where [Order ID] = " + orderID, GRC_Connection);
             }
         }
+
+        internal SqlCommand HasResult(int orderID)
+        {
+            return new SqlCommand("select count(*) from [GRC].[dbo].[Result Orders] where [Order ID] =" + orderID, GRC_Connection);
+        }
+
         public SqlCommand NameCommand(int id)
         {
             SqlCommand cmd = new SqlCommand("Select [ID], [First Name], [Last Name] from [GRC].[dbo].[Employees] where id =" + id , GRC_Connection);
             return cmd;
         }
 
-        internal SqlDataAdapter GetDocumentList(int applicationID)
+        internal SqlDataAdapter GetDocumentList(int id, int t)
         {
-            SqlDataAdapter doc = new SqlDataAdapter("SELECT [Document Name] FROM [GRC].[dbo].[Application Documents] where [ApplicationID] = '" + applicationID + "' " , GRC_Connection);
-            return doc;
+            if(t == 1)
+            {
+                return new SqlDataAdapter("SELECT [Document Name] FROM [GRC].[dbo].[Application Documents] where [ApplicationID] = '" + id + "' ", GRC_Connection);
+            }else if (t == 2)
+            {
+                return new SqlDataAdapter("SELECT [Document Name] FROM [GRC].[dbo].[Result Documents] where [OrderID] = '" + id + "' ", GRC_Connection);
+            }else
+            {
+                return new SqlDataAdapter("", GRC_Connection);
+            }
+            
         }
         internal SqlDataAdapter GetGenderList()
         {
@@ -69,10 +94,19 @@ namespace GRC_Clinical_Genetics_Application
             return gender;
         }
 
-        internal SqlCommand GetDocPath(int appID, string docName)
+        internal SqlCommand GetDocPath(int ID, string docName, int t)
         {
-            SqlCommand docPath = new SqlCommand("SELECT [Document Destination] FROM [GRC].[dbo].[Application Documents] where ApplicationID = '" + appID + "' and [Document Name] = '" + docName + "' ", GRC_Connection);
-            return docPath;
+            if(t == 1)
+            {
+                return new SqlCommand("SELECT [Document Destination] FROM [GRC].[dbo].[Application Documents] where ApplicationID = '" + ID + "' and [Document Name] = '" + docName + "' ", GRC_Connection);
+            }else if (t == 2)
+            {
+                return new SqlCommand("SELECT [Document Destination] FROM [GRC].[dbo].[Result Documents] where [OrderID] = '" + ID + "' and [Document Name] = '" + docName + "' ", GRC_Connection);
+            }else
+            {
+                return new SqlCommand("", GRC_Connection);
+            }
+           
         }
 
         internal SqlCommand PhysicianSearchCommand(int ID = 0)

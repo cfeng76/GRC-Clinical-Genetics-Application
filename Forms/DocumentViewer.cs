@@ -15,14 +15,14 @@ namespace GRC_Clinical_Genetics_Application
 {
     public partial class DocumentViewer : Form
     {
-        private int applicationID = 0;
-        private string savedFileName = "";
+        private int ID = 0;
+        private int typeOfTable;
         Connections docConnection = new Connections();
-        public DocumentViewer(int appID, string fileName)
+        public DocumentViewer(int id, int t)
         {
             InitializeComponent();
-            applicationID = appID;
-            savedFileName = fileName;
+            ID = id;
+            typeOfTable = t;
         }
 
         private void DocumentViewer_Load(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             DataTable docList = new DataTable();
             docConnection.GRC_Connection.Open();
-            SqlDataAdapter adapt = docConnection.GetDocumentList(applicationID);
+            SqlDataAdapter adapt = docConnection.GetDocumentList(ID, typeOfTable);
             adapt.Fill(docList);
             docConnection.GRC_Connection.Close();
             return docList;
@@ -53,7 +53,7 @@ namespace GRC_Clinical_Genetics_Application
 
             string docPath = "";
             docConnection.GRC_Connection.Open();
-            SqlCommand cmd = docConnection.GetDocPath(applicationID, documentName);
+            SqlCommand cmd = docConnection.GetDocPath(ID, documentName, typeOfTable);
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {

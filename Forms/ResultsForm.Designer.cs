@@ -34,23 +34,24 @@
             this.DateBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.AddSectionButton = new System.Windows.Forms.Button();
+            this.OtherTextBox = new System.Windows.Forms.TextBox();
+            this.OutcomeComboBox = new System.Windows.Forms.ComboBox();
+            this.CommentsLabel = new System.Windows.Forms.Label();
+            this.CommentsTextBox = new System.Windows.Forms.TextBox();
+            this.Gene1 = new System.Windows.Forms.TextBox();
+            this.Variant1 = new System.Windows.Forms.ComboBox();
+            this.AddButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.GeneLabel1 = new System.Windows.Forms.Label();
+            this.VariantLabel1 = new System.Windows.Forms.Label();
+            this.OtherCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadReportButton = new System.Windows.Forms.Button();
             this.PathBox = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.DeleteButton = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
+            this.ViewReportLinkLabel = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -113,65 +114,70 @@
             this.pictureBox2.TabIndex = 11;
             this.pictureBox2.TabStop = false;
             // 
-            // textBox2
+            // OtherTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(109, 211);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(204, 20);
-            this.textBox2.TabIndex = 14;
+            this.OtherTextBox.Location = new System.Drawing.Point(109, 211);
+            this.OtherTextBox.Name = "OtherTextBox";
+            this.OtherTextBox.Size = new System.Drawing.Size(204, 20);
+            this.OtherTextBox.TabIndex = 14;
             // 
-            // comboBox1
+            // OutcomeComboBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(129, 168);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(452, 21);
-            this.comboBox1.TabIndex = 15;
+            this.OutcomeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.OutcomeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OutcomeComboBox.FormattingEnabled = true;
+            this.OutcomeComboBox.Location = new System.Drawing.Point(129, 168);
+            this.OutcomeComboBox.Name = "OutcomeComboBox";
+            this.OutcomeComboBox.Size = new System.Drawing.Size(452, 21);
+            this.OutcomeComboBox.TabIndex = 15;
             // 
-            // label4
+            // CommentsLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Gainsboro;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(24, 313);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 15);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Comments:";
+            this.CommentsLabel.AutoSize = true;
+            this.CommentsLabel.BackColor = System.Drawing.Color.Gainsboro;
+            this.CommentsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CommentsLabel.Location = new System.Drawing.Point(24, 313);
+            this.CommentsLabel.Name = "CommentsLabel";
+            this.CommentsLabel.Size = new System.Drawing.Size(70, 15);
+            this.CommentsLabel.TabIndex = 16;
+            this.CommentsLabel.Text = "Comments:";
             // 
-            // textBox3
+            // CommentsTextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(27, 349);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(603, 79);
-            this.textBox3.TabIndex = 17;
+            this.CommentsTextBox.Location = new System.Drawing.Point(27, 349);
+            this.CommentsTextBox.Multiline = true;
+            this.CommentsTextBox.Name = "CommentsTextBox";
+            this.CommentsTextBox.Size = new System.Drawing.Size(603, 79);
+            this.CommentsTextBox.TabIndex = 17;
             // 
-            // textBox4
+            // Gene1
             // 
-            this.textBox4.Location = new System.Drawing.Point(74, 275);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(156, 20);
-            this.textBox4.TabIndex = 18;
+            this.Gene1.Location = new System.Drawing.Point(74, 275);
+            this.Gene1.Name = "Gene1";
+            this.Gene1.Size = new System.Drawing.Size(156, 20);
+            this.Gene1.TabIndex = 18;
             // 
-            // comboBox2
+            // Variant1
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(376, 275);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(156, 21);
-            this.comboBox2.TabIndex = 19;
+            this.Variant1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Variant1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Variant1.FormattingEnabled = true;
+            this.Variant1.Location = new System.Drawing.Point(376, 275);
+            this.Variant1.Name = "Variant1";
+            this.Variant1.Size = new System.Drawing.Size(156, 21);
+            this.Variant1.TabIndex = 19;
             // 
-            // AddSectionButton
+            // AddButton
             // 
-            this.AddSectionButton.BackColor = System.Drawing.Color.LemonChiffon;
-            this.AddSectionButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddSectionButton.Location = new System.Drawing.Point(550, 269);
-            this.AddSectionButton.Name = "AddSectionButton";
-            this.AddSectionButton.Size = new System.Drawing.Size(31, 31);
-            this.AddSectionButton.TabIndex = 20;
-            this.AddSectionButton.Text = "+";
-            this.AddSectionButton.UseVisualStyleBackColor = false;
+            this.AddButton.BackColor = System.Drawing.Color.LemonChiffon;
+            this.AddButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddButton.Location = new System.Drawing.Point(550, 270);
+            this.AddButton.Name = "AddButton";
+            this.AddButton.Size = new System.Drawing.Size(31, 31);
+            this.AddButton.TabIndex = 20;
+            this.AddButton.Text = "+";
+            this.AddButton.UseVisualStyleBackColor = false;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // label5
             // 
@@ -184,39 +190,39 @@
             this.label5.TabIndex = 21;
             this.label5.Text = "Result (If applicable):";
             // 
-            // label6
+            // GeneLabel1
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Gainsboro;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(28, 276);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(40, 15);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "Gene:";
+            this.GeneLabel1.AutoSize = true;
+            this.GeneLabel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.GeneLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GeneLabel1.Location = new System.Drawing.Point(28, 276);
+            this.GeneLabel1.Name = "GeneLabel1";
+            this.GeneLabel1.Size = new System.Drawing.Size(40, 15);
+            this.GeneLabel1.TabIndex = 22;
+            this.GeneLabel1.Text = "Gene:";
             // 
-            // label7
+            // VariantLabel1
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Gainsboro;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(247, 276);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(123, 15);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "Variant Classification:";
+            this.VariantLabel1.AutoSize = true;
+            this.VariantLabel1.BackColor = System.Drawing.Color.Gainsboro;
+            this.VariantLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VariantLabel1.Location = new System.Drawing.Point(247, 276);
+            this.VariantLabel1.Name = "VariantLabel1";
+            this.VariantLabel1.Size = new System.Drawing.Size(123, 15);
+            this.VariantLabel1.TabIndex = 23;
+            this.VariantLabel1.Text = "Variant Classification:";
             // 
-            // checkBox5
+            // OtherCheckBox
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.BackColor = System.Drawing.Color.Gainsboro;
-            this.checkBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox5.Location = new System.Drawing.Point(47, 211);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(56, 19);
-            this.checkBox5.TabIndex = 12;
-            this.checkBox5.Text = "Other";
-            this.checkBox5.UseVisualStyleBackColor = false;
+            this.OtherCheckBox.AutoSize = true;
+            this.OtherCheckBox.BackColor = System.Drawing.Color.Gainsboro;
+            this.OtherCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OtherCheckBox.Location = new System.Drawing.Point(47, 211);
+            this.OtherCheckBox.Name = "OtherCheckBox";
+            this.OtherCheckBox.Size = new System.Drawing.Size(56, 19);
+            this.OtherCheckBox.TabIndex = 12;
+            this.OtherCheckBox.Text = "Other";
+            this.OtherCheckBox.UseVisualStyleBackColor = false;
             // 
             // UploadReportButton
             // 
@@ -236,7 +242,6 @@
             this.PathBox.Name = "PathBox";
             this.PathBox.Size = new System.Drawing.Size(380, 20);
             this.PathBox.TabIndex = 26;
-            this.PathBox.Text = "C:\\";
             // 
             // openFileDialog
             // 
@@ -255,46 +260,64 @@
             this.linkLabel1.Text = "Add Report";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // button1
+            // DeleteButton
             // 
-            this.button1.BackColor = System.Drawing.Color.LightCoral;
-            this.button1.Location = new System.Drawing.Point(250, 434);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = false;
+            this.DeleteButton.BackColor = System.Drawing.Color.LightCoral;
+            this.DeleteButton.Location = new System.Drawing.Point(250, 434);
+            this.DeleteButton.Name = "DeleteButton";
+            this.DeleteButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteButton.TabIndex = 28;
+            this.DeleteButton.Text = "Delete";
+            this.DeleteButton.UseVisualStyleBackColor = false;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
-            // button3
+            // SaveButton
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.button3.Location = new System.Drawing.Point(337, 434);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 29;
-            this.button3.Text = "Save";
-            this.button3.UseVisualStyleBackColor = false;
+            this.SaveButton.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.SaveButton.Location = new System.Drawing.Point(337, 434);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(75, 23);
+            this.SaveButton.TabIndex = 29;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = false;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
+            // ViewReportLinkLabel
+            // 
+            this.ViewReportLinkLabel.AutoSize = true;
+            this.ViewReportLinkLabel.BackColor = System.Drawing.Color.Gainsboro;
+            this.ViewReportLinkLabel.LinkColor = System.Drawing.Color.Olive;
+            this.ViewReportLinkLabel.Location = new System.Drawing.Point(562, 98);
+            this.ViewReportLinkLabel.Name = "ViewReportLinkLabel";
+            this.ViewReportLinkLabel.Size = new System.Drawing.Size(70, 13);
+            this.ViewReportLinkLabel.TabIndex = 30;
+            this.ViewReportLinkLabel.TabStop = true;
+            this.ViewReportLinkLabel.Text = "View Reports";
+            this.ViewReportLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ViewReportLinkLabel_LinkClicked);
             // 
             // ResultsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 470);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button1);
+            this.AutoScroll = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(656, 470);
+            this.Controls.Add(this.ViewReportLinkLabel);
+            this.Controls.Add(this.SaveButton);
+            this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.PathBox);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.VariantLabel1);
+            this.Controls.Add(this.GeneLabel1);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.AddSectionButton);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.checkBox5);
+            this.Controls.Add(this.AddButton);
+            this.Controls.Add(this.Variant1);
+            this.Controls.Add(this.Gene1);
+            this.Controls.Add(this.CommentsTextBox);
+            this.Controls.Add(this.CommentsLabel);
+            this.Controls.Add(this.OutcomeComboBox);
+            this.Controls.Add(this.OtherTextBox);
+            this.Controls.Add(this.OtherCheckBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.label2);
@@ -304,7 +327,7 @@
             this.Controls.Add(this.pictureBox2);
             this.Name = "ResultsForm";
             this.Text = "ResultsForm";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ResultsForm_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ResultsForm_FormClosing);
             this.Load += new System.EventHandler(this.ResultsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -321,22 +344,23 @@
         private System.Windows.Forms.TextBox DateBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Button AddSectionButton;
+        private System.Windows.Forms.TextBox OtherTextBox;
+        private System.Windows.Forms.ComboBox OutcomeComboBox;
+        private System.Windows.Forms.Label CommentsLabel;
+        private System.Windows.Forms.TextBox CommentsTextBox;
+        private System.Windows.Forms.TextBox Gene1;
+        private System.Windows.Forms.ComboBox Variant1;
+        private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.Label GeneLabel1;
+        private System.Windows.Forms.Label VariantLabel1;
+        private System.Windows.Forms.CheckBox OtherCheckBox;
         private System.Windows.Forms.Button UploadReportButton;
         private System.Windows.Forms.TextBox PathBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button DeleteButton;
+        private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.LinkLabel ViewReportLinkLabel;
     }
 }
