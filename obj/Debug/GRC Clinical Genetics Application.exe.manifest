@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GRC Clinical Genetics Application.exe" size="2168288">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GRC Clinical Genetics Application.exe" size="2174944">
       <assemblyIdentity name="GRC Clinical Genetics Application" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Hmd6EtzdMHDZvr2cL1WnAFquEBvWOfnTj5id28e8xIM=</dsig:DigestValue>
+        <dsig:DigestValue>mkTGf+zpDP5nTv7qOWCFcIXiUOefKIy34eHMSWjaRpM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

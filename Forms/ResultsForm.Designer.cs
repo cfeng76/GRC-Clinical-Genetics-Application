@@ -44,7 +44,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.GeneLabel1 = new System.Windows.Forms.Label();
             this.VariantLabel1 = new System.Windows.Forms.Label();
-            this.OtherCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadReportButton = new System.Windows.Forms.Button();
             this.PathBox = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -52,6 +51,7 @@
             this.DeleteButton = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
             this.ViewReportLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +65,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(228, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Date Result Received (dd/mm/yyyy):";
+            this.label1.Text = "Date Result Received (yyyy/mm/dd):";
             // 
             // pictureBox1
             // 
@@ -93,6 +93,7 @@
             this.DateBox.Name = "DateBox";
             this.DateBox.Size = new System.Drawing.Size(204, 20);
             this.DateBox.TabIndex = 5;
+            this.DateBox.Leave += new System.EventHandler(this.DateBox_Leave);
             // 
             // label3
             // 
@@ -116,9 +117,9 @@
             // 
             // OtherTextBox
             // 
-            this.OtherTextBox.Location = new System.Drawing.Point(109, 211);
+            this.OtherTextBox.Location = new System.Drawing.Point(129, 210);
             this.OtherTextBox.Name = "OtherTextBox";
-            this.OtherTextBox.Size = new System.Drawing.Size(204, 20);
+            this.OtherTextBox.Size = new System.Drawing.Size(452, 20);
             this.OtherTextBox.TabIndex = 14;
             // 
             // OutcomeComboBox
@@ -212,18 +213,6 @@
             this.VariantLabel1.TabIndex = 23;
             this.VariantLabel1.Text = "Variant Classification:";
             // 
-            // OtherCheckBox
-            // 
-            this.OtherCheckBox.AutoSize = true;
-            this.OtherCheckBox.BackColor = System.Drawing.Color.Gainsboro;
-            this.OtherCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OtherCheckBox.Location = new System.Drawing.Point(47, 211);
-            this.OtherCheckBox.Name = "OtherCheckBox";
-            this.OtherCheckBox.Size = new System.Drawing.Size(56, 19);
-            this.OtherCheckBox.TabIndex = 12;
-            this.OtherCheckBox.Text = "Other";
-            this.OtherCheckBox.UseVisualStyleBackColor = false;
-            // 
             // UploadReportButton
             // 
             this.UploadReportButton.BackColor = System.Drawing.Color.DarkTurquoise;
@@ -295,6 +284,17 @@
             this.ViewReportLinkLabel.Text = "View Reports";
             this.ViewReportLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ViewReportLinkLabel_LinkClicked);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Gainsboro;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(24, 211);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 15);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "Other Outcomes:";
+            // 
             // ResultsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,6 +302,7 @@
             this.AutoScroll = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(656, 470);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.ViewReportLinkLabel);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.DeleteButton);
@@ -317,7 +318,6 @@
             this.Controls.Add(this.CommentsLabel);
             this.Controls.Add(this.OutcomeComboBox);
             this.Controls.Add(this.OtherTextBox);
-            this.Controls.Add(this.OtherCheckBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.label2);
@@ -329,6 +329,7 @@
             this.Text = "ResultsForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ResultsForm_FormClosing);
             this.Load += new System.EventHandler(this.ResultsForm_Load);
+            this.Shown += new System.EventHandler(this.ResultsForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
@@ -354,7 +355,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label GeneLabel1;
         private System.Windows.Forms.Label VariantLabel1;
-        private System.Windows.Forms.CheckBox OtherCheckBox;
         private System.Windows.Forms.Button UploadReportButton;
         private System.Windows.Forms.TextBox PathBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
@@ -362,5 +362,6 @@
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.LinkLabel ViewReportLinkLabel;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -328,7 +328,7 @@
             this.SearchButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SearchButton.Location = new System.Drawing.Point(1235, 145);
             this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(80, 23);
+            this.SearchButton.Size = new System.Drawing.Size(64, 23);
             this.SearchButton.TabIndex = 25;
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = false;
@@ -420,7 +420,7 @@
             // 
             this.ResetButton.BackColor = System.Drawing.Color.DarkTurquoise;
             this.ResetButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ResetButton.Location = new System.Drawing.Point(1321, 145);
+            this.ResetButton.Location = new System.Drawing.Point(1305, 145);
             this.ResetButton.Name = "ResetButton";
             this.ResetButton.Size = new System.Drawing.Size(46, 23);
             this.ResetButton.TabIndex = 36;

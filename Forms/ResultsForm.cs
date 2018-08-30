@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,11 +18,21 @@ namespace GRC_Clinical_Genetics_Application
         private int appID;
         private int empID;
         private int orderID;
+        private int resultID;
         private string employeeName;
         Connections con = new Connections();
         private bool saved;
         private int labID;
         private int numGenes = 1;
+        private string outcome;
+        private string otherOutcome;
+        private string notes;
+        private string receivedDate;
+        private ArrayList ids = new ArrayList();
+        private bool newRes = true;
+        private int numberOfBoxes;
+        int n = 1;
+
         public ResultsForm(int a, int e)
         {
             appID = a;
@@ -54,7 +65,7 @@ namespace GRC_Clinical_Genetics_Application
                 labID = Convert.ToInt32(sdr[1]);
             }
             con.GRC_Connection.Close();
-            CreateResult();
+         
         }
         private DataTable GetResultList(int t)
         {
@@ -75,19 +86,140 @@ namespace GRC_Clinical_Genetics_Application
 
         private void CreateResult()
         {
+            SqlCommand cmd;
+            SqlDataReader sdr;
             if (HasRecord())
             {
                 saved = true;
-                //populate information
+                newRes = false;
+                //populate information and get resultID
+                con.GRC_Connection.Open();
+                cmd = con.GetResult(orderID);
+                sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    resultID = Convert.ToInt32(sdr[0]);
+                    outcome = sdr[1].ToString();
+                    otherOutcome = sdr[2].ToString();
+                    notes = sdr[3].ToString();
+                    receivedDate = Convert.ToDateTime(sdr[4]).ToString("yyyy/MM/dd");
+                }
+                con.GRC_Connection.Close();
+
+                con.GRC_Connection.Open();
+                cmd = con.CountDetails(resultID, true);
+                sdr = sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    ids.Add(Convert.ToInt32(sdr[0]));
+                }
+                con.GRC_Connection.Close();
+
+                con.GRC_Connection.Open();
+                cmd = con.CountDetails(resultID, false);
+                sdr = sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    numberOfBoxes = Convert.ToInt32(sdr[0]);
+                }
+                con.GRC_Connection.Close();
+                numGenes = numberOfBoxes;
+                FillInformation();
             }else
             {
+                newRes = true;
                 con.GRC_Connection.Open();
                 //create result record
-                SqlCommand cmd = con.NewResult(orderID, labID, empID);
+                cmd = con.NewResult(orderID, labID, empID);
                 cmd.ExecuteNonQuery();
                 con.GRC_Connection.Close();
+
+                con.GRC_Connection.Open();
+                cmd = con.GetResult(orderID);
+                sdr = cmd.ExecuteReader();
+                while (sdr.Read())
+                {
+                    resultID = Convert.ToInt32(sdr[0]);
+                }
+                con.GRC_Connection.Close();
+
+                InsertDetail();
             }
            
+        }
+
+        private void InsertDetail()
+        {
+            con.GRC_Connection.Open();
+            SqlCommand cmd = con.InsertResultDetail(resultID, employeeName);
+            cmd.ExecuteNonQuery();
+            con.GRC_Connection.Close();
+
+            con.GRC_Connection.Open();             //save detail ID in array
+            cmd = new SqlCommand("select top 1 [ID] FROM [GRC].[dbo].[Result Order Details] where [Result ID] = '" + resultID + "' order by [ID] desc", con.GRC_Connection);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while(sdr.Read())
+            {
+                ids.Add(Convert.ToInt32(sdr[0]));
+            }
+            con.GRC_Connection.Close();
+        }
+
+        private void FillInformation()
+        {
+            DateBox.Text = receivedDate;
+            OutcomeComboBox.SelectedIndex = OutcomeComboBox.FindString(outcome);
+            OtherTextBox.Text = otherOutcome;
+            CommentsTextBox.Text = notes;
+
+            for (int i = 0; i < numberOfBoxes - 1; i++)
+            {
+                AddControls(false);
+            }
+            SqlCommand cmd;
+            SqlDataReader sdr;
+            int a = 0;
+            foreach (Control c in this.Controls)
+            {//update gene, update variant
+                if (c is TextBox)
+                {
+                    if (c.Name.Contains("Gene"))
+                    {
+                        con.GRC_Connection.Open();
+                        cmd = con.GetGeneVariantResults(Convert.ToInt32(ids[a]));
+                        sdr = cmd.ExecuteReader();
+                        while (sdr.Read())
+                        {
+                            c.Text = sdr[0].ToString();
+                        }
+                        con.GRC_Connection.Close();
+
+                        Console.WriteLine(c.Name);
+                        Console.WriteLine(ids[a]);
+                        a++;
+                    }
+                }
+            }
+            a = 0;
+            foreach (Control c in this.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Name.Contains("Variant"))
+                    {
+                        con.GRC_Connection.Open();
+                        cmd = con.GetGeneVariantResults(Convert.ToInt32(ids[a]));
+                        sdr = cmd.ExecuteReader();
+                        while (sdr.Read())
+                        {
+                            ((ComboBox)c).SelectedIndex = ((ComboBox)c).FindString(sdr[1].ToString());
+                        }
+                        con.GRC_Connection.Close();
+                        a++;
+                    }
+                }
+            }
+
         }
 
         private bool HasRecord()
@@ -170,12 +302,17 @@ namespace GRC_Clinical_Genetics_Application
             if (!saved)
             {
                 con.GRC_Connection.Open();
-                SqlCommand cmd = con.DeleteResult(orderID, 0);
+                SqlCommand cmd = con.DeleteResult(orderID, 0, resultID);
                 cmd.ExecuteNonQuery();
                 con.GRC_Connection.Close();
 
                 con.GRC_Connection.Open();
-                cmd = con.DeleteResult(orderID, 1);
+                cmd = con.DeleteResult(orderID, 2, resultID);
+                cmd.ExecuteNonQuery();
+                con.GRC_Connection.Close();
+
+                con.GRC_Connection.Open();
+                cmd = con.DeleteResult(orderID, 1, resultID);
                 cmd.ExecuteNonQuery();
                 con.GRC_Connection.Close();
             }
@@ -190,8 +327,78 @@ namespace GRC_Clinical_Genetics_Application
         private void SaveButton_Click(object sender, EventArgs e)
         {
             saved = true;
+            UpdateResultInformation();
             this.Close();
             //save details
+        }
+
+        private void UpdateResultInformation()
+        {
+            foreach (Control c in this.Controls)
+            {
+                if (c is TextBox)
+                {
+                    ((TextBox)c).Text = ((TextBox)c).Text.Replace("'", "");
+                }
+            }
+
+            DataRowView drv = OutcomeComboBox.SelectedItem as DataRowView;
+            outcome = (drv != null) ? drv.Row["Label Name"] as string : "";
+            otherOutcome = OtherTextBox.Text;
+            notes = CommentsTextBox.Text;
+            receivedDate = DateBox.Text;
+            DateTime result;
+            receivedDate = (receivedDate != "" && DateTime.TryParse(receivedDate, out result)) ? receivedDate : "";
+
+            con.GRC_Connection.Open();
+            SqlCommand cmd = con.SaveResults(outcome, otherOutcome, notes, receivedDate, employeeName, orderID);
+            cmd.ExecuteNonQuery();
+            con.GRC_Connection.Close();
+
+            int i = 0;
+            string vc;
+            foreach (Control c in this.Controls)
+            {//update gene, update variant
+                if (c is TextBox)
+                {
+                    if (c.Name.Contains("Gene"))
+                    {
+                        Console.WriteLine(c.Name);
+                        Console.WriteLine(ids[i]);
+
+                        con.GRC_Connection.Open();
+                        cmd = new SqlCommand("update [GRC].[dbo].[Result Order Details] set [Gene] = '" + c.Text + "' where [Result ID] = " + resultID + " and [ID] = " + ids[i], con.GRC_Connection);
+                        cmd.ExecuteNonQuery();
+                        con.GRC_Connection.Close();
+                        i++;
+                    }
+                }
+            }
+            i = 0;
+            foreach (Control c in this.Controls)
+            {
+                if (c is ComboBox)
+                {
+                    if (c.Name.Contains("Variant"))
+                    {
+                        Console.WriteLine(c.Name);
+                        Console.WriteLine(ids[i]);
+
+                        drv = ((ComboBox)c).SelectedItem as DataRowView;
+                        vc = (drv != null) ? drv.Row["Value Name"] as string : "";
+
+                        con.GRC_Connection.Open();
+                        cmd = new SqlCommand("update [GRC].[dbo].[Result Order Details] set [Variant Class] = '" + vc
+                            + "', [Updated Date] = Convert(VARCHAR(10), GETDATE(), 126) where [Result ID] = " + resultID + " and [ID] = " + ids[i], con.GRC_Connection);
+                        cmd.ExecuteNonQuery();
+                        con.GRC_Connection.Close();
+                        i++;
+                    }
+                }
+            }
+                    
+
+                
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -205,28 +412,36 @@ namespace GRC_Clinical_Genetics_Application
             DialogResult dr = MessageBox.Show("Would you like to add a new Gene/Variant?", "Add Gene", MessageBoxButtons.YesNo);
             if(dr == DialogResult.Yes)
             {
-                AddControls();
+                AddControls(true);
             }
         }
 
-        private void AddControls()
+        private void AddControls(bool insert)
         {
+            if(numGenes == 20)
+            {
+                return;
+            }
             int y = Gene1.Location.Y;
             const int offset = 26;
             Size BoxSize = new Size(Gene1.Width, Gene1.Height);
-            numGenes++;
-
+            if (insert)
+            {
+                numGenes++;
+                InsertDetail();
+            }
+            n++;
             TextBox txt = new TextBox();
             this.Controls.Add(txt);
-            txt.Name = "Gene" + numGenes;
-            txt.Location = new Point(Gene1.Location.X, y + (offset * (numGenes - 1)));
+            txt.Name = "Gene" + n;
+            txt.Location = new Point(Gene1.Location.X, y + (offset * (n - 1)));
             txt.Size = BoxSize;
             txt.BringToFront();
 
             Label lbl1 = new Label();
-            lbl1.Name = "GeneLabel" + numGenes;
+            lbl1.Name = "GeneLabel" + n;
             lbl1.Text = GeneLabel1.Text;
-            lbl1.Location = new Point(GeneLabel1.Location.X, y + (offset * (numGenes - 1)));
+            lbl1.Location = new Point(GeneLabel1.Location.X, y + (offset * (n - 1)));
             this.Controls.Add(lbl1);
             lbl1.BackColor = Color.Gainsboro;
             lbl1.Font = new Font("Microsoft Sans Serif", 9);
@@ -236,8 +451,8 @@ namespace GRC_Clinical_Genetics_Application
             ComboBox cmb = new ComboBox();
             cmb.DropDownStyle = ComboBoxStyle.DropDownList;
             cmb.FlatStyle = FlatStyle.Popup;
-            cmb.Name = "Variant" + numGenes;
-            cmb.Location = new Point(Variant1.Location.X, y + (offset * (numGenes - 1)));
+            cmb.Name = "Variant" + n;
+            cmb.Location = new Point(Variant1.Location.X, y + (offset * (n - 1)));
             this.Controls.Add(cmb);
             cmb.Size = BoxSize;
             cmb.DisplayMember = "Value Name";
@@ -245,9 +460,9 @@ namespace GRC_Clinical_Genetics_Application
             cmb.BringToFront();
 
             Label lbl2 = new Label();
-            lbl2.Name = "VariantLabel" + numGenes;
+            lbl2.Name = "VariantLabel" + n;
             lbl2.Text = VariantLabel1.Text;
-            lbl2.Location = new Point(VariantLabel1.Location.X, y + (offset * (numGenes - 1)));
+            lbl2.Location = new Point(VariantLabel1.Location.X, y + (offset * (n - 1)));
             this.Controls.Add(lbl2);
             lbl2.BackColor = Color.Gainsboro;
             lbl2.Font = new Font("Microsoft Sans Serif", 9);
@@ -260,6 +475,31 @@ namespace GRC_Clinical_Genetics_Application
             DeleteButton.Location = new Point(DeleteButton.Location.X, DeleteButton.Location.Y + offset);
             SaveButton.Location = new Point(SaveButton.Location.X, SaveButton.Location.Y + offset);
             pictureBox2.Size = new Size(pictureBox2.Width, pictureBox2.Height + offset);
+        }
+
+        private void DateBox_Leave(object sender, EventArgs e)
+        {
+            string date = DateBox.Text;
+            ParseTime(date);
+        }
+
+        private void ParseTime(string s)
+        {
+            DateTime result;
+            if (s == "")
+            {
+                return;
+            }
+            else if (DateTime.TryParse(s, out result))
+            {
+                s = result.ToString("yyyy/MM/dd");
+                DateBox.Text = s;
+            }
+        }
+
+        private void ResultsForm_Shown(object sender, EventArgs e)
+        {
+            CreateResult();
         }
     }
 }

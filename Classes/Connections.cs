@@ -37,6 +37,16 @@ namespace GRC_Clinical_Genetics_Application
             return new SqlCommand("insert into [GRC].[dbo].[Result Orders] ([Order ID], [Supplier ID], [Created By], [Created Date]) values (" + orderID + ", " + labID + ", " + empId + ", Convert(VARCHAR(10), GETDATE(), 126))", GRC_Connection);
         }
 
+        internal SqlCommand InsertResultDetail(int resultID, string emp)
+        {
+            return new SqlCommand("insert into [GRC].[dbo].[Result Order Details] ([Result ID], [Created Date], [Update By]) values (" + resultID + ", Convert(VARCHAR(10), GETDATE(), 126), '" + emp + "')", GRC_Connection);
+        }
+        internal SqlCommand SaveResults(string outcome, string otherOutcome, string notes, string receivedDate, string employeeName, int id)
+        {
+            return new SqlCommand("update [GRC].[dbo].[Result Orders] set [Outcome] = '" + outcome 
+                + "', [Other Outcome] = '" + otherOutcome + "', [Notes] = '" + notes + "', [Received Date] = '" + 
+                receivedDate + "', [Updated Date] = Convert(VARCHAR(10), GETDATE(), 126), [Update By] = '" + employeeName + "' where [Order Id] = " + id, GRC_Connection);
+        }
         internal SqlDataAdapter GetOutcomeList()
         {
             return new SqlDataAdapter("select [Label Name] from [GRC].[dbo].[CBO Result Outcome] where IsOutcometTest = 1 and IsActive = 1", GRC_Connection);
@@ -47,20 +57,41 @@ namespace GRC_Clinical_Genetics_Application
             return new SqlDataAdapter("select [Value Name] from [GRC].[dbo].[CBO Result Outcome] where IsVariantClass = 1 and IsActive = 1", GRC_Connection);
         }
 
+        internal SqlCommand GetResult(int orderID)
+        {
+            return new SqlCommand("select [Result ID], [Outcome], [Other Outcome], [Notes], [Received Date] from [GRC].[dbo].[Result Orders] where [Order ID] =" + orderID, GRC_Connection);
+        }
+
         internal SqlCommand UpdateResultsDestination(int documentID, string path)
         {
             return new SqlCommand("Update [GRC].[dbo].[Result Documents] set [Document Destination] = '" + path + "' where [DocumentID] = '" + documentID + "'", GRC_Connection);
         }
 
-        internal SqlCommand DeleteResult(int orderID, int v)
+        internal SqlCommand CountDetails(int resultID, bool select)
+        {
+            if (select)
+            {
+                return new SqlCommand("select [ID] FROM [GRC].[dbo].[Result Order Details] where [Result ID] = " + resultID + " order by ID", GRC_Connection);
+            }else
+            {
+                return new SqlCommand("select count(*) FROM [GRC].[dbo].[Result Order Details] where [Result ID] = " + resultID, GRC_Connection);
+
+            }
+        }
+
+        internal SqlCommand DeleteResult(int orderID, int v, int res)
         {
             if(v == 0)
             {
                 return new SqlCommand("delete from [GRC].[dbo].[Result Documents] where [OrderID] = " + orderID, GRC_Connection);
-            }else
+            }else if(v == 1)
             {
                 return new SqlCommand("delete from [GRC].[dbo].[Result Orders] where [Order ID] = " + orderID, GRC_Connection);
+            }else
+            {
+                return new SqlCommand("delete from [GRC].[dbo].[Result Order Details] where [Result ID] = " + res, GRC_Connection);
             }
+
         }
 
         internal SqlCommand HasResult(int orderID)
@@ -107,6 +138,11 @@ namespace GRC_Clinical_Genetics_Application
                 return new SqlCommand("", GRC_Connection);
             }
            
+        }
+
+        internal SqlCommand GetGeneVariantResults(int id)
+        {
+            return new SqlCommand("select [Gene], [Variant Class] from [GRC].[dbo].[Result Order Details] where ID = " + id, GRC_Connection);
         }
 
         internal SqlCommand PhysicianSearchCommand(int ID = 0)
