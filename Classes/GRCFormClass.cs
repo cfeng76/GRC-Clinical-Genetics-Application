@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -46,8 +47,40 @@ namespace GRC_Clinical_Genetics_Application
         private int subtypeID;
         private string sendOut;
         private string clinicalSubtype;
+        private string AdditionalNotes;
+        //Order Details
+        private int OD_ID;
+        private int O_LABID;
+        ArrayList OD_ProductIDs = new ArrayList();
+        private int OD_OrderID;
+        private int OD_LABID;
+        private Decimal OD_Quantity;
+        private Decimal OD_UnitPrice;
+        private Decimal OD_Discount;
+        private int OD_StatusID;
+        private DateTime OD_DateAllocated;
+        private int OD_PurchaseOrderID;
+        private int OD_InventoryID;
+        private string OD_RequiredSampleType;
+        private string OD_SendSampleType;
+        private bool OD_TestIsPreApproved;
+        private string OD_Genes;
+
+
+
         #endregion
         Connections AppCon = new Connections();
+        private string GRCID;
+        private string GRCStatusCd = "";
+        private int ApplicationsID = 0;
+        private int ShippingViaID;
+        private string ShippingRef;
+        private bool IsSampleShip;
+        private string ShippingDate; //DateTime
+        private string DOB_Date;
+        private string ShippingCompanyName;
+       
+
         public GRCFormClass(){ /*empty constructor*/ }
 
         public AutoCompleteStringCollection Search(int typeOfSearch, int col = 0)
@@ -269,8 +302,37 @@ namespace GRC_Clinical_Genetics_Application
            
         }
         #endregion
-
+        
         #region RETURN INFORMATION
+
+        internal string GetGRCId()
+        {
+            return GRCID;
+        }
+
+        internal string GetShippingRef()
+        {
+            return ShippingRef;
+        }
+
+        internal Boolean GetIsSampleShip()
+        {
+            return IsSampleShip;
+        }
+
+
+        //internal DateTime GetShippingDate()
+       internal string GetShippingDate()
+
+        {
+            return ShippingDate;
+        }
+
+        
+        internal int GetApplicationId()
+        {
+            return ApplicationsID;
+        }
         internal string GetSendoutLab()
         {
             return sendOut;
@@ -323,6 +385,11 @@ namespace GRC_Clinical_Genetics_Application
         {
             return personalHealthNumber;
         }
+        internal string GetShippingName()
+        {
+            return ShippingCompanyName;
+        }
+
         public string GetFirstName(){
             return firstName;
         }
@@ -343,14 +410,35 @@ namespace GRC_Clinical_Genetics_Application
 
         public DateTime GetDOB(DateTime minDate)
         {
-            DateTime date = Convert.ToDateTime(dob);
-           
-            if(date.Year < minDate.Year)
+           DateTime date = Convert.ToDateTime(dob);
+
+            
+
+            if (date.Year < minDate.Year)
             {
                 date = minDate;
             }
             return date;
         }
+
+        public String GetDOBDate()
+        {
+            String DOB_date = Convert.ToDateTime(dob).ToString("yyyy-MM-dd"); //Convert.ToDateTime(dob);
+            //if (DOB_date.Year < minDate.Year)
+            //{
+            //    date = minDate;
+            //}
+            return DOB_date;
+        }
+
+        //public string GetDOBDate();
+        //String date_DOB = Convert.ToDateTime(dob).ToString("yyyy-MM-dd");
+        //{
+        //    return date_DOB;
+        //}
+
+
+
         private int GetContactID(string contactName)
         {
             int id = 0;
@@ -448,6 +536,13 @@ namespace GRC_Clinical_Genetics_Application
             {
                 adapt = AppCon.GetSubTypeList();
             }
+            else if (dataType == 7)
+            {
+                adapt = AppCon.GetShippingViaList();
+            
+            }
+
+
             adapt.Fill(list);
             AppCon.GRC_Connection.Close();
             return list;
@@ -464,6 +559,44 @@ namespace GRC_Clinical_Genetics_Application
         #endregion
 
         #region GET DB INFORMATION 
+        
+        internal bool IsGRCStatusOpen ()
+        {
+
+            bool IsOpen = false;
+            AppCon.GRC_Connection.Open();
+            SqlCommand cmd = AppCon.GetGRCStatus(CurrentOrderID);
+            SqlDataReader sdr = cmd.ExecuteReader();
+
+            while (sdr.Read())
+
+            {
+                if (sdr[0].ToString().ToUpper()  == "OPEN")
+                {
+                    IsOpen = false; // sdr[0].ToString();
+                }
+                
+ 
+            }
+            AppCon.GRC_Connection.Close();
+            return IsOpen;
+        }
+        internal String GRCStatusName(int OrderID)
+        {
+            GRCStatusCd = "";
+             AppCon.GRC_Connection.Open();
+            SqlCommand cmd = AppCon.GetGRCStatus(CurrentOrderID);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+
+            {
+                 GRCStatusCd = Convert.ToString(sdr[0]);
+
+            }
+            AppCon.GRC_Connection.Close();
+            return GRCStatusCd;
+        }
+
         internal void GetGRCApplication(int OrderID)
         {
             CurrentOrderID = OrderID;
@@ -474,7 +607,21 @@ namespace GRC_Clinical_Genetics_Application
             int k = 29;
             while (sdr.Read())
             {
-                physicianID = Convert.ToInt32(sdr[8]);
+                GRCID = Convert.ToString(sdr[3]);
+                statusID = Convert.ToInt32(sdr[106]); //GRC Status ID
+                labID = Convert.ToInt32(sdr[7]); //GRC Lab ID
+
+                if (!sdr.IsDBNull(115))
+                {
+                    ApplicationsID = Convert.ToInt32(sdr[115]);
+                }
+
+                // 
+                if (!sdr.IsDBNull(8))
+                {
+                    physicianID = Convert.ToInt32(sdr[8]);
+                }
+                // 
                 if (!sdr.IsDBNull(9))
                 {
                     primaryContactID = Convert.ToInt32(sdr[9]);
@@ -482,12 +629,42 @@ namespace GRC_Clinical_Genetics_Application
                 //secondaryContactID = Convert.ToInt32(sdr[2]);
                 patientID = Convert.ToInt32(sdr[10]);
                 //clinicalSpecialtyID = Convert.ToInt32(sdr[14]);
-                testID = Convert.ToInt32(sdr[95]);
-                // sampleID = Convert.ToInt32(sdr[4]); // this is in the order detail table
+
+                //SHIPPING SAMPLES DATA
+
+                if (!sdr.IsDBNull(45))
+                {
+                    ShippingViaID = Convert.ToInt32(sdr[45]);
+                }
+
+                ShippingRef = Convert.ToString(sdr[114]);
+                IsSampleShip = Convert.ToBoolean(sdr[111]);
+
+                // Shipping Date
+                if (!sdr.IsDBNull(46))
+                {
+                    ShippingDate = (Convert.ToDateTime(sdr[46])).ToString("yyyy-MM-dd");
+                }
+                else {
+                    ShippingDate = "";
+                }
+
+
+                if (!sdr.IsDBNull(95))
+                {
+                    testID = Convert.ToInt32(sdr[95]);
+                }
+
+                // this is in the order detail table                  
+                sampleID = Convert.ToInt32(sdr[4]); // this is in the order detail table
                
                 urgentID = Convert.ToInt32(sdr[62]);
                 //isReadOnly = Convert.ToBoolean(sdr[21]);
-                statusID = Convert.ToInt32(sdr[106]);
+
+                
+                
+
+
                 //geneticsID = sdr[22].ToString();
                 //isNewTest = Convert.ToBoolean(sdr[23]);
                 //subtypeID = Convert.ToInt32(sdr[24]);
@@ -501,35 +678,39 @@ namespace GRC_Clinical_Genetics_Application
                 {
                     otherReasonID = Convert.ToInt32(sdr[70]);
                 }
-                
+                AdditionalNotes = sdr[105].ToString();
 
-  /*
-                for (int i = 0; i < 6; i++)
-                {
-                    checkboxes[i] = Convert.ToBoolean(sdr[j]);
-                    j++;
-                }
-                j = 5;
+                /*
+                              for (int i = 0; i < 6; i++)
+                              {
+                                  checkboxes[i] = Convert.ToBoolean(sdr[j]);
+                                  j++;
+                              }
+                              j = 5;
 
-                for(int i = 6; i < 14; i++)
-                {
-                    checkboxes[i] = Convert.ToBoolean(sdr[k]);
-                    if (k <= 33)
-                    {
-                        k += 2;
-                    }else
-                    {
-                        k++;
-                    }
-                }
-                k = 29;
-*/
+                              for(int i = 6; i < 14; i++)
+                              {
+                                  checkboxes[i] = Convert.ToBoolean(sdr[k]);
+                                  if (k <= 33)
+                                  {
+                                      k += 2;
+                                  }else
+                                  {
+                                      k++;
+                                  }
+                              }
+                              k = 29;
+              */
             }
+
             AppCon.GRC_Connection.Close();
+
             FillPatientDemographics(patientID);
             FillClinicianInformation(physicianID, primaryContactID, secondaryContactID, subtypeID);
             FillTestInformation(clinicalSpecialtyID, testID, sampleID);
             FillReasons(otherReasonID, urgentID);
+
+            FillShippingName(ShippingViaID);
         }
 
         private void FillReasons(int otherReasonID, int urgentID)
@@ -546,11 +727,13 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Open();
             cmd = AppCon.GetReasons(urgentID);
             sdr = cmd.ExecuteReader();
+
             while (sdr.Read())
             {
                 combobox[6] = sdr[0].ToString();
             }
             AppCon.GRC_Connection.Close();
+
         }
         private void FillTestInformation(int clinicalSpecialtyID, int testID, int sampleID)
         {
@@ -583,7 +766,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             string free = "";
             AppCon.GRC_Connection.Open();
-            SqlCommand cmd = AppCon.GetExistingApplication(CurrentOrderID);
+            SqlCommand cmd = AppCon.GetExistingGRC(CurrentOrderID);
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {
@@ -631,6 +814,18 @@ namespace GRC_Clinical_Genetics_Application
             }
             AppCon.GRC_Connection.Close();
         }
+        // vm
+        private void FillShippingName(int ShippingViaID)
+        {
+            AppCon.GRC_Connection.Open();
+            SqlCommand cmd = AppCon.GetShippingViaName(ShippingViaID);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                ShippingCompanyName = sdr[0].ToString();
+            }
+            AppCon.GRC_Connection.Close();
+        }
 
         private void FillPatientDemographics(int patientID)
         {
@@ -647,6 +842,43 @@ namespace GRC_Clinical_Genetics_Application
                 gender = sdr[5].ToString();
             }
             AppCon.GRC_Connection.Close();
+        }
+
+        internal void FillOrderDetails(int OrderID)
+        {
+            AppCon.GRC_Connection.Open();
+            SqlCommand cmd = AppCon.GetOrderDetails(OrderID).SelectCommand;
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                //Order Details
+                //OD_LABID = Convert.ToInt32(sdr[2]);
+                OD_ProductIDs.Add(sdr[0]);
+                //OD_Quantity = Convert.ToDecimal(sdr[3]);
+                //OD_UnitPrice = Convert.ToDecimal(sdr[4]);
+                //OD_Discount = Convert.ToDecimal(sdr[5]);
+                //OD_StatusID = Convert.ToInt32(sdr[6]);
+                //OD_DateAllocated = Convert.ToDateTime(sdr[7]);
+                //OD_PurchaseOrderID = Convert.ToInt32(sdr[8]);
+                //OD_InventoryID = Convert.ToInt32(sdr[9]);
+                //OD_RequiredSampleType = Convert.ToString(sdr[10]);
+                //OD_SendSampleType = Convert.ToString(sdr[11]);
+                //OD_TestIsPreApproved = Convert.ToBoolean(sdr[12]);
+                //OD_Genes = Convert.ToString(sdr[14]);
+
+            }
+           AppCon.GRC_Connection.Close();
+
+        }
+        internal DataTable OrderDetailDataTable(int OrderID)
+        {
+
+            DataTable list = new DataTable();
+            AppCon.GRC_Connection.Open();
+            SqlDataAdapter adapt = AppCon.GetOrderDetails(OrderID);
+            adapt.Fill(list);
+            AppCon.GRC_Connection.Close();
+                return list;
 
         }
 

@@ -15,20 +15,26 @@ namespace GRC_Clinical_Genetics_Application
 {
     public partial class DocumentViewer : Form
     {
-        private int applicationID = 0;
-        private string savedFileName = "";
+        private int ID = 0;
+        private bool is_GRC = false;
         Connections docConnection = new Connections();
-        public DocumentViewer(int appID, string fileName)
+        public DocumentViewer(int iD, bool isGRC)
         {
             InitializeComponent();
-            applicationID = appID;
-            savedFileName = fileName;
+            ID = iD;
+            is_GRC = isGRC;
         }
 
         private void DocumentViewer_Load(object sender, EventArgs e)
         {
             DataTable dt = UpdateDocumentsList();
-            DocumentListComboBox.DisplayMember = "Document Name";
+            if (!is_GRC)
+            {
+                DocumentListComboBox.DisplayMember = "Document Name";
+            }else
+            {
+                DocumentListComboBox.DisplayMember = "Archive Letter";
+            }
             DocumentListComboBox.DataSource = dt;
         }
 
@@ -36,7 +42,15 @@ namespace GRC_Clinical_Genetics_Application
         {
             DataTable docList = new DataTable();
             docConnection.GRC_Connection.Open();
-            SqlDataAdapter adapt = docConnection.GetDocumentList(applicationID);
+            SqlDataAdapter adapt;
+            if (!is_GRC)
+            {
+                adapt = docConnection.GetDocumentList(ID);
+            }else
+            { 
+                 adapt = docConnection.GetNotificationList(ID);
+            }
+
             adapt.Fill(docList);
             docConnection.GRC_Connection.Close();
             return docList;
@@ -46,14 +60,24 @@ namespace GRC_Clinical_Genetics_Application
         {
             DataRowView drv = DocumentListComboBox.SelectedItem as DataRowView;
             string documentName = "";
-            if(drv != null)
+            if (drv != null)
             {
-                documentName = drv.Row["Document Name"] as string;
+                documentName = (!is_GRC) ? drv.Row["Document Name"] as string : drv.Row["Archive Letter"] as string;
             }
 
             string docPath = "";
             docConnection.GRC_Connection.Open();
-            SqlCommand cmd = docConnection.GetDocPath(applicationID, documentName);
+
+            SqlCommand cmd;
+            if (!is_GRC)
+            {
+                cmd = docConnection.GetDocPath(ID, documentName);
+            }
+            else
+            { 
+                cmd = docConnection.GetNotPath(ID, documentName);
+            }
+
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {

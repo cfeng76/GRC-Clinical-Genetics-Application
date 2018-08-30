@@ -655,7 +655,7 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ViewDocumentsLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DocumentViewer appDocs = new DocumentViewer(currentAppID, savedFileName);
+            DocumentViewer appDocs = new DocumentViewer(currentAppID, false);
             appDocs.Show();
         }
 

@@ -163,7 +163,7 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
                 {
                     return;
                 }
-                MessageBox.Show(orderID.ToString());
+                // MessageBox.Show(orderID.ToString());
                 //open existing application
                 GRCForm newApp = new GRCForm(userID, true, orderID);
                 newApp.Show();
@@ -188,8 +188,9 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
                 }
             }
         }
+        
         private void GRCDashboardButton_Click(object sender, EventArgs e)
-        {
+        {                                                                       // GRC Dashboard Button Click
             isClinicalApp = !isClinicalApp;
             if (isClinicalApp == false)
             {
@@ -197,7 +198,11 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
                 GRCSearchButton.Show();
                 GRCDashboardButton.Text = "Clinical Application";
                 HeaderLabel1.Text = "GRC Dashboard";
+
                 listAllCheckBox.Checked = true;
+
+                label9.Hide();
+                AppStatus.Hide();
 
                 defaultData = (GRCNumber == "" && ApplicationStatus == "Any" && GRCStatus == "Any" && patientFirstName == "" && patientLastName == "" && PHNTextBox.Text == "" && !isUrgent && !listAll) ? true : false;
                 ApplicationListTableView.DataSource = null;
@@ -205,12 +210,16 @@ namespace GRC_Clinical_Genetics_Application //GRC ADDITION
                 ApplicationListTableView.DataSource = dt;
             }
             else
-            {
+            {   
                 SearchButton.Show();
                 GRCSearchButton.Hide();
                 GRCDashboardButton.Text = "GRC Application";
                 HeaderLabel1.Text = "Clinical Genetics Dashboard";
+
                 listAllCheckBox.Checked = false;
+                label9.Show();
+                AppStatus.Show();
+
                 defaultData = (GRCNumber == "" && ApplicationStatus == "Any" && GRCStatus == "Any" && patientFirstName == "" && patientLastName == "" && PHNTextBox.Text == "" && !isUrgent && !listAll) ? true : false;
                 ApplicationListTableView.DataSource = null;
                 DataTable dt = dashboard.UpdateAppTable(defaultData, GRCNumber, GRCStatus, patientFirstName, patientLastName, personalHealthNumber, isUrgent, listAll, ApplicationStatus);

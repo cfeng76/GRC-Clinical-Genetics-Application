@@ -77,6 +77,8 @@ namespace GRC_Clinical_Genetics_Application
         private bool newTest = false;
         private bool loadExisting = false;
         private int existOrderID = 0;
+        private int existGRCID = 0;
+        private int existApplicationID = 0;
         private string urgentSelection;
         private string geneticsID;
         private string sendOutLab;
@@ -92,16 +94,11 @@ namespace GRC_Clinical_Genetics_Application
         const int backgroundWidth = 840;
 
         public GRCForm(int empID, bool existingApplication = true, int existingOrderID = 0) {
+
             InitializeComponent();
             employee_ID = empID;
             existOrderID = existingOrderID;
-
-            SecondDeleteButton.Width = buttonWidth;
-            SecondSaveButton.Width = buttonWidth;
-            SecondFinalizeButton.Width = buttonWidth;
-            SecondSubmitButton.Width = buttonWidth;
-            AdditionalDetailsTextBox.Width = textboxWidth;
-            TestContinuedBackGround.Width = backgroundWidth;
+            
             PHNTextBox.AutoCompleteCustomSource = GRC.Search(demographics, 0);
             FirstNameTextBox.AutoCompleteCustomSource = GRC.Search(demographics, 1);
             LastNameTextBox.AutoCompleteCustomSource = GRC.Search(demographics, 2);
@@ -120,12 +117,22 @@ namespace GRC_Clinical_Genetics_Application
                 }
             }
         }
+
+        // OrderDetail Initialize Data Table
+        //public void InitializeOderDetailDataTable()
+        //{
+        //    defaultData = true;
+        //    DataTable dt = dashboard.UpdateAppTable(defaultData);
+        //    ApplicationListTableView.DataSource = dt;
+
+        //    UpdateMetricLabels();
+        //}
+
+
         private void ApplicationForm_Load(object sender, EventArgs e)
         {
 
-            DataTable dt = GRC.GetList(0);
-            ClinicalCategoryComboBox.DisplayMember = "Test Type  Description";
-            ClinicalCategoryComboBox.DataSource = dt;
+            DataTable dt;
 
             dt = GRC.GetList(1);
             DocumentTypeComboBox.DisplayMember = "Document Type Name";
@@ -134,10 +141,6 @@ namespace GRC_Clinical_Genetics_Application
             dt = GRC.GetList(2);
             GenderComboBox.DisplayMember = "Gender";
             GenderComboBox.DataSource = dt;
-
-            dt = GRC.GetList(3);
-            SampleTypeComboBox.DisplayMember = "Specimen Type";
-            SampleTypeComboBox.DataSource = dt;
 
             dt = GRC.GetList(4);
             OtherReasonTextBox.DisplayMember = "Reason";
@@ -151,6 +154,12 @@ namespace GRC_Clinical_Genetics_Application
             ClinicSubTypeComboBox.DisplayMember = "SubType Name";
             ClinicSubTypeComboBox.DataSource = dt;
 
+            dt = GRC.GetList(7);
+            ShippingViaComboBox.DisplayMember = "Shipping Via";
+            ShippingViaComboBox.DataSource = dt;
+
+
+
             dt = GRC.UpdateClinicalContacts(employee_ID);
             DataTable secondary = GRC.UpdateClinicalContacts(employee_ID);
             PrimaryClinicalContactComboBox.DisplayMember = "Clinical Contact";
@@ -158,36 +167,32 @@ namespace GRC_Clinical_Genetics_Application
             AltClinicalContactComboBox.DisplayMember = "Clinical Contact";
             AltClinicalContactComboBox.DataSource = secondary;
 
-            DataRowView drv = ClinicalCategoryComboBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                clinicalSpecialty = drv.Row["Test Type  Description"] as string;
-            }
-            PTLLTextBox.DisplayMember = "Product Name";
-            PTLLTextBox.DataSource = GRC.GetTestList(clinicalSpecialty);
-
             GRC.GetGRCApplication(existOrderID); // Call GRC Class
+
+            dt = GRC.OrderDetailDataTable(existOrderID);
+            OrderDetailListTableView.DataSource = dt;
+            GRC.FillOrderDetails(existOrderID);
+
+            DataGridViewComboBoxColumn testName = new DataGridViewComboBoxColumn();
+            DataRowView drv;
+            string s;
+
+        }
+        private void CustomList(int row, int[] data)
+        {
+            DataGridViewComboBoxCell comboCell = OrderDetailListTableView[3, row] as DataGridViewComboBoxCell;
+            comboCell.DataSource = new BindingSource(data, null);
 
         }
         private void ApplicationForm_Shown(object sender, EventArgs e)
         {
-            SubmitButton.Visible = (finalized && GRC.GetStatusID() != 3) ? true : false;
-            FinalizeButton.Visible = !finalized;
-            DeleteButton.Visible = !finalized;
-            SaveButton.Visible = !finalized;
-            NewTestReqLinkLabel.Visible = !finalized;
 
             BrowseButton.Visible = !finalized;
             UploadButton.Visible = !finalized;
 
-            SecondSubmitButton.Visible = (finalized && GRC.GetStatusID() != 3 && newTest) ? true : false;
-            SecondFinalizeButton.Visible = !finalized && newTest;
-            SecondDeleteButton.Visible = !finalized && newTest;
-            SecondSaveButton.Visible = !finalized && newTest;
-
             FillApplication();
             
-            if (finalized)
+            if (!GRC.IsGRCStatusOpen())
             {
                 foreach (Control c in this.Controls)
                 {
@@ -203,10 +208,16 @@ namespace GRC_Clinical_Genetics_Application
                     }else if (c is RadioButton)
                     {
                         ((RadioButton)c).AutoCheck = false;
+                    
+                    }else if (c is DateTimePicker)
+                    {
+                    ((DateTimePicker)c).Enabled = false;
                     }
-                }
             }
-        }
+            }
+
+
+    }
 
         #region CONTROL HANDLERS
         private void PHNTextBox_KeyPress(object sender, KeyPressEventArgs e){
@@ -234,7 +245,12 @@ namespace GRC_Clinical_Genetics_Application
             FirstNameTextBox.Text = GRC.GetFirstName();
             LastNameTextBox.Text = GRC.GetLastName();
             PostalCodeTextBox.Text = GRC.GetZIP();
-            DOBPicker.Value = GRC.GetDOB(DOBPicker.MinDate);
+            //DOBPicker.Value = GRC.GetDOB(DOBPicker.MinDate);
+
+
+            DOBDateTextbox.Text = GRC.GetDOBDate(); // (Convert.ToDateTime(dob)).ToString("yyyy-MM-dd");
+
+
             gender = GRC.GetGender();
             if(gender != null)
             {
@@ -247,53 +263,7 @@ namespace GRC_Clinical_Genetics_Application
             orderingPhysician = OrderingPhysicianTextBox.Text;
             GRC.UpdatePhysician(orderingPhysician);
         }
-        private void SampleTypeComboBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            string sampleType = "";
-            DataRowView drv = SampleTypeComboBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                sampleType = drv.Row["Specimen Type"] as string;
-            }
-            GRC.SetSampleID(sampleType);
-        }
-        private void ClinicalCategoryComboBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            DataRowView drv = ClinicalCategoryComboBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                clinicalSpecialty = drv.Row["Test Type  Description"] as string;
-            }
-            PTLLTextBox.DataSource = GRC.GetTestList(clinicalSpecialty);
-            drv = PTLLTextBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                PTLLTest = drv.Row["Product Name"] as string;
-            }
-        }
-        private void PTLLTextBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DataRowView drv = PTLLTextBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                PTLLTest = drv.Row["Product Name"] as string;
-            }
 
-            PreferredLabTextBox.DisplayMember = "Company";
-            PreferredLabTextBox.DataSource = GRC.UpdateLabMethodList(1, clinicalSpecialty, PTLLTest);
-            PreferredMethodTextBox.DisplayMember = "Method  Description";
-            PreferredMethodTextBox.DataSource = GRC.UpdateLabMethodList(2, clinicalSpecialty, PTLLTest);
-        }
-        private void PreferredLabTextBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            string labName = "";
-            DataRowView drv = PreferredLabTextBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                labName = drv.Row["Company"] as string;
-            }
-            GRC.SetTestID(PTLLTest, labName);
-        }
         #endregion
 
         #region CLICK EVENTS
@@ -307,7 +277,7 @@ namespace GRC_Clinical_Genetics_Application
             firstName = FirstNameTextBox.Text;
             lastName = LastNameTextBox.Text;
             postalCode = PostalCodeTextBox.Text;
-            DOB = DOBPicker.Value.ToString();
+           // DOB = DOBPicker.Value.ToString();
             DataRowView drv = GenderComboBox.SelectedItem as DataRowView;
             if (drv != null)
             {
@@ -411,21 +381,6 @@ namespace GRC_Clinical_Genetics_Application
             this.Close();
         }
 
-        private void NewTestReqLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            newTest = !newTest; //make second page appear
-            ChangeSecondPageVisibility(newTest);
-        }
-        private void OtherLabCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if(OtherLabCheckBox.Checked)
-            {
-                OtherLabWarningLabel.Visible = true;
-            }else
-            {
-                OtherLabWarningLabel.Visible = false;
-            }
-        }
         private void NoPHNCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (NoPHNCheckBox.CheckState == CheckState.Checked)
@@ -475,48 +430,6 @@ namespace GRC_Clinical_Genetics_Application
             }
         }
 
-        private void FamilyHistoryCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (FamilyHistoryCheckBox.CheckState == CheckState.Checked)
-            {
-                FamilyDetailsLabel.Show();
-                FamilyHistoryTextBox.Show();
-            }
-            else if (FamilyHistoryCheckBox.CheckState == CheckState.Unchecked)
-            {
-                FamilyDetailsLabel.Hide();
-                FamilyHistoryTextBox.Hide();
-            }
-        }
-
-        private void EthnicityCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (EthnicityCheckBox.CheckState == CheckState.Checked)
-            {
-                EthnicityRiskLabel.Show();
-                EthnicityRiskTextBox.Show();
-            }
-            else if (EthnicityCheckBox.CheckState == CheckState.Unchecked)
-            {
-                EthnicityRiskLabel.Hide();
-                EthnicityRiskTextBox.Hide();
-            }
-        }
-
-        private void OtherTestingCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (OtherTestingCheckBox.CheckState == CheckState.Checked)
-            {
-                OtherTestingLabel.Show();
-                OtherTestingTextBox.Show();
-            }
-            else if (OtherTestingCheckBox.CheckState == CheckState.Unchecked)
-            {
-                OtherTestingLabel.Hide();
-                OtherTestingTextBox.Hide();
-            }
-        }
-
         private void BrowseButton_Click(object sender, EventArgs e)
         {           
             DataRowView drv = DocumentTypeComboBox.SelectedItem as DataRowView;
@@ -546,6 +459,12 @@ namespace GRC_Clinical_Genetics_Application
                 MessageBox.Show("There is no file to upload!");
                 return;
             }
+            if (GRC.GetApplicationId() == 0)
+            {
+                MessageBox.Show("You can't upload a File since there is no an Application form Created!");
+                return;
+            }
+
             string filename = Path.GetFileNameWithoutExtension(OpenDocumentDialog.FileName);
             string ext = Path.GetExtension(OpenDocumentDialog.FileName);
             int documentID = 0;
@@ -572,12 +491,13 @@ namespace GRC_Clinical_Genetics_Application
                 formConnection.GRC_Connection.Close();
                 //SAVE in database real document name, SAVE in directory DocumentType_AppID_DocumentID_PHN/Name.pdf/doc/xls
                 formConnection.GRC_Connection.Open();
+
                 cmd = new SqlCommand("insert into [GRC].[dbo].[Application Documents] ([ApplicationID], [Document Name], [Document Type], [Document Ext], [Update By]) values (" + 
-                    currentOrderID + ", '" + filename + ext + "', '" + documentType + "', '" + ext +"', '" + employeeName + "')", formConnection.GRC_Connection);
+                    GRC.GetApplicationId() + ", '" + filename + ext + "', '" + documentType + "', '" + ext +"', '" + employeeName + "')", formConnection.GRC_Connection);
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqlCommand("select top 1 [DocumentID], [Document Type] from [GRC].[dbo].[Application Documents] where [ApplicationID] = '" + 
-                    currentOrderID + "' order by DocumentID desc", formConnection.GRC_Connection);
+                    GRC.GetApplicationId() + "' order by DocumentID desc", formConnection.GRC_Connection);
                 sdr = cmd.ExecuteReader();
                 while (sdr.Read())
                 {
@@ -595,10 +515,15 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ViewDocumentsLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DocumentViewer appDocs = new DocumentViewer(currentOrderID, savedFileName);
+            DocumentViewer appDocs = new DocumentViewer(GRC.GetApplicationId(), false);
             appDocs.Show();
         }
 
+        private void ViewNotificationLinkLabe_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DocumentViewer appDocs = new DocumentViewer(currentOrderID, true);
+            appDocs.Show();
+        }
         #endregion
 
         #region OTHER FUNCTIONS
@@ -622,84 +547,7 @@ namespace GRC_Clinical_Genetics_Application
                 }
             }
         }
-        private void CheckRadioButtons(string radioButton)
-        {
-            switch (radioButton) {
-                case ("Calgary MDL"):
-                        CalgaryMDLCheckBox.Checked = true;
-                        break;
-                case ("Calgary BGL"):
-                    CalgaryBGLCheckBox.Checked = true;
-                    break;
-                case ("Edmonton MDL"):
-                    EdmontonMDLCheckBox.Checked = true;
-                    break;
-                case (""):
-                    break;
-                default:
-                    OtherLabCheckBox.Checked = true;
-                    OtherLabTextBox.Text = radioButton;
-                    break;
-            }
-            
-        }
-        private void ChangeSecondPageVisibility(bool newTest)
-        {
-            if (newTest == true)
-            {
-                TestContinuedBackGround.Visible = true;
-                TestContLabel.Visible = true;
-                NewTestReqLabel.Visible = true;
-                NewTestReqTextBox.Visible = true;
-                NewPrefMethodLabel.Visible = true;
-                NewTestMethodTextBox.Visible = true;
-                NewPrefLabLabel.Visible = true;
-                NewPrefLabTextBox.Visible = true;
-                FamilyHistoryCheckBox.Visible = true;
-                EthnicityCheckBox.Visible = true;
-                OtherTestingCheckBox.Visible = true;
-                RationaleLabel.Visible = true;
-                TherapyCheckBox.Visible = true;
-                ReduceCheckBox.Visible = true;
-                ImpactCheckBox.Visible = true;
-                PlanningCheckBox.Visible = true;
-                OtherRationaleCheckBox.Visible = true;
-                OtherRationaleTextBox.Visible = true;
-                AdditionalDetailsLabel.Visible = true;
-                AdditionalDetailsTextBox.Visible = true;
-                SecondSubmitButton.Visible = (finalized && GRC.GetStatusID() != 3) ? true : false;
-                SecondFinalizeButton.Visible = !finalized && newTest;
-                SecondDeleteButton.Visible = !finalized && newTest;
-                SecondSaveButton.Visible = !finalized && newTest;
-            }
-            else if (newTest == false)
-            {
-                TestContinuedBackGround.Visible = false;
-                TestContLabel.Visible = false;
-                NewTestReqLabel.Visible = false;
-                NewTestReqTextBox.Visible = false;
-                NewPrefMethodLabel.Visible = false;
-                NewTestMethodTextBox.Visible = false;
-                NewPrefLabLabel.Visible = false;
-                NewPrefLabTextBox.Visible = false;
-                FamilyHistoryCheckBox.Visible = false;
-                EthnicityCheckBox.Visible = false;
-                OtherTestingCheckBox.Visible = false;
-                RationaleLabel.Visible = false;
-                TherapyCheckBox.Visible = false;
-                ReduceCheckBox.Visible = false;
-                ImpactCheckBox.Visible = false;
-                PlanningCheckBox.Visible = false;
-                OtherRationaleCheckBox.Visible = false;
-                OtherRationaleTextBox.Visible = false;
-                AdditionalDetailsLabel.Visible = false;
-                AdditionalDetailsTextBox.Visible = false;
-                SecondSubmitButton.Visible = (finalized && GRC.GetStatusID() != 3 && newTest) ? true : false;
-                SecondFinalizeButton.Visible = !finalized && newTest;
-                SecondDeleteButton.Visible = !finalized && newTest;
-                SecondSaveButton.Visible = !finalized && newTest;
-            }
-        }
+        
         private void CaptureInformation()
         {
             PHN = PHNTextBox.Text;
@@ -710,7 +558,8 @@ namespace GRC_Clinical_Genetics_Application
             firstName = FirstNameTextBox.Text;
             lastName = LastNameTextBox.Text;
             postalCode = PostalCodeTextBox.Text;
-            DOB = DOBPicker.Value.ToString();
+           // DOB = DOBPicker.Value.ToString();
+
             DataRowView drv = GenderComboBox.SelectedItem as DataRowView;
             gender = (drv != null) ? drv.Row["Gender"] as string : "";
             genderID = GRC.GetGenderID(gender);
@@ -732,68 +581,48 @@ namespace GRC_Clinical_Genetics_Application
             drv = UrgentComboBox.SelectedItem as DataRowView;
             urgentSelection = (drv != null && isUrgent) ? drv.Row["Reason"] as string : "";
 
-            diagnosis = DiagnosisTextBox.Text;
-            drv = ClinicalCategoryComboBox.SelectedItem as DataRowView;
-            clinicalSpecialty = (drv != null) ? drv.Row["Test Type  Description"] as string : "";
             drv = ClinicSubTypeComboBox.SelectedItem as DataRowView;
             subtype = (drv != null) ? drv.Row["SubType Name"] as string : "";
-            drv = PTLLTextBox.SelectedItem as DataRowView;
-            PTLLTest = (drv != null) ? drv.Row["Product Name"] as string : "";
 
             reasonCheckboxes[0] = (ClinicallyAffectedCheckBox.CheckState == CheckState.Checked) ? true : false;
             reasonCheckboxes[1] = (FamilyMutationCheckBox.CheckState == CheckState.Checked) ? true : false;
             reasonCheckboxes[2] = (PrenatalTestCheckBox.CheckState == CheckState.Checked) ? true : false;
             reasonCheckboxes[3] = (PostmortemTestCheckBox.CheckState == CheckState.Checked) ? true : false;
-
-            gene = GeneTextBox.Text;
-            otherLab = (OtherLabCheckBox.Checked) ? true : false;
-            otherLabDetail = OtherLabTextBox.Text;
             comments = AdditionalCommentsTextBox.Text;
 
-            drv = SampleTypeComboBox.SelectedItem as DataRowView;
-            sampleType = (drv != null) ? drv.Row["Specimen Type"] as string : "";
             GRC.SetSampleID(sampleType);
 
-            drv = PreferredLabTextBox.SelectedItem as DataRowView;
-            labName = (drv != null) ? drv.Row["Company"] as string : "";
-            //ADD THESE BELOW
             var checkedButton = this.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
             sendOutLab = (checkedButton != null) ? checkedButton.Text : "";
-
-            newTestReq = NewTestReqTextBox.Text;
-            newPrefMethod = NewTestMethodTextBox.Text;
-            newPrefLab = NewPrefLabTextBox.Text;
-
-            famHistExpl = FamilyHistoryTextBox.Text;
-            ethRiskExpl = EthnicityRiskTextBox.Text;
-            otherTstExpl = OtherTestingTextBox.Text;
-            otherRationaleExpl = OtherRationaleTextBox.Text;
-
-            familyHistory = (FamilyHistoryCheckBox.CheckState == CheckState.Checked) ? true : false;
-            ethnicityRisk = (EthnicityCheckBox.CheckState == CheckState.Checked) ? true : false;
-            otherTesting = (OtherTestingCheckBox.CheckState == CheckState.Checked) ? true : false;
-            otherRationale = (OtherRationaleCheckBox.CheckState == CheckState.Checked) ? true : false;
-
-            rationaleCheckboxes[0] = (TherapyCheckBox.CheckState == CheckState.Checked) ? true : false;
-            rationaleCheckboxes[1] = (ReduceCheckBox.CheckState == CheckState.Checked) ? true : false;
-            rationaleCheckboxes[2] = (ImpactCheckBox.CheckState == CheckState.Checked) ? true : false;
-            rationaleCheckboxes[3] = (PlanningCheckBox.CheckState == CheckState.Checked) ? true : false;
-
-            additional = AdditionalDetailsTextBox.Text; 
             GRC.SetTestID(PTLLTest, labName);
+
+
+
         }
         private void FillApplication()
         {
-            ApplicationNumberLabel.Text = ApplicationNumberLabel.Text + existOrderID;
-            newTest = GRC.IsNewTest();
-            ChangeSecondPageVisibility(newTest);
+            OrderIDLabel.Text = OrderIDLabel.Text + existOrderID;
+            GRCIDLabel.Text = "GRC # " + GRC.GetGRCId() + "  (" +  GRC.GRCStatusName(existOrderID) + ")";
+            // GRC.GetApplicationId
+
+            if (GRC.GetApplicationId() == 0)
+            {
+                ApplicationNumberLabel.Text = ApplicationNumberLabel.Text + " NA";
+            }
+            else {
+                ApplicationNumberLabel.Text =  ApplicationNumberLabel.Text + GRC.GetApplicationId();
+            }
+    
 
             PHNTextBox.Text = GRC.GetPHN();
             ReferenceNumberTextBox.Text = GRC.GetGeneticsID();
             OrderingPhysicianTextBox.Text = GRC.GetOrderingPhysician();
             PrimaryClinicalContactComboBox.SelectedIndex = PrimaryClinicalContactComboBox.FindString(GRC.GetPrimaryContact());
             AltClinicalContactComboBox.SelectedIndex = AltClinicalContactComboBox.FindString(GRC.GetSecondaryContact());
+
             ClinicSubTypeComboBox.SelectedIndex = ClinicSubTypeComboBox.FindString(GRC.GetClinicSubtype());
+            // Shipping via ShippingViaComboBox
+            ShippingViaComboBox.SelectedIndex = ShippingViaComboBox.FindString(GRC.GetShippingName());
 
             bool[] check = GRC.GetCheckBoxes();
             UrgentCheckBox.CheckState = (check[0] == true) ? CheckState.Checked : CheckState.Unchecked;
@@ -804,45 +633,15 @@ namespace GRC_Clinical_Genetics_Application
             OtherReasonCheckBox.CheckState = (check[5] == true) ? CheckState.Checked : CheckState.Unchecked;
 
             UrgentExplTextBox.Text = GRC.GetFreeTextboxes(12);
-            DiagnosisTextBox.Text = GRC.GetFreeTextboxes(13);
-            GeneTextBox.Text = GRC.GetFreeTextboxes(17);
-            AdditionalCommentsTextBox.Text = GRC.GetFreeTextboxes(16);
+            IsSampleShipCheckBox.CheckState = (GRC.GetIsSampleShip()) ? CheckState.Checked : CheckState.Unchecked;
+            ShippingDateTextbox.Text = GRC.GetShippingDate();
+            ShipperRefTextbox.Text = GRC.GetShippingRef();
+
+            AdditionalCommentsTextBox.Text = GRC.GetFreeTextboxes(105); 
 
             string[] combo = GRC.GetTestComboBoxes();
             UrgentComboBox.SelectedIndex = UrgentComboBox.FindString(combo[6]);
             OtherReasonTextBox.SelectedIndex = OtherReasonTextBox.FindString(combo[5]);
-            ClinicalCategoryComboBox.SelectedIndex = ClinicalCategoryComboBox.FindString(combo[1]);
-            PTLLTextBox.DisplayMember = "Product Name";
-            PTLLTextBox.DataSource = GRC.GetTestList(combo[1]);
-            PTLLTextBox.SelectedIndex = PTLLTextBox.FindString(combo[0]);
-            SampleTypeComboBox.SelectedIndex = SampleTypeComboBox.FindString(combo[2]);
-
-            PreferredLabTextBox.DisplayMember = "Company";
-            PreferredLabTextBox.DataSource = GRC.UpdateLabMethodList(1, combo[1], combo[0]);
-            PreferredMethodTextBox.DisplayMember = "Method  Description";
-            PreferredMethodTextBox.DataSource = GRC.UpdateLabMethodList(2, combo[1], combo[0]);
-
-            PreferredLabTextBox.SelectedIndex = PreferredLabTextBox.FindString(combo[3]);
-            PreferredMethodTextBox.SelectedIndex = PreferredMethodTextBox.FindString(combo[4]);
-            CheckRadioButtons(GRC.GetSendoutLab());
-
-            FamilyHistoryCheckBox.CheckState = (check[6] == true) ? CheckState.Checked : CheckState.Unchecked;
-            EthnicityCheckBox.CheckState = (check[7] == true) ? CheckState.Checked : CheckState.Unchecked;
-            OtherTestingCheckBox.CheckState = (check[8] == true) ? CheckState.Checked : CheckState.Unchecked;
-            TherapyCheckBox.CheckState = (check[9] == true) ? CheckState.Checked : CheckState.Unchecked;
-            ReduceCheckBox.CheckState = (check[10] == true) ? CheckState.Checked : CheckState.Unchecked;
-            ImpactCheckBox.CheckState = (check[11] == true) ? CheckState.Checked : CheckState.Unchecked;
-            PlanningCheckBox.CheckState = (check[12] == true) ? CheckState.Checked : CheckState.Unchecked;
-            OtherRationaleCheckBox.CheckState = (check[13] == true) ? CheckState.Checked : CheckState.Unchecked;
-
-            NewTestReqTextBox.Text = GRC.GetFreeTextboxes(26);
-            NewTestMethodTextBox.Text = GRC.GetFreeTextboxes(27);
-            NewPrefLabTextBox.Text = GRC.GetFreeTextboxes(28);
-            FamilyHistoryTextBox.Text = GRC.GetFreeTextboxes(30);
-            EthnicityRiskTextBox.Text = GRC.GetFreeTextboxes(32);
-            OtherTestingTextBox.Text = GRC.GetFreeTextboxes(34);
-            OtherRationaleTextBox.Text = GRC.GetFreeTextboxes(40);
-            AdditionalDetailsTextBox.Text = GRC.GetFreeTextboxes(41);
         }
 
         #endregion
@@ -883,5 +682,6 @@ namespace GRC_Clinical_Genetics_Application
             }
             
         }
+
     }
 }
