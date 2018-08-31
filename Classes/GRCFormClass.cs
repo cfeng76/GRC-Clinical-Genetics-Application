@@ -12,7 +12,6 @@ namespace GRC_Clinical_Genetics_Application
 {
     class GRCFormClass
     {
-        #region VARIABLES
         private string personalHealthNumber;
         private string firstName;
         private string lastName;
@@ -30,7 +29,6 @@ namespace GRC_Clinical_Genetics_Application
         private int methodID;
         private int clinicalSpecialtyID;
         private int primaryContactID;
-        private int secondaryContactID;
         private int otherReasonID = 0;
         
         private string orderingPhysician;
@@ -39,36 +37,12 @@ namespace GRC_Clinical_Genetics_Application
         private bool[] checkboxes = new bool[14];
         private string[] combobox = new string[7];
         private int urgentID;
-        private bool isReadOnly;
-        private int statusID;
-        private string geneticsID;
-        private bool isNewTest;
-        private string medRecNum;
-        private int subtypeID;
-        private string sendOut;
+
         private string clinicalSubtype;
         private string AdditionalNotes;
         //Order Details
-        private int OD_ID;
-        private int O_LABID;
         ArrayList OD_ProductIDs = new ArrayList();
-        private int OD_OrderID;
-        private int OD_LABID;
-        private Decimal OD_Quantity;
-        private Decimal OD_UnitPrice;
-        private Decimal OD_Discount;
-        private int OD_StatusID;
-        private DateTime OD_DateAllocated;
-        private int OD_PurchaseOrderID;
-        private int OD_InventoryID;
-        private string OD_RequiredSampleType;
-        private string OD_SendSampleType;
-        private bool OD_TestIsPreApproved;
-        private string OD_Genes;
 
-
-
-        #endregion
         Connections AppCon = new Connections();
         private string GRCID;
         private string GRCStatusCd = "";
@@ -79,7 +53,7 @@ namespace GRC_Clinical_Genetics_Application
         private string ShippingDate; //DateTime
         private string DOB_Date;
         private string ShippingCompanyName;
-       
+        private int statusID;
 
         public GRCFormClass(){ /*empty constructor*/ }
 
@@ -152,7 +126,6 @@ namespace GRC_Clinical_Genetics_Application
                 dob = sdr[4].ToString();
                 gender = sdr[5].ToString();
                 patientID = Convert.ToInt32(sdr[6].ToString());
-                medRecNum = sdr[7].ToString();
             }
             AppCon.GRC_Connection.Close();
         }
@@ -248,22 +221,6 @@ namespace GRC_Clinical_Genetics_Application
         internal string GetClinicSubtype()
         {
             return clinicalSubtype;
-        }
-        internal string GetMRN()
-        {
-            return medRecNum;
-        }
-        internal bool IsNewTest()
-        {
-            return isNewTest;
-        }
-        internal string GetGeneticsID()
-        {
-            return geneticsID;
-        }
-        internal int GetStatusID()
-        {
-            return statusID;
         }
 
         internal string[] GetTestComboBoxes()
@@ -567,7 +524,7 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
 
             FillPatientDemographics(patientID);
-            FillClinicianInformation(physicianID, primaryContactID, secondaryContactID, subtypeID);
+            FillClinicianInformation(physicianID, primaryContactID);
             FillTestInformation(clinicalSpecialtyID, testID, sampleID);
             FillReasons(otherReasonID, urgentID);
 
@@ -637,7 +594,7 @@ namespace GRC_Clinical_Genetics_Application
             return free;
         }
 
-        private void FillClinicianInformation(int physicianID, int primaryContactID, int secondaryContactID, int subtypeID)
+        private void FillClinicianInformation(int physicianID, int primaryContactID)
         {
             AppCon.GRC_Connection.Open();
             SqlCommand cmd = AppCon.PhysicianSearchCommand(physicianID);
@@ -654,24 +611,6 @@ namespace GRC_Clinical_Genetics_Application
             while (sdr.Read())
             {
                 primaryContact = sdr[1].ToString() + " " + sdr[2].ToString();
-            }
-            AppCon.GRC_Connection.Close();
-
-            AppCon.GRC_Connection.Open();
-            cmd = AppCon.NameCommand(secondaryContactID);
-            sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                secondaryContact = sdr[1].ToString() + " " + sdr[2].ToString();
-            }
-            AppCon.GRC_Connection.Close();
-
-            AppCon.GRC_Connection.Open();
-            cmd = AppCon.GetSubtypeID(id: subtypeID);
-            sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                clinicalSubtype = sdr[1].ToString();
             }
             AppCon.GRC_Connection.Close();
         }
@@ -777,18 +716,6 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
         }
 
-        internal void ClearApplication()
-        {
-            AppCon.GRC_Connection.Open();
-            SqlCommand cmd = AppCon.DeleteApp(CurrentOrderID, 0);
-            cmd.ExecuteNonQuery();
-            cmd = AppCon.DeleteApp(CurrentOrderID, 1);
-            cmd.ExecuteNonQuery();
-            AppCon.GRC_Connection.Close();
-            
-        }
-
-        
         #endregion
 
     }

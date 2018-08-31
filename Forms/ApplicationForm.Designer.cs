@@ -158,6 +158,8 @@
             this.DateBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.ViewResultButton = new System.Windows.Forms.Button();
+            this.CollectedSample = new System.Windows.Forms.ComboBox();
+            this.label27 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemographicsBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClinicianInformationBox)).BeginInit();
@@ -724,7 +726,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(636, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(619, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -933,7 +935,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(614, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(597, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1338,7 +1340,7 @@
             this.label21.AutoSize = true;
             this.label21.BackColor = System.Drawing.Color.Gainsboro;
             this.label21.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(480, 753);
+            this.label21.Location = new System.Drawing.Point(555, 688);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(77, 15);
             this.label21.TabIndex = 146;
@@ -1349,7 +1351,7 @@
             this.SampleTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SampleTypeComboBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.SampleTypeComboBox.FormattingEnabled = true;
-            this.SampleTypeComboBox.Location = new System.Drawing.Point(563, 751);
+            this.SampleTypeComboBox.Location = new System.Drawing.Point(638, 686);
             this.SampleTypeComboBox.MaxDropDownItems = 100;
             this.SampleTypeComboBox.Name = "SampleTypeComboBox";
             this.SampleTypeComboBox.Size = new System.Drawing.Size(195, 21);
@@ -1694,12 +1696,36 @@
             this.ViewResultButton.UseVisualStyleBackColor = false;
             this.ViewResultButton.Click += new System.EventHandler(this.NewResultButton_Click);
             // 
+            // CollectedSample
+            // 
+            this.CollectedSample.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CollectedSample.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.CollectedSample.FormattingEnabled = true;
+            this.CollectedSample.Location = new System.Drawing.Point(638, 725);
+            this.CollectedSample.MaxDropDownItems = 100;
+            this.CollectedSample.Name = "CollectedSample";
+            this.CollectedSample.Size = new System.Drawing.Size(195, 21);
+            this.CollectedSample.TabIndex = 179;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.BackColor = System.Drawing.Color.Gainsboro;
+            this.label27.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(528, 727);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(104, 15);
+            this.label27.TabIndex = 178;
+            this.label27.Text = "Sample Collected:";
+            // 
             // ApplicationForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(874, 760);
+            this.Controls.Add(this.CollectedSample);
+            this.Controls.Add(this.label27);
             this.Controls.Add(this.ViewResultButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DateBox);
@@ -1981,5 +2007,7 @@
         private System.Windows.Forms.TextBox DateBox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button ViewResultButton;
+        private System.Windows.Forms.ComboBox CollectedSample;
+        private System.Windows.Forms.Label label27;
     }
 }

@@ -129,7 +129,23 @@ namespace GRC_Clinical_Genetics_Application
                 //open existing application
                 if (e.ColumnIndex == 1)
                 {
-                    Console.WriteLine(ApplicationListTableView.Rows[e.RowIndex].Cells[1].Value);
+                    string GRCID = (ApplicationListTableView.Rows[e.RowIndex].Cells[1].Value != DBNull.Value) ? ApplicationListTableView.Rows[e.RowIndex].Cells[1].Value.ToString() : "";
+                    int orderID = 0;
+
+                    grcConnect.GRC_Connection.Open();
+                    SqlCommand cmd = grcConnect.GetOrderID(GRCID);
+                    SqlDataReader sdr = cmd.ExecuteReader();
+                    while (sdr.Read())
+                    {
+                        orderID = Convert.ToInt32(sdr[0]);
+                    }
+                    grcConnect.GRC_Connection.Close();
+                    if (GRCID == "")
+                    {
+                        return;
+                    }
+                    GRCForm form = new GRCForm(userID, true, orderID);
+                    form.Show();
                     return;
                 }
                 ApplicationForm newApp = new ApplicationForm(this, userID, true, applicationNum);

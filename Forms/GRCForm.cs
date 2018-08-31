@@ -44,24 +44,10 @@ namespace GRC_Clinical_Genetics_Application
         bool[] reasonCheckboxes = new bool[4];
         bool[] rationaleCheckboxes = new bool[4];
 
-        string newTestReq = "";
-        string newPrefMethod = "";
-        string newPrefLab = "";
-
-        private string famHistExpl = "";
-        private string ethRiskExpl = "";
-        private string otherTstExpl = "";
-        private string otherRationaleExpl = "";
-
         private bool noPHN = false;
         private bool createNewPatient = false;
         private bool isUrgent = false;
         private bool otherReason = false;
-
-        private bool familyHistory = false;
-        private bool ethnicityRisk = false;
-        private bool otherTesting = false;
-        private bool otherRationale = false;
 
         private int demographics = 1;
         private int clinicalInfo = 2;
@@ -83,7 +69,6 @@ namespace GRC_Clinical_Genetics_Application
         private string sendOutLab;
         private string MRN;
         private string subtype;
-        private string additional;
         #endregion
         GRCFormClass GRC = new GRCFormClass();
         Connections formConnection = new Connections();
@@ -219,7 +204,6 @@ namespace GRC_Clinical_Genetics_Application
         {
             PHN = PHNTextBox.Text;
             GRC.UpdateDemographics(PHN);
-            MRNTextBox.Text = GRC.GetMRN();
             FirstNameTextBox.Text = GRC.GetFirstName();
             LastNameTextBox.Text = GRC.GetLastName();
             PostalCodeTextBox.Text = GRC.GetZIP();
@@ -246,29 +230,6 @@ namespace GRC_Clinical_Genetics_Application
 
         #region CLICK EVENTS
 
-        private void NoPHNCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (NoPHNCheckBox.CheckState == CheckState.Checked)
-            {
-                AlternateIDLabel.Show();
-                ExplanationAltIDLabel.Show();
-                AlternateIDTextbox.Show();
-                AlternateIDExplanationTextbox.Show();
-                PHNTextBox.Text = "";
-                PHNTextBox.ReadOnly = true;
-            }
-            else if (NoPHNCheckBox.CheckState == CheckState.Unchecked)
-            {
-                AlternateIDLabel.Hide();
-                ExplanationAltIDLabel.Hide();
-                AlternateIDTextbox.Hide();
-                AlternateIDExplanationTextbox.Hide();
-                AlternateIDTextbox.Text = "";
-                AlternateIDExplanationTextbox.Text = "";
-                PHNTextBox.ReadOnly = false;
-            }
-
-        }
         private void UrgentCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (UrgentCheckBox.CheckState == CheckState.Checked)
@@ -416,10 +377,6 @@ namespace GRC_Clinical_Genetics_Application
         private void CaptureInformation()
         {
             PHN = PHNTextBox.Text;
-            MRN = MRNTextBox.Text;
-            noPHN = (NoPHNCheckBox.CheckState == CheckState.Checked) ? true : false;
-            alternateID = AlternateIDTextbox.Text;
-            alternateExplanation = AlternateIDExplanationTextbox.Text;
             firstName = FirstNameTextBox.Text;
             lastName = LastNameTextBox.Text;
             postalCode = PostalCodeTextBox.Text;
@@ -428,7 +385,6 @@ namespace GRC_Clinical_Genetics_Application
             DataRowView drv = GenderComboBox.SelectedItem as DataRowView;
             gender = (drv != null) ? drv.Row["Gender"] as string : "";
             genderID = GRC.GetGenderID(gender);
-            geneticsID = ReferenceNumberTextBox.Text;
 
             orderingPhysician = OrderingPhysicianTextBox.Text;
             GRC.UpdatePhysician(orderingPhysician);
@@ -480,7 +436,6 @@ namespace GRC_Clinical_Genetics_Application
     
 
             PHNTextBox.Text = GRC.GetPHN();
-            ReferenceNumberTextBox.Text = GRC.GetGeneticsID();
             OrderingPhysicianTextBox.Text = GRC.GetOrderingPhysician();
             PrimaryClinicalContactComboBox.SelectedIndex = PrimaryClinicalContactComboBox.FindString(GRC.GetPrimaryContact());
             AltClinicalContactComboBox.SelectedIndex = AltClinicalContactComboBox.FindString(GRC.GetSecondaryContact());
@@ -510,43 +465,6 @@ namespace GRC_Clinical_Genetics_Application
         }
 
         #endregion
-
-        private void ApplicationForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (deleted)
-            {
-                if (MessageBox.Show("Are you sure you want to delete this application?",
-                       "Delete application",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information) == DialogResult.No)
-                {
-                    e.Cancel = true;
-                }
-                else
-                {
-                    GRC.ClearApplication();
-                }
-            }else if (saved)
-            {
-                MessageBox.Show("Application Saved!");
-            }
-            else if (!loadExisting) 
-            {
-                if (MessageBox.Show("Your unsaved changes will be lost, do you want to exit?",
-                       "Exit application",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information) == DialogResult.No)
-                {
-                    e.Cancel = true;
-                }
-                else
-                {
-                    GRC.ClearApplication();
-                }
-
-            }
-            
-        }
 
     }
 }

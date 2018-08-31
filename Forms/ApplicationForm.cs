@@ -146,6 +146,10 @@ namespace GRC_Clinical_Genetics_Application
             SampleTypeComboBox.DisplayMember = "Specimen Type";
             SampleTypeComboBox.DataSource = dt;
 
+            DataTable dt2 = app.GetList(3);
+            CollectedSample.DisplayMember = "Specimen Type";
+            CollectedSample.DataSource = dt2;
+
             dt = app.GetList(4);
             OtherReasonTextBox.DisplayMember = "Reason";
             OtherReasonTextBox.DataSource = dt;
