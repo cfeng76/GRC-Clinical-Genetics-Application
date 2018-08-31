@@ -264,7 +264,7 @@ namespace GRC_Clinical_Genetics_Application
                 gender = "";
                 if (gender != null)
                 {
-                    GenderComboBox.SelectedIndex = GenderComboBox.FindStringExact(gender);
+                    GenderComboBox.SelectedIndex = GenderComboBox.FindString("Male");
                 }
             }
         }
