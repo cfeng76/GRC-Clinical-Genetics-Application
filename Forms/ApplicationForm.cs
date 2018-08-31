@@ -356,7 +356,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             ResultsForm newRes = new ResultsForm(existApp, employee_ID);
             newRes.Show();
-            this.WindowState = FormWindowState.Minimized;
+            //this.WindowState = FormWindowState.Minimized;
         }
 
         private void FinalizeButton_Click(object sender, EventArgs e)
