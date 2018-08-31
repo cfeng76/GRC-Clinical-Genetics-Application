@@ -335,7 +335,7 @@ namespace GRC_Clinical_Genetics_Application
 
         internal SqlCommand GetExistingApplication(int appID)
         {
-            SqlCommand cmd = new SqlCommand("SELECT [Patient Care Provider ID], [PCP Contact ID Primary],[PCP Contact ID Alternate],[Patient ID],[Patient Specimen Type ID],[IsUrgent],[IsPatientClinicallyAffected],[IsFamilyMutation],[IsPrenatalTesting],[IsFetalPostmortemTest],[IsOtherReasonForTesting],[OtherReasonForTestingID],[Urgent Other Reasons],[Diagnosis],[Test Type],[Test Requested ID],[Comments],[Gene],[Application Status ID],[Additional Notes], [Urgent Reason ID], [IsSubmitted], [Genetics ID], [IsNewTestRequest], [Clinic Subtype ID], [Send out Lab], [New Test Request],[New Preferred Method],[New Preferred Laboratory],[IsFamilyHistory],[Family History Reasons],[IsEthnicityRisk],[Ethnicity Risk Reasons],[IsOtherTesting],[Other Testing Reasons],[IsChangeInTherapy],[IsReduceInvestigation],[IsImpactOnRelatives],[IsPrenatalDiagnosis],[IsOtherRationale],[Other Rationale],[Additional Notes] FROM [GRC].[dbo].[Applications] where [Applications ID] = '" + appID + "' ", GRC_Connection);
+            SqlCommand cmd = new SqlCommand("SELECT [Patient Care Provider ID], [PCP Contact ID Primary],[PCP Contact ID Alternate],[Patient ID],[Patient Specimen Type ID],[IsUrgent],[IsPatientClinicallyAffected],[IsFamilyMutation],[IsPrenatalTesting],[IsFetalPostmortemTest],[IsOtherReasonForTesting],[OtherReasonForTestingID],[Urgent Other Reasons],[Diagnosis],[Test Type],[Test Requested ID],[Comments],[Gene],[Application Status ID],[Additional Notes], [Urgent Reason ID], [IsSubmitted], [Genetics ID], [IsNewTestRequest], [Clinic Subtype ID], [Send out Lab], [New Test Request],[New Preferred Method],[New Preferred Laboratory],[IsFamilyHistory],[Family History Reasons],[IsEthnicityRisk],[Ethnicity Risk Reasons],[IsOtherTesting],[Other Testing Reasons],[IsChangeInTherapy],[IsReduceInvestigation],[IsImpactOnRelatives],[IsPrenatalDiagnosis],[IsOtherRationale],[Other Rationale],[Additional Notes], [Patient Specimen Sendout ID] FROM [GRC].[dbo].[Applications] where [Applications ID] = '" + appID + "' ", GRC_Connection);
             return cmd;
         }
 
@@ -402,7 +402,7 @@ namespace GRC_Clinical_Genetics_Application
             string urgentExpl, bool[] v1, bool otherReason, int otherReasonID, string diagnosis, int clinicalSpecialtyID, int testID, string comments, string gene, 
             int urgentID, bool newTest, bool isFinalized, int statusID, string geneticsID, int subtypeID, string sendoutLab,
             string newTestReq, string newPrefMethod, string newPrefLab, string famHistExpl, string ethRiskExpl, string otherTstExpl, string otherRationaleExpl,
-            bool familyHistory, bool ethnicityRisk, bool otherTesting, bool otherRationale, string additional, bool[] rationale)
+            bool familyHistory, bool ethnicityRisk, bool otherTesting, bool otherRationale, string additional, bool[] rationale, int collected)
         {
             string applicationDate = "Convert(VARCHAR(10), GETDATE(), 126)";
             string finalizeDate = (statusID == 2) ? applicationDate : "null";
@@ -422,7 +422,7 @@ namespace GRC_Clinical_Genetics_Application
                 ethnicityRisk + "', [Ethnicity Risk Reasons] ='" + ethRiskExpl + "', [IsOtherTesting] = '" + otherTesting + "', [Other Testing Reasons] = '" + otherTstExpl 
                 + "', [IsChangeInTherapy] = '" + rationale[0] + "', [IsReduceInvestigation] = '" +  rationale[1] + "', [IsImpactOnRelatives] = '" + rationale[2] + "', [IsPrenatalDiagnosis] = '"+
                 rationale[3] + "', [IsOtherRationale] = '" + otherRationale + "', [Other Rationale] = '" + otherRationaleExpl + "', [Additional Notes] = '" + additional 
-                + "' where [Applications ID] = '" + applicationID + "' ", GRC_Connection);
+                + "', [Patient Specimen Sendout ID] = '"+ collected +"' where [Applications ID] = '" + applicationID + "' ", GRC_Connection);
             return app;
         }
 
@@ -463,9 +463,9 @@ namespace GRC_Clinical_Genetics_Application
             return new SqlCommand("SELECT [Source Default Location],[Destination Default Location] FROM [GRC].[dbo].[CBO App Document Type] where [Document Type Name] = '" + documentType + "' ", GRC_Connection);
         }
 
-        internal SqlCommand CreateOrderDetails(string gRC_ID, int testID, string gene, string sample)
+        internal SqlCommand CreateOrderDetails(string gRC_ID, int testID, string gene, string sample, string collected)
         {
-            return new SqlCommand("insert into [GRC].[dbo].[Order Details] ([Order ID], [Product ID], [Quantity], [Unit Price], [Discount], [Status ID], [Required Sample Type], [Send Sample Type], TestIsPreApproved, Genes) Select O.[Order ID], " + testID + ", 1, P.[List Price], 0, 0, '" + sample + "', 'DNA', 1, '" + gene + "' from [GRC].[dbo].[Orders] O, [GRC].[dbo].[Products] P where O.[GRC ID] = '" + gRC_ID + "' and P.ID =" + testID, GRC_Connection);
+            return new SqlCommand("insert into [GRC].[dbo].[Order Details] ([Order ID], [Product ID], [Quantity], [Unit Price], [Discount], [Status ID], [Required Sample Type], [Send Sample Type], TestIsPreApproved, Genes) Select O.[Order ID], " + testID + ", 1, P.[List Price], 0, 0, '" + sample + "', '" + collected + "', 1, '" + gene + "' from [GRC].[dbo].[Orders] O, [GRC].[dbo].[Products] P where O.[GRC ID] = '" + gRC_ID + "' and P.ID =" + testID, GRC_Connection);
         }
         internal SqlCommand CGapptestID(string test)
         {

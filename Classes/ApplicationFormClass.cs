@@ -48,6 +48,8 @@ namespace GRC_Clinical_Genetics_Application
         private string clinicalSubtype;
         #endregion
         Connections AppCon = new Connections();
+        private int collectedID;
+
         public ApplicationFormClass(){ /*empty constructor*/ }
 
         public AutoCompleteStringCollection Search(int typeOfSearch, int col = 0)
@@ -102,14 +104,20 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
 
         }
-        internal void SetSampleID(string sampleType)
+        internal void SetSampleID(string sampleType, int inOut)
         {
             AppCon.GRC_Connection.Open();
             SqlCommand cmd = AppCon.GetSampleID(sampleType);
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {
-                sampleID = Convert.ToInt32(sdr[0].ToString());
+                if (inOut == 1)
+                {
+                    sampleID = Convert.ToInt32(sdr[0].ToString());
+                }else
+                {
+                    collectedID = Convert.ToInt32(sdr[0].ToString());
+                }
             }
             AppCon.GRC_Connection.Close();
         }
@@ -493,6 +501,7 @@ namespace GRC_Clinical_Genetics_Application
                 clinicalSpecialtyID = Convert.ToInt32(sdr[14]);
                 testID = Convert.ToInt32(sdr[15]);
                 sampleID = Convert.ToInt32(sdr[4]);
+                collectedID = Convert.ToInt32(sdr[42]);
                 otherReasonID = Convert.ToInt32(sdr[11]);
                 urgentID = Convert.ToInt32(sdr[20]);
                 isReadOnly = Convert.ToBoolean(sdr[21]);
@@ -573,6 +582,19 @@ namespace GRC_Clinical_Genetics_Application
             }
             AppCon.GRC_Connection.Close();
 
+        }
+        internal string GetCollectedSample()
+        {
+            string s = "";
+            AppCon.GRC_Connection.Open();
+            SqlCommand cmd = new SqlCommand("select [Specimen Type] from [GRC].[dbo].[CBO Specimen Types] where ID = " + collectedID, AppCon.GRC_Connection);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                s = sdr[0].ToString();
+            }
+            AppCon.GRC_Connection.Close();
+            return s;
         }
 
         internal string GetFreeTextboxes(int column)
@@ -779,13 +801,14 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Open();
             SqlCommand cmd = AppCon.CreateNewApplication(applicationID, physicianID, primaryContactID, secondaryContactID, patientID, sampleID, isUrgent, 
                 urgentExpl, reasonCheckboxes, otherReason, otherReasonID, diagnosis, clinicalSpecialtyID, testID, comments, gene, urgentID, newTest, isFinalized, statusID, 
-                geneticsID, subtypeID, sendOut, newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
+                geneticsID, subtypeID, sendOut, newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, 
+                otherTesting, otherRationale, additional, rationaleCheckboxes, collectedID);
             cmd.ExecuteNonQuery();
             AppCon.GRC_Connection.Close();
 
         }
 
-        internal void SubmitApplication(int currentAppID, int employeeID, bool v, string gene, string sample, string comments)
+        internal void SubmitApplication(int currentAppID, int employeeID, bool v, string gene, string sample, string comments, string collected)
         {
             isNewTest = v;
             string GRC_ID = "";
@@ -809,12 +832,13 @@ namespace GRC_Clinical_Genetics_Application
             cmd = AppCon.UpdateGRCID(nextGRC);
             cmd.ExecuteNonQuery();
             //create new order
-            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, CGapptestID, 0, currentAppID, comments);
+            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent,
+                checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, CGapptestID, 0, currentAppID, comments);
             cmd.ExecuteNonQuery();
             //Create Order Details if PTLL
             if (!isNewTest)
             {
-                cmd = AppCon.CreateOrderDetails(GRC_ID, testID, gene, sample);
+                cmd = AppCon.CreateOrderDetails(GRC_ID, testID, gene, sample, collected);
                 cmd.ExecuteNonQuery(); 
             }
             //update app status

@@ -726,7 +726,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(619, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(602, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -935,7 +935,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(597, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(580, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -1340,11 +1340,11 @@
             this.label21.AutoSize = true;
             this.label21.BackColor = System.Drawing.Color.Gainsboro;
             this.label21.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.Location = new System.Drawing.Point(555, 688);
+            this.label21.Location = new System.Drawing.Point(528, 688);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(77, 15);
+            this.label21.Size = new System.Drawing.Size(104, 15);
             this.label21.TabIndex = 146;
-            this.label21.Text = "Sample Type:";
+            this.label21.Text = "Sample Collected:";
             // 
             // SampleTypeComboBox
             // 
@@ -1706,17 +1706,18 @@
             this.CollectedSample.Name = "CollectedSample";
             this.CollectedSample.Size = new System.Drawing.Size(195, 21);
             this.CollectedSample.TabIndex = 179;
+            this.CollectedSample.SelectionChangeCommitted += new System.EventHandler(this.CollectedSample_SelectionChangeCommitted);
             // 
             // label27
             // 
             this.label27.AutoSize = true;
             this.label27.BackColor = System.Drawing.Color.Gainsboro;
             this.label27.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.Location = new System.Drawing.Point(528, 727);
+            this.label27.Location = new System.Drawing.Point(535, 727);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(104, 15);
+            this.label27.Size = new System.Drawing.Size(97, 15);
             this.label27.TabIndex = 178;
-            this.label27.Text = "Sample Collected:";
+            this.label27.Text = "Sample Sendout:";
             // 
             // ApplicationForm
             // 

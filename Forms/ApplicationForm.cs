@@ -90,6 +90,7 @@ namespace GRC_Clinical_Genetics_Application
         DashboardClass dsbClass;
         Dashboard dashBoard;
         const int textboxWidth = 818;
+        private string collected;
 
         public ApplicationForm(Dashboard dsb, int empID, bool existingApplication, int existingAppID = 0) {
             InitializeComponent();
@@ -313,7 +314,18 @@ namespace GRC_Clinical_Genetics_Application
             {
                 sampleType = drv.Row["Specimen Type"] as string;
             }
-            app.SetSampleID(sampleType);
+            app.SetSampleID(sampleType, 1);
+        }
+        
+        private void CollectedSample_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string collected = "";
+            DataRowView drv = CollectedSample.SelectedItem as DataRowView;
+            if (drv != null)
+            {
+                collected = drv.Row["Specimen Type"] as string;
+            }
+            app.SetSampleID(collected, 2);
         }
         private void ClinicalCategoryComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -429,7 +441,7 @@ namespace GRC_Clinical_Genetics_Application
                 CaptureInformation();
                 app.SetTestID(PTLLTest, labName);
                 MessageBox.Show("Application Submitted!");
-                app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType, comments);
+                app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType, comments, collected);
                 saved = true;
                 this.Close();
             }
@@ -822,7 +834,11 @@ namespace GRC_Clinical_Genetics_Application
 
             drv = SampleTypeComboBox.SelectedItem as DataRowView;
             sampleType = (drv != null) ? drv.Row["Specimen Type"] as string : "";
-            app.SetSampleID(sampleType);
+            app.SetSampleID(sampleType, 1);
+
+            drv = CollectedSample.SelectedItem as DataRowView;
+            collected = (drv != null) ? drv.Row["Specimen Type"] as string : "";
+            app.SetSampleID(collected, 2);
 
             drv = PreferredLabTextBox.SelectedItem as DataRowView;
             labName = (drv != null) ? drv.Row["Company"] as string : "";
@@ -885,6 +901,7 @@ namespace GRC_Clinical_Genetics_Application
             PTLLTextBox.DataSource = app.GetTestList(combo[1]);
             PTLLTextBox.SelectedIndex = PTLLTextBox.FindString(combo[0]);
             SampleTypeComboBox.SelectedIndex = SampleTypeComboBox.FindString(combo[2]);
+            CollectedSample.SelectedIndex = CollectedSample.FindString(app.GetCollectedSample());
 
             PreferredLabTextBox.DisplayMember = "Company";
             PreferredLabTextBox.DataSource = app.UpdateLabMethodList(1, combo[1], combo[0]);
@@ -958,5 +975,6 @@ namespace GRC_Clinical_Genetics_Application
             }
 
         }
+
     }
 }
