@@ -98,12 +98,12 @@ namespace GRC_Clinical_Genetics_Application
             existApp = existingAppID;
             dsbClass = new DashboardClass(employee_ID);
 
-            SecondDeleteButton.Width = DeleteButton.Width;
-            SecondSaveButton.Width = SaveButton.Width;
-            SecondFinalizeButton.Width = FinalizeButton.Width;
-            SecondSubmitButton.Width = SubmitButton.Width;
-            AdditionalDetailsTextBox.Width = textboxWidth;
-            TestContinuedBackGround.Width = ClinicianInformationBox.Width;
+            SecondDeleteButton.Width = DeleteButton.Width + 17;
+            SecondSaveButton.Width = SaveButton.Width + 17;
+            SecondFinalizeButton.Width = FinalizeButton.Width + 17;
+            SecondSubmitButton.Width = SubmitButton.Width + 17;
+            AdditionalDetailsTextBox.Width = textboxWidth + 17;
+            TestContinuedBackGround.Width = ClinicianInformationBox.Width + 17;
 
             PHNTextBox.AutoCompleteCustomSource = app.Search(demographics, 0);
             FirstNameTextBox.AutoCompleteCustomSource = app.Search(demographics, 1);
@@ -183,11 +183,13 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ApplicationForm_Shown(object sender, EventArgs e)
         {
-            SubmitButton.Visible = (finalized && app.GetStatusID() != 3) ? true : false;
+            ViewResultButton.Visible = (app.GetStatusID() == 3) ? true : false;
+            SubmitButton.Visible = (finalized && app.GetStatusID() != 3) ? true : false; 
             FinalizeButton.Visible = !finalized;
             DeleteButton.Visible = !finalized;
             SaveButton.Visible = !finalized;
             NewTestReqLinkLabel.Visible = !finalized;
+            OrLabel.Visible = !finalized;
             NonPTLLLabel.Visible = NewTestReqLinkLabel.Visible;
 
             BrowseButton.Visible = !finalized;
@@ -245,7 +247,6 @@ namespace GRC_Clinical_Genetics_Application
                 FirstNameTextBox.Text = app.GetFirstName();
                 LastNameTextBox.Text = app.GetLastName();
                 PostalCodeTextBox.Text = app.GetZIP();
-                //DOBPicker.Value = app.GetDOB(DOBPicker.MinDate);
                 DateBox.Text = app.GetDOB(DOBPicker.MinDate).ToString("yyyy/MM/dd");
                 gender = app.GetGender();
                 if (gender != null)
@@ -259,7 +260,6 @@ namespace GRC_Clinical_Genetics_Application
                 FirstNameTextBox.Text = "";
                 LastNameTextBox.Text = "";
                 PostalCodeTextBox.Text = "";
-                //DOBPicker.Value = DateTime.Now;
                 DateBox.Text = DateTime.Now.ToString("yyyy/MM/dd");
                 gender = "";
                 if (gender != null)
@@ -352,31 +352,18 @@ namespace GRC_Clinical_Genetics_Application
 
         #region CLICK EVENTS
 
-        private void NewPatientButton_Click(object sender, EventArgs e)
+        private void NewResultButton_Click(object sender, EventArgs e)
         {
-            PHN = PHNTextBox.Text;
-            noPHN = (NoPHNCheckBox.CheckState == CheckState.Checked) ? true : false;
-            alternateID = AlternateIDTextbox.Text;
-            alternateExplanation = AlternateIDExplanationTextbox.Text;
-            firstName = FirstNameTextBox.Text;
-            lastName = LastNameTextBox.Text;
-            postalCode = PostalCodeTextBox.Text;
-            //DOB = DOBPicker.Value.ToString();
-            DOB = DateBox.Text;
-            DataRowView drv = GenderComboBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                gender = drv.Row["Gender"] as string;
-            }
-            genderID = app.GetGenderID(gender);
-            CheckPatient();
+            ResultsForm newRes = new ResultsForm(existApp, employee_ID);
+            newRes.Show();
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void FinalizeButton_Click(object sender, EventArgs e)
         {
             CaptureInformation();
             
-            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode)
+            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode, DOB)
                 && !app.OrderPhysicianFieldEmpty(orderingPhysician)
                 && app.TestInfoCorrect(isUrgent, otherReason, urgentExpl, otherReasonExpl, diagnosis, clinicalSpecialty, PTLLTest, gene, newTest, otherLab, otherLabDetail, urgentSelection))
             {
@@ -394,11 +381,16 @@ namespace GRC_Clinical_Genetics_Application
            
             if (canFinalize)
             {
+                saved = true;
                 CheckPatient();
                 if (createNewPatient && !noPHN)
                 {
                     app.CreateNewPatient(PHN, firstName, lastName, genderID, DOB, postalCode, MRN, alternateID, alternateExplanation);
                     MessageBox.Show("Patient " + firstName + " " + lastName + " has been created!");
+                }
+                else if (!createNewPatient && !saved)
+                {
+                    return;
                 }
 
                 if (MessageBox.Show("Once an application has been finalized, it will be sent to the GRC for review. You will not be able to make any further edits or upload documents to this application. Please confirm that you would like to proceed.",
@@ -433,14 +425,15 @@ namespace GRC_Clinical_Genetics_Application
                 CaptureInformation();
                 app.SetTestID(PTLLTest, labName);
                 MessageBox.Show("Application Submitted!");
-                app.SubmitApplication(currentAppID, employee_ID);
+                app.SubmitApplication(currentAppID, employee_ID, newTest, gene, sampleType, comments);
+                saved = true;
                 this.Close();
             }
         }
         private void SaveButton_Click(object sender, EventArgs e)
         {
             CaptureInformation();
-            if (!app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode))
+            if (!app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode, DOB))
             {
                 return;
             }
@@ -457,12 +450,16 @@ namespace GRC_Clinical_Genetics_Application
             if (createNewPatient) {
                 app.CreateNewPatient(PHN, firstName, lastName, genderID, DOB, postalCode, MRN, alternateID, alternateExplanation);
                 MessageBox.Show("Patient " + firstName + " " + lastName + " has been created!");
+            }else if(!createNewPatient && !saved)
+            {
+                return;
             }
  
             app.CreateNewApplication(PHN, primaryContact, secondaryContact, isUrgent, urgentExpl, 
                 reasonCheckboxes, otherReason, otherReasonExpl, diagnosis, gene, comments, urgentSelection, 
                 newTest, finalized, 1, geneticsID, subtype, sendOutLab, otherLab, otherLabDetail,
                 newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
+            MessageBox.Show("Application Saved!");
             this.Close();
         }
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -475,6 +472,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             newTest = !newTest; //make second page appear
             ChangeSecondPageVisibility(newTest);
+            SecondSaveButton.Focus();
         }
         private void OtherLabCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -618,7 +616,7 @@ namespace GRC_Clinical_Genetics_Application
             }
             documentType = documentType.Trim();
             string path = app.GetDirectory(1, documentType);
-            //If file has same name as another document associated with this application, replace old document
+
             if (filename == null){
                 MessageBox.Show("Please select a valid document.");
             }else{ 
@@ -655,7 +653,7 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ViewDocumentsLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DocumentViewer appDocs = new DocumentViewer(currentAppID, false);
+            DocumentViewer appDocs = new DocumentViewer(currentAppID, 1);
             appDocs.Show();
         }
 
@@ -664,12 +662,13 @@ namespace GRC_Clinical_Genetics_Application
         #region OTHER FUNCTIONS
         private void CheckPatient()
         {
-            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode))
+            if (app.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode, DOB))
             {
                 if (!app.PatientExists(PHN, firstName, lastName, DOB, genderID) && !noPHN)
                 {
                     DialogResult dr = MessageBox.Show("Patient does not exist! Would you like to create a new record for this patient?", "New Patient!", MessageBoxButtons.YesNo);
                     createNewPatient = (dr == DialogResult.Yes) ? true : false;
+                    saved = createNewPatient;
                 }
                 else
                 {
@@ -762,6 +761,14 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void CaptureInformation()
         {
+            foreach (Control c in this.Controls)
+            {
+                if (c is TextBox)
+                {
+                    ((TextBox)c).Text = ((TextBox)c).Text.Replace("'", "");
+                }
+            }
+
             PHN = PHNTextBox.Text;
             MRN = MRNTextBox.Text;
             noPHN = (NoPHNCheckBox.CheckState == CheckState.Checked) ? true : false;
@@ -815,7 +822,6 @@ namespace GRC_Clinical_Genetics_Application
 
             drv = PreferredLabTextBox.SelectedItem as DataRowView;
             labName = (drv != null) ? drv.Row["Company"] as string : "";
-            //ADD THESE BELOW
             var checkedButton = this.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
             sendOutLab = (checkedButton != null) ? checkedButton.Text : "";
 
@@ -844,7 +850,6 @@ namespace GRC_Clinical_Genetics_Application
         private void FillApplication()
         {
             ApplicationNumberLabel.Text = ApplicationNumberLabel.Text + existApp;
-            NewPatientButton.Hide();
             newTest = app.IsNewTest();
             ChangeSecondPageVisibility(newTest);
 
@@ -909,6 +914,7 @@ namespace GRC_Clinical_Genetics_Application
 
         private void ApplicationForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            DataTable dt;
             if (deleted)
             {
                 if (MessageBox.Show("Are you sure you want to delete this application?",
@@ -921,10 +927,15 @@ namespace GRC_Clinical_Genetics_Application
                 else
                 {
                     app.ClearApplication();
+                    dt = dsbClass.UpdateAppTable(true);
+                    dashBoard.ApplicationListTableView.DataSource = dt;
+                    dashBoard.UpdateMetricLabels();
                 }
             }else if (saved)
             {
-                MessageBox.Show("Application Saved!");
+                dt = dsbClass.UpdateAppTable(true);
+                dashBoard.ApplicationListTableView.DataSource = dt;
+                dashBoard.UpdateMetricLabels();
             }
             else if (!loadExisting && !saved && !deleted && !finalized)
             {
@@ -942,11 +953,6 @@ namespace GRC_Clinical_Genetics_Application
 
             }
 
-            DataTable dt = dsbClass.UpdateAppTable(true);
-            dashBoard.ApplicationListTableView.DataSource = dt;
-            dashBoard.UpdateMetricLabels();
-
         }
-
     }
 }

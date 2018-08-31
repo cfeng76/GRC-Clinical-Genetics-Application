@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Deployment.Application;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,6 +23,11 @@ namespace GRC_Clinical_Genetics_Application
         private void Login_Load(object sender, EventArgs e)
         {
             this.AcceptButton = this.LoginButton;
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                VersionLabel.Text = string.Format("GRC Clinical Genetics Application - v{0}", ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4));
+            }
+          
         }
         private void LoginButton_Click(object sender, EventArgs e)
         {

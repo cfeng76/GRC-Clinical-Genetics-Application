@@ -23,8 +23,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>15</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>31</ApplicationRevision>
+    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -61,6 +61,9 @@
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ahs icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,7 +81,6 @@
   <ItemGroup>
     <Compile Include="Classes\ApplicationFormClass.cs" />
     <Compile Include="Classes\Connections.cs" />
-    <Compile Include="Classes\GRCFormClass.cs" />
     <Compile Include="Forms\AddClinicalContact.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,11 +106,11 @@
     <Compile Include="Forms\DocumentViewer.Designer.cs">
       <DependentUpon>DocumentViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\GRCForm.cs">
+    <Compile Include="Forms\ResultsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\GRCForm.Designer.cs">
-      <DependentUpon>GRCForm.cs</DependentUpon>
+    <Compile Include="Forms\ResultsForm.Designer.cs">
+      <DependentUpon>ResultsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GRCDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -136,11 +138,11 @@
     <EmbeddedResource Include="Forms\DocumentViewer.resx">
       <DependentUpon>DocumentViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\GRCForm.resx">
-      <DependentUpon>GRCForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ResultsForm.resx">
+      <DependentUpon>ResultsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -178,6 +180,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ahs icon.ico" />
     <Content Include="Assets\comm-vis-logo-ahs-colour.gif" />
     <Content Include="Assets\comm-vis-logo-ahs-colour.jpg" />
     <Content Include="Assets\comm-vis-logo-ahs-colour.png" />

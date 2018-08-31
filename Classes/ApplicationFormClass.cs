@@ -170,14 +170,13 @@ namespace GRC_Clinical_Genetics_Application
             return isPatient;
         }
 
-        public bool DemographicFieldsCorrect(string PHN, bool noPHN, string alternateID, string alternateExplanation, string fName, string lName, string post)
+        public bool DemographicFieldsCorrect(string PHN, bool noPHN, string alternateID, string alternateExplanation, string fName, string lName, string post, string dob)
         {
             bool isComplete = false;
             if ((PHN != "" && PHN.Length >= 9 && !noPHN) ||
                (PHN == "" && noPHN && alternateID != "" && alternateExplanation != "")){
                 isComplete = true;
-            }
-            else{
+            }else{
                 isComplete = false;
                 MessageBox.Show("Please enter a valid Personal Health Number or Alternate ID with details before saving/finalizing.");
                 return isComplete;
@@ -185,8 +184,7 @@ namespace GRC_Clinical_Genetics_Application
 
             if (fName != "" && lName != ""){
                 isComplete = true;
-            }
-            else{
+            }else{
                 isComplete = false;
                 MessageBox.Show("Please enter a full name before saving/finalizing.");
                 return isComplete;
@@ -197,6 +195,16 @@ namespace GRC_Clinical_Genetics_Application
             }else{
                 isComplete = false;
                 MessageBox.Show("Please enter a valid Postal Code/ZIP before saving/finalizing.");
+                return isComplete;
+            }
+            DateTime result;
+            if(dob != "" && DateTime.TryParse(dob, out result))
+            {
+                isComplete = true;
+            }else
+            {
+                isComplete = false;
+                MessageBox.Show("Please enter a valid Date of Birth.");
                 return isComplete;
             }
 
@@ -237,9 +245,6 @@ namespace GRC_Clinical_Genetics_Application
             } else if((testReq == null || testReq == "") && !newTest){
                 MessageBox.Show("Please provide a test request.");
                 return false;
-            //} else if(testReq.Contains("familial") && gene == "") {
-            //    MessageBox.Show("Please specify the gene type");
-            //    return false;
             } else if (otherLab && otherLabDetail == "") {
                 MessageBox.Show("Please provide other lab details.");
                 return false;
@@ -563,7 +568,6 @@ namespace GRC_Clinical_Genetics_Application
                     for (int i = 0; i < 5; i++)
                     {
                         combobox[i] = sdr[i].ToString();
-                        Console.WriteLine(combobox[i]);
                     }
                 }
             }
@@ -714,6 +718,26 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
             
         }
+        private int CGappTestID()
+        {
+            int id = 0;
+            AppCon.GRC_Connection.Open();
+            SqlCommand cmd;
+            if (isNewTest)
+            {
+                cmd = AppCon.CGapptestID("CG Applicaction NewTest Request");
+            }else
+            {
+                cmd = AppCon.CGapptestID("CG Applicaction Pre-Approved Test");
+            }
+            SqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                id = Convert.ToInt32(sdr[0]);
+            }
+            AppCon.GRC_Connection.Close();
+            return id;
+        }
 
         internal void CreateNewPatient(string pHN, string firstN, string lastN, int genID, string dOB, string postCode, string mRN, string altID, string altExpl)
         {
@@ -761,10 +785,12 @@ namespace GRC_Clinical_Genetics_Application
 
         }
 
-        internal void SubmitApplication(int currentAppID, int employeeID)
+        internal void SubmitApplication(int currentAppID, int employeeID, bool v, string gene, string sample, string comments)
         {
+            isNewTest = v;
             string GRC_ID = "";
             int GRCNum = 0;
+            int CGapptestID = CGappTestID(); //add to CreateOrder(); instead of actual testID
             GetApplication(currentAppID);
             string urgent = GetFreeTextboxes(12);
             //Get next GRC ID
@@ -782,9 +808,15 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Open();
             cmd = AppCon.UpdateGRCID(nextGRC);
             cmd.ExecuteNonQuery();
-            //create order
-            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, testID, 0, currentAppID);
+            //create new order
+            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, CGapptestID, 0, currentAppID, comments);
             cmd.ExecuteNonQuery();
+            //Create Order Details if PTLL
+            if (!isNewTest)
+            {
+                cmd = AppCon.CreateOrderDetails(GRC_ID, testID, gene, sample);
+                cmd.ExecuteNonQuery(); 
+            }
             //update app status
             cmd = AppCon.SubmittedAppUpdate(currentAppID, GRC_ID);
             cmd.ExecuteNonQuery();

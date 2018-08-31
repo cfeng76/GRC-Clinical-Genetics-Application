@@ -40,6 +40,7 @@
             this.ConfirmPasswordTextBox = new System.Windows.Forms.TextBox();
             this.NewPasswordLabel = new System.Windows.Forms.Label();
             this.ConfirmLoginButton = new System.Windows.Forms.Button();
+            this.VersionLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AHSLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -116,7 +117,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.WarningLabel.AutoSize = true;
             this.WarningLabel.ForeColor = System.Drawing.Color.DimGray;
-            this.WarningLabel.Location = new System.Drawing.Point(12, 246);
+            this.WarningLabel.Location = new System.Drawing.Point(12, 239);
             this.WarningLabel.Name = "WarningLabel";
             this.WarningLabel.Size = new System.Drawing.Size(404, 39);
             this.WarningLabel.TabIndex = 5;
@@ -196,6 +197,17 @@
             this.ConfirmLoginButton.Visible = false;
             this.ConfirmLoginButton.Click += new System.EventHandler(this.ConfirmLoginButton_Click);
             // 
+            // VersionLabel
+            // 
+            this.VersionLabel.AutoSize = true;
+            this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VersionLabel.ForeColor = System.Drawing.Color.DarkCyan;
+            this.VersionLabel.Location = new System.Drawing.Point(12, 284);
+            this.VersionLabel.Name = "VersionLabel";
+            this.VersionLabel.Size = new System.Drawing.Size(37, 12);
+            this.VersionLabel.TabIndex = 11;
+            this.VersionLabel.Text = "Version";
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,6 +215,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.MintCream;
             this.ClientSize = new System.Drawing.Size(431, 306);
+            this.Controls.Add(this.VersionLabel);
             this.Controls.Add(this.ConfirmPasswordTextBox);
             this.Controls.Add(this.ConfirmPasswordLabel);
             this.Controls.Add(this.AHSLogo);
@@ -216,7 +229,7 @@
             this.Controls.Add(this.ConfirmLoginButton);
             this.MaximizeBox = false;
             this.Name = "Login";
-            this.Text = "GRC Clinical Genetics";
+            this.Text = "GRC Clinical Genetics Application";
             this.Load += new System.EventHandler(this.Login_Load);
             ((System.ComponentModel.ISupportInitialize)(this.AHSLogo)).EndInit();
             this.ResumeLayout(false);
@@ -237,6 +250,7 @@
         private System.Windows.Forms.TextBox ConfirmPasswordTextBox;
         private System.Windows.Forms.Label NewPasswordLabel;
         private System.Windows.Forms.Button ConfirmLoginButton;
+        private System.Windows.Forms.Label VersionLabel;
     }
 }
 

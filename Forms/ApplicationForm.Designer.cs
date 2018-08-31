@@ -95,7 +95,6 @@
             this.AdditionalDetailsTextBox = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.OtherLabTextBox = new System.Windows.Forms.TextBox();
-            this.NewPatientButton = new System.Windows.Forms.Button();
             this.OrderingPhysicianTextBox = new System.Windows.Forms.TextBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -154,9 +153,11 @@
             this.GeneWarningLabel = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.OrLabel = new System.Windows.Forms.Label();
             this.NonPTLLLabel = new System.Windows.Forms.Label();
             this.DateBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.ViewResultButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DemographicsBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClinicianInformationBox)).BeginInit();
@@ -248,6 +249,7 @@
             this.NoPHNCheckBox.TabIndex = 90;
             this.NoPHNCheckBox.Text = "No PHN?";
             this.NoPHNCheckBox.UseVisualStyleBackColor = false;
+            this.NoPHNCheckBox.Visible = false;
             this.NoPHNCheckBox.CheckedChanged += new System.EventHandler(this.NoPHNCheckBox_CheckedChanged);
             // 
             // AlternateIDTextbox
@@ -697,7 +699,7 @@
             this.SubmitButton.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SubmitButton.Location = new System.Drawing.Point(524, 943);
             this.SubmitButton.Name = "SubmitButton";
-            this.SubmitButton.Size = new System.Drawing.Size(97, 41);
+            this.SubmitButton.Size = new System.Drawing.Size(95, 41);
             this.SubmitButton.TabIndex = 61;
             this.SubmitButton.Text = "SUBMIT";
             this.SubmitButton.UseVisualStyleBackColor = false;
@@ -722,7 +724,7 @@
             this.TestContinuedBackGround.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TestContinuedBackGround.Location = new System.Drawing.Point(12, 999);
             this.TestContinuedBackGround.Name = "TestContinuedBackGround";
-            this.TestContinuedBackGround.Size = new System.Drawing.Size(721, 512);
+            this.TestContinuedBackGround.Size = new System.Drawing.Size(653, 512);
             this.TestContinuedBackGround.TabIndex = 65;
             this.TestContinuedBackGround.TabStop = false;
             this.TestContinuedBackGround.Visible = false;
@@ -931,7 +933,7 @@
             this.AdditionalDetailsTextBox.Location = new System.Drawing.Point(23, 1362);
             this.AdditionalDetailsTextBox.Multiline = true;
             this.AdditionalDetailsTextBox.Name = "AdditionalDetailsTextBox";
-            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(699, 90);
+            this.AdditionalDetailsTextBox.Size = new System.Drawing.Size(631, 90);
             this.AdditionalDetailsTextBox.TabIndex = 86;
             this.AdditionalDetailsTextBox.Visible = false;
             this.AdditionalDetailsTextBox.WordWrap = false;
@@ -956,22 +958,6 @@
             this.OtherLabTextBox.Size = new System.Drawing.Size(249, 20);
             this.OtherLabTextBox.TabIndex = 95;
             // 
-            // NewPatientButton
-            // 
-            this.NewPatientButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.NewPatientButton.BackColor = System.Drawing.Color.SpringGreen;
-            this.NewPatientButton.FlatAppearance.BorderColor = System.Drawing.Color.SpringGreen;
-            this.NewPatientButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.NewPatientButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NewPatientButton.Location = new System.Drawing.Point(695, 138);
-            this.NewPatientButton.Name = "NewPatientButton";
-            this.NewPatientButton.Size = new System.Drawing.Size(85, 26);
-            this.NewPatientButton.TabIndex = 98;
-            this.NewPatientButton.Text = "New Patient?";
-            this.NewPatientButton.UseVisualStyleBackColor = false;
-            this.NewPatientButton.Visible = false;
-            this.NewPatientButton.Click += new System.EventHandler(this.NewPatientButton_Click);
-            // 
             // OrderingPhysicianTextBox
             // 
             this.OrderingPhysicianTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -987,7 +973,7 @@
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.pictureBox4.Location = new System.Drawing.Point(585, 50);
+            this.pictureBox4.Location = new System.Drawing.Point(378, 50);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(27, 19);
             this.pictureBox4.TabIndex = 100;
@@ -996,7 +982,7 @@
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
-            this.pictureBox5.Location = new System.Drawing.Point(699, 50);
+            this.pictureBox5.Location = new System.Drawing.Point(506, 50);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(27, 19);
             this.pictureBox5.TabIndex = 101;
@@ -1007,7 +993,7 @@
             this.label23.AutoSize = true;
             this.label23.BackColor = System.Drawing.Color.Gainsboro;
             this.label23.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(618, 55);
+            this.label23.Location = new System.Drawing.Point(411, 55);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(75, 13);
             this.label23.TabIndex = 102;
@@ -1018,7 +1004,7 @@
             this.label25.AutoSize = true;
             this.label25.BackColor = System.Drawing.Color.Gainsboro;
             this.label25.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(732, 55);
+            this.label25.Location = new System.Drawing.Point(539, 55);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(72, 13);
             this.label25.TabIndex = 103;
@@ -1187,6 +1173,8 @@
             // 
             // DocumentTypeComboBox
             // 
+            this.DocumentTypeComboBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.DocumentTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DocumentTypeComboBox.FormattingEnabled = true;
             this.DocumentTypeComboBox.Location = new System.Drawing.Point(141, 890);
             this.DocumentTypeComboBox.MaxDropDownItems = 100;
@@ -1649,16 +1637,16 @@
             this.label26.TabIndex = 172;
             this.label26.Text = "First Name:";
             // 
-            // label6
+            // OrLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Gainsboro;
-            this.label6.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(521, 609);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 15);
-            this.label6.TabIndex = 173;
-            this.label6.Text = "or";
+            this.OrLabel.AutoSize = true;
+            this.OrLabel.BackColor = System.Drawing.Color.Gainsboro;
+            this.OrLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OrLabel.Location = new System.Drawing.Point(521, 609);
+            this.OrLabel.Name = "OrLabel";
+            this.OrLabel.Size = new System.Drawing.Size(19, 15);
+            this.OrLabel.TabIndex = 173;
+            this.OrLabel.Text = "or";
             // 
             // NonPTLLLabel
             // 
@@ -1683,16 +1671,40 @@
             this.DateBox.TabIndex = 175;
             this.DateBox.Leave += new System.EventHandler(this.DateBox_Leave);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Gainsboro;
+            this.label6.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(103, 238);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.TabIndex = 176;
+            this.label6.Text = "(YYYY/MM/DD)";
+            // 
+            // ViewResultButton
+            // 
+            this.ViewResultButton.BackColor = System.Drawing.Color.LimeGreen;
+            this.ViewResultButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ViewResultButton.Location = new System.Drawing.Point(760, 50);
+            this.ViewResultButton.Name = "ViewResultButton";
+            this.ViewResultButton.Size = new System.Drawing.Size(81, 25);
+            this.ViewResultButton.TabIndex = 177;
+            this.ViewResultButton.Text = "View Results";
+            this.ViewResultButton.UseVisualStyleBackColor = false;
+            this.ViewResultButton.Click += new System.EventHandler(this.NewResultButton_Click);
+            // 
             // ApplicationForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(869, 718);
+            this.ClientSize = new System.Drawing.Size(874, 760);
+            this.Controls.Add(this.ViewResultButton);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.DateBox);
             this.Controls.Add(this.NonPTLLLabel);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.OrLabel);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label22);
             this.Controls.Add(this.GeneWarningLabel);
@@ -1751,7 +1763,6 @@
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.OrderingPhysicianTextBox);
-            this.Controls.Add(this.NewPatientButton);
             this.Controls.Add(this.OtherLabTextBox);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.AdditionalDetailsTextBox);
@@ -1819,6 +1830,8 @@
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.TestContinuedBackGround);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(890, 1100);
+            this.MinimumSize = new System.Drawing.Size(890, 200);
             this.Name = "ApplicationForm";
             this.Text = "ApplicationForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ApplicationForm_FormClosing);
@@ -1905,7 +1918,6 @@
         private System.Windows.Forms.TextBox AdditionalDetailsTextBox;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox OtherLabTextBox;
-        private System.Windows.Forms.Button NewPatientButton;
         private System.Windows.Forms.TextBox OrderingPhysicianTextBox;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox5;
@@ -1964,8 +1976,10 @@
         private System.Windows.Forms.Label GeneWarningLabel;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label OrLabel;
         private System.Windows.Forms.Label NonPTLLLabel;
         private System.Windows.Forms.TextBox DateBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button ViewResultButton;
     }
 }
