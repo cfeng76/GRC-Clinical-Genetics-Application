@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.Label label2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.HeaderLabel1 = new System.Windows.Forms.Label();
+            this.HelloLabel = new System.Windows.Forms.Label();
             this.LogoutButton = new System.Windows.Forms.Button();
             this.AHSLogo = new System.Windows.Forms.PictureBox();
             this.NameLabel = new System.Windows.Forms.Label();
@@ -61,40 +61,40 @@
             this.ResetButton = new System.Windows.Forms.Button();
             this.NumLabel2 = new System.Windows.Forms.Label();
             this.NumLabel1 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
+            this.GRCDashboardButton = new System.Windows.Forms.Button();
+            this.GRCSearchButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AHSLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Bar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ApplicationListTableView)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // HeaderLabel1
             // 
-            label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.HeaderLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            label1.AutoSize = true;
-            label1.BackColor = System.Drawing.Color.Transparent;
-            label1.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label1.ForeColor = System.Drawing.SystemColors.HotTrack;
-            label1.Location = new System.Drawing.Point(241, 35);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(482, 34);
-            label1.TabIndex = 1;
-            label1.Text = "GRC Clinical Genetics Dashboard";
+            this.HeaderLabel1.AutoSize = true;
+            this.HeaderLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.HeaderLabel1.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HeaderLabel1.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.HeaderLabel1.Location = new System.Drawing.Point(241, 35);
+            this.HeaderLabel1.Name = "HeaderLabel1";
+            this.HeaderLabel1.Size = new System.Drawing.Size(482, 34);
+            this.HeaderLabel1.TabIndex = 1;
+            this.HeaderLabel1.Text = "GRC Clinical Genetics Dashboard";
             // 
-            // label2
+            // HelloLabel
             // 
-            label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.HelloLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            label2.AutoSize = true;
-            label2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            label2.Location = new System.Drawing.Point(103, 101);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(49, 20);
-            label2.TabIndex = 8;
-            label2.Text = "Hello,";
+            this.HelloLabel.AutoSize = true;
+            this.HelloLabel.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.HelloLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HelloLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.HelloLabel.Location = new System.Drawing.Point(103, 101);
+            this.HelloLabel.Name = "HelloLabel";
+            this.HelloLabel.Size = new System.Drawing.Size(49, 20);
+            this.HelloLabel.TabIndex = 8;
+            this.HelloLabel.Text = "Hello,";
             // 
             // LogoutButton
             // 
@@ -151,10 +151,6 @@
             // 
             // NewApplicationButton
             // 
-            this.NewApplicationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.NewApplicationButton.AutoSize = true;
-            this.NewApplicationButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.NewApplicationButton.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.NewApplicationButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.NewApplicationButton.FlatAppearance.BorderSize = 0;
@@ -450,12 +446,45 @@
             this.NumLabel1.TabIndex = 38;
             this.NumLabel1.Text = "null";
             // 
+            // GRCDashboardButton
+            // 
+            this.GRCDashboardButton.BackColor = System.Drawing.Color.OrangeRed;
+            this.GRCDashboardButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.GRCDashboardButton.FlatAppearance.BorderSize = 0;
+            this.GRCDashboardButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkGray;
+            this.GRCDashboardButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.GRCDashboardButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.GRCDashboardButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GRCDashboardButton.Location = new System.Drawing.Point(554, 99);
+            this.GRCDashboardButton.Name = "GRCDashboardButton";
+            this.GRCDashboardButton.Size = new System.Drawing.Size(91, 23);
+            this.GRCDashboardButton.TabIndex = 39;
+            this.GRCDashboardButton.Text = "GRC";
+            this.GRCDashboardButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.GRCDashboardButton.UseVisualStyleBackColor = false;
+            this.GRCDashboardButton.Click += new System.EventHandler(this.GRCDashboardButton_Click);
+            // 
+            // GRCSearchButton
+            // 
+            this.GRCSearchButton.BackColor = System.Drawing.Color.Gold;
+            this.GRCSearchButton.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GRCSearchButton.Location = new System.Drawing.Point(1235, 145);
+            this.GRCSearchButton.Name = "GRCSearchButton";
+            this.GRCSearchButton.Size = new System.Drawing.Size(54, 23);
+            this.GRCSearchButton.TabIndex = 40;
+            this.GRCSearchButton.Text = "Search";
+            this.GRCSearchButton.UseVisualStyleBackColor = false;
+            this.GRCSearchButton.Visible = false;
+            this.GRCSearchButton.Click += new System.EventHandler(this.GRCSearchButton_Click);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1379, 585);
+            this.Controls.Add(this.GRCSearchButton);
+            this.Controls.Add(this.GRCDashboardButton);
             this.Controls.Add(this.NumLabel1);
             this.Controls.Add(this.NumLabel2);
             this.Controls.Add(this.ResetButton);
@@ -480,9 +509,9 @@
             this.Controls.Add(this.ApplicationListTableView);
             this.Controls.Add(this.NewApplicationButton);
             this.Controls.Add(this.NameLabel);
-            this.Controls.Add(label2);
+            this.Controls.Add(this.HelloLabel);
             this.Controls.Add(this.AHSLogo);
-            this.Controls.Add(label1);
+            this.Controls.Add(this.HeaderLabel1);
             this.Controls.Add(this.LogoutButton);
             this.Controls.Add(this.Bar1);
             this.Name = "Dashboard";
@@ -526,5 +555,9 @@
         private System.Windows.Forms.Label NumLabel2;
         private System.Windows.Forms.Label NumLabel1;
         internal System.Windows.Forms.DataGridView ApplicationListTableView;
+        private System.Windows.Forms.Button GRCDashboardButton;
+        private System.Windows.Forms.Label HeaderLabel1;
+        private System.Windows.Forms.Button GRCSearchButton;
+        private System.Windows.Forms.Label HelloLabel;
     }
 }

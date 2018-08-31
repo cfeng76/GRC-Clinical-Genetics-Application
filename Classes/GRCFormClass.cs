@@ -111,15 +111,7 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
             return MyCollection;
         }
-        internal DataTable UpdateLabMethodList(int category, string clinicalSpecialty, string ptllTest)
-        {
-            DataTable dt = new DataTable();
-            AppCon.GRC_Connection.Open();
-            SqlDataAdapter adapt = AppCon.UpdateLabMethodList(category, clinicalSpecialty, ptllTest);
-            adapt.Fill(dt);
-            AppCon.GRC_Connection.Close();
-            return dt;
-        }
+
         internal void SetTestID(string ptllTest, string labName)
         {
             AppCon.GRC_Connection.Open();
@@ -163,21 +155,6 @@ namespace GRC_Clinical_Genetics_Application
                 medRecNum = sdr[7].ToString();
             }
             AppCon.GRC_Connection.Close();
-        }
-
-        internal int GenerateApplicationID(int employeeID)
-        {
-            AppCon.GRC_Connection.Open();
-            SqlCommand cmd = AppCon.GenerateAppIDCommand(employeeID);
-            cmd.ExecuteNonQuery();
-            cmd = AppCon.GetCurrentAppIDCommand();
-            SqlDataReader sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                CurrentOrderID = Convert.ToInt32(sdr[0]);
-            }
-            AppCon.GRC_Connection.Close();
-            return CurrentOrderID;
         }
 
 
@@ -235,72 +212,6 @@ namespace GRC_Clinical_Genetics_Application
             return isComplete;
         }
 
-        internal bool OrderPhysicianFieldEmpty(string orderPhys)
-        {
-            if(orderPhys != "")
-            {
-                return false;
-            }else{
-                MessageBox.Show("Please enter a physician name.");
-                return true;
-            }
-        }
-
-        internal bool TestInfoCorrect(bool isUrgent, bool otherReason, string urgentExpl, string otherExpl, string diagnosis, string specialty, string testReq, string gene, bool newTest, bool otherLab, string otherLabDetail, string urgentSelection)
-        {
-
-            if (isUrgent && ((urgentSelection == "Other" && urgentExpl == "") || urgentSelection == ""))
-            {
-                MessageBox.Show("Please provide explanation to patient's urgency.");
-                return false;
-            } else if (otherReason && (otherExpl == "" || otherExpl == null)) {
-
-                MessageBox.Show("Please provide other testing reason(s).");
-                return false;
-            } else if (diagnosis == "" || (specialty == null || specialty == "")) {
-                MessageBox.Show("Please provide a diagnosis and specialty.");
-                return false;
-            } else if((testReq == null || testReq == "") && !newTest){
-                MessageBox.Show("Please provide a test request.");
-                return false;
-            } else if(testReq.Contains("familial") && gene == "") {
-                MessageBox.Show("Please specify the gene type");
-                return false;
-            } else if (otherLab && otherLabDetail == "") {
-                MessageBox.Show("Please provide other lab details.");
-                return false;
-            } else{
-                return true;
-            }
-        }
-
-        internal bool OtherTestInfoCorrect(string newTestReq, bool familyHistory, bool ethnicityRisk, bool otherTesting, bool otherRationale, string famHistExpl, string ethRiskExpl, string otherTstExpl, string otherRationaleExpl)
-        {
-            if(newTestReq == "")
-            {
-                MessageBox.Show("Please provide a new test request.");
-                return false;
-            }else if(familyHistory && famHistExpl == "")
-            {
-                MessageBox.Show("Please provide a family history of this condition.");
-                return false;
-            }else if(ethnicityRisk && ethRiskExpl == "")
-            {
-                MessageBox.Show("Please specify risk because of ethnicity/ancestry.");
-                return false;
-            }else if(otherTesting && otherTstExpl == ""){
-                MessageBox.Show("Please specify other testing.");
-                return false;
-            }else if(otherRationale && otherRationaleExpl == "")
-            {
-                MessageBox.Show("Please specify other rationale for testing.");
-                return false;
-            }else
-            {
-                return true;
-            }
-           
-        }
         #endregion
         
         #region RETURN INFORMATION
@@ -333,10 +244,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             return ApplicationsID;
         }
-        internal string GetSendoutLab()
-        {
-            return sendOut;
-        }
+
         internal string GetClinicSubtype()
         {
             return clinicalSubtype;
@@ -357,10 +265,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             return statusID;
         }
-        internal bool IsReadOnly()
-        {
-            return isReadOnly;
-        }
+
         internal string[] GetTestComboBoxes()
         {
             return combobox;
@@ -406,19 +311,6 @@ namespace GRC_Clinical_Genetics_Application
         public string GetGender()
         {
             return gender;
-        }
-
-        public DateTime GetDOB(DateTime minDate)
-        {
-           DateTime date = Convert.ToDateTime(dob);
-
-            
-
-            if (date.Year < minDate.Year)
-            {
-                date = minDate;
-            }
-            return date;
         }
 
         public String GetDOBDate()
@@ -562,7 +454,6 @@ namespace GRC_Clinical_Genetics_Application
         
         internal bool IsGRCStatusOpen ()
         {
-
             bool IsOpen = false;
             AppCon.GRC_Connection.Open();
             SqlCommand cmd = AppCon.GetGRCStatus(CurrentOrderID);
@@ -581,10 +472,10 @@ namespace GRC_Clinical_Genetics_Application
             AppCon.GRC_Connection.Close();
             return IsOpen;
         }
-        internal String GRCStatusName(int OrderID)
+        internal string GRCStatusName(int OrderID)
         {
             GRCStatusCd = "";
-             AppCon.GRC_Connection.Open();
+            AppCon.GRC_Connection.Open();
             SqlCommand cmd = AppCon.GetGRCStatus(CurrentOrderID);
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
@@ -659,16 +550,6 @@ namespace GRC_Clinical_Genetics_Application
                 sampleID = Convert.ToInt32(sdr[4]); // this is in the order detail table
                
                 urgentID = Convert.ToInt32(sdr[62]);
-                //isReadOnly = Convert.ToBoolean(sdr[21]);
-
-                
-                
-
-
-                //geneticsID = sdr[22].ToString();
-                //isNewTest = Convert.ToBoolean(sdr[23]);
-                //subtypeID = Convert.ToInt32(sdr[24]);
-                //sendOut = sdr[25].ToString();
                 checkboxes[0] = Convert.ToBoolean(sdr[65]);
                 checkboxes[1] = Convert.ToBoolean(sdr[67]);
                 checkboxes[2] = Convert.ToBoolean(sdr[66]);
@@ -680,27 +561,7 @@ namespace GRC_Clinical_Genetics_Application
                 }
                 AdditionalNotes = sdr[105].ToString();
 
-                /*
-                              for (int i = 0; i < 6; i++)
-                              {
-                                  checkboxes[i] = Convert.ToBoolean(sdr[j]);
-                                  j++;
-                              }
-                              j = 5;
-
-                              for(int i = 6; i < 14; i++)
-                              {
-                                  checkboxes[i] = Convert.ToBoolean(sdr[k]);
-                                  if (k <= 33)
-                                  {
-                                      k += 2;
-                                  }else
-                                  {
-                                      k++;
-                                  }
-                              }
-                              k = 29;
-              */
+               
             }
 
             AppCon.GRC_Connection.Close();
@@ -854,17 +715,6 @@ namespace GRC_Clinical_Genetics_Application
                 //Order Details
                 //OD_LABID = Convert.ToInt32(sdr[2]);
                 OD_ProductIDs.Add(sdr[0]);
-                //OD_Quantity = Convert.ToDecimal(sdr[3]);
-                //OD_UnitPrice = Convert.ToDecimal(sdr[4]);
-                //OD_Discount = Convert.ToDecimal(sdr[5]);
-                //OD_StatusID = Convert.ToInt32(sdr[6]);
-                //OD_DateAllocated = Convert.ToDateTime(sdr[7]);
-                //OD_PurchaseOrderID = Convert.ToInt32(sdr[8]);
-                //OD_InventoryID = Convert.ToInt32(sdr[9]);
-                //OD_RequiredSampleType = Convert.ToString(sdr[10]);
-                //OD_SendSampleType = Convert.ToString(sdr[11]);
-                //OD_TestIsPreApproved = Convert.ToBoolean(sdr[12]);
-                //OD_Genes = Convert.ToString(sdr[14]);
 
             }
            AppCon.GRC_Connection.Close();
@@ -938,82 +788,7 @@ namespace GRC_Clinical_Genetics_Application
             
         }
 
-        internal void CreateNewPatient(string pHN, string firstN, string lastN, int genID, string dOB, string postCode, string mRN, string altID, string altExpl)
-        {
-            string placeCode = postCode.Substring(0, 3);
-            AppCon.GRC_Connection.Open();
-            SqlCommand cmd = AppCon.InsertNewPatient(pHN, firstN, lastN, genID, dOB, postCode, mRN, altID, altExpl);
-            cmd.ExecuteNonQuery();
-            cmd = AppCon.UpdateNewPatientGeographics(placeCode, pHN, lastN);
-            cmd.ExecuteNonQuery();
-            cmd = AppCon.DemographicsCommand(pHN);
-            SqlDataReader sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                newPatientID = Convert.ToInt32(sdr[6].ToString());
-            }
-            AppCon.GRC_Connection.Close();
-            patientID = newPatientID;
-        }
-
-        internal void CreateNewApplication(string PHNumber, string primaryContact, string secondaryContact, bool isUrgent, string urgentExpl, bool[] reasonCheckboxes,
-            bool otherReason, string otherReasonExpl, string diagnosis, string gene, string comments, string urgentSelection, bool newTest, bool isFinalized, int statusID, 
-            string geneticsID, string subtype, string sendOutLab, bool otherLab, string otherLabDetail,
-            string newTestReq, string newPrefMethod, string newPrefLab, string famHistExpl, string ethRiskExpl, string otherTstExpl, string otherRationaleExpl, 
-            bool familyHistory, bool ethnicityRisk, bool otherTesting, bool otherRationale, string additional, bool[] rationaleCheckboxes)
-        {
-            UpdateDemographics(PHNumber);
-            primaryContactID = GetContactID(primaryContact);
-            secondaryContactID = GetContactID(secondaryContact);
-            otherReasonID = GetReasonID(otherReasonExpl, 1);
-            urgentID = GetReasonID(urgentSelection, 3);
-            subtypeID = GetSubTypeID(subtype);
-            if (otherLab)
-            {
-                sendOut = otherLabDetail;
-            }else
-            {
-                sendOut = sendOutLab;
-            }
-            AppCon.GRC_Connection.Open();
-            SqlCommand cmd = AppCon.CreateNewApplication(CurrentOrderID, physicianID, primaryContactID, secondaryContactID, patientID, sampleID, isUrgent, 
-                urgentExpl, reasonCheckboxes, otherReason, otherReasonID, diagnosis, clinicalSpecialtyID, testID, comments, gene, urgentID, newTest, isFinalized, statusID, 
-                geneticsID, subtypeID, sendOut, newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
-            cmd.ExecuteNonQuery();
-            AppCon.GRC_Connection.Close();
-
-        }
-
-        internal void SubmitApplication(int currentAppID, int employeeID)
-        {
-            string GRC_ID = "";
-            int GRCNum = 0;
-            GetGRCApplication(currentAppID);
-            string urgent = GetFreeTextboxes(12);
-            //Get next GRC ID
-            AppCon.GRC_Connection.Open();
-            SqlCommand cmd = AppCon.GenerateGRCID();
-            SqlDataReader sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                GRC_ID = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + sdr[0].ToString();
-                GRCNum = Convert.ToInt32(sdr[0]);
-            }
-            AppCon.GRC_Connection.Close();
-            int nextGRC = GRCNum + 1;
-            //Update GRC ID
-            AppCon.GRC_Connection.Open();
-            cmd = AppCon.UpdateGRCID(nextGRC);
-            cmd.ExecuteNonQuery();
-            //create order
-            cmd = AppCon.CreateOrder(GRC_ID, employeeID, labID, physicianID, primaryContactID, patientID, sampleID, checkboxes[0], urgentID, urgent, checkboxes[1], checkboxes[3], checkboxes[4], checkboxes[2], checkboxes[5], otherReasonID, testID, 0, currentAppID);
-            cmd.ExecuteNonQuery();
-            //update app status
-            cmd = AppCon.SubmittedAppUpdate(currentAppID, GRC_ID);
-            cmd.ExecuteNonQuery();
-            AppCon.GRC_Connection.Close();
-            
-        }
+        
         #endregion
 
     }

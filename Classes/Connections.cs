@@ -32,6 +32,7 @@ namespace GRC_Clinical_Genetics_Application
             return new SqlCommand("Select [Order ID], [Lab ID] from [GRC].[dbo].[Orders] where [Applications_ID] = " + appID, GRC_Connection);
         }
 
+        #region RESULTS
         internal SqlCommand NewResult(int orderID, int labID, int empId)
         {
             return new SqlCommand("insert into [GRC].[dbo].[Result Orders] ([Order ID], [Supplier ID], [Created By], [Created Date]) values (" + orderID + ", " + labID + ", " + empId + ", Convert(VARCHAR(10), GETDATE(), 126))", GRC_Connection);
@@ -98,6 +99,7 @@ namespace GRC_Clinical_Genetics_Application
         {
             return new SqlCommand("select count(*) from [GRC].[dbo].[Result Orders] where [Order ID] =" + orderID, GRC_Connection);
         }
+        #endregion
 
         public SqlCommand NameCommand(int id)
         {
@@ -469,6 +471,117 @@ namespace GRC_Clinical_Genetics_Application
         {
             return new SqlCommand("SELECT [Test Requested ID],[Test Requested] FROM [GRC].[dbo].[CBO Test Requested] where [Test Requested] Like '" + test + "'", GRC_Connection);
         }
+        #region GRC
+        public SqlDataAdapter getCustomOrdersDatatable(string GRCnum, string status, string patientFirstName, string patientLastName, int PHN, bool isUrgent, bool showAll, int id, string AppStat)
+        {
+            string cmdString = "SELECT [GRC ID], [Status Name] as 'Status', PAT.[Last Name] + ', ' + PAT.[First Name] as 'Patient', PAT.[Personal Health Number] as 'PHN',  CONVERT(VARCHAR(10), PAT.DOB , 126) as 'Date of Birth', CASE when[IsUrgent] = 1 then 'Yes' else 'No' end as 'Is Urgent?', CASE when O.[Paperwork Received Date] IS NULL then 'No' else 'Yes' end as 'Paperwork Received?', [Received Date] as 'Application Submission Date' , E.[First Name] + ' ' + E.[Last Name] as 'Submitted by' FROM [GRC].[dbo].[Orders] O inner join [GRC].[dbo].Patients As PAT on pat.ID = o.[Patient ID] inner join [GRC].[dbo].[Orders Status] OSTAT on OSTAT.[Status ID] = o.[Status ID] inner join [GRC].[dbo].employees E on e.ID = o.[Employee ID] where [GRC ID] is not null  ";
+            if (GRCnum != "")
+            {
+                cmdString = cmdString + " and O.[GRC ID] LIKE '%" + GRCnum + "%' ";
+            }
+            //if (AppStat != "Any")
+            //{
+            //cmdString = cmdString + " and ASTAT.[Status Name] LIKE '%" + AppStat + "%' ";
+            // }
+            if (status != "Any")
+            {
+                cmdString = cmdString + " and OSTAT.[Status Name] LIKE '%" + status + "%'";
+            }
+            if (patientFirstName != "")
+            {
+                cmdString = cmdString + " and PAT.[First Name] LIKE '%" + patientFirstName + "%' ";
+            }
+            if (patientLastName != "")
+            {
+                cmdString = cmdString + " and PAT.[Last Name] LIKE '%" + patientLastName + "%' ";
+            }
+            if (PHN != 0)
+            {
+                cmdString = cmdString + " and PAT.[Personal Health Number] LIKE '%" + PHN + "%' ";
+            }
+            if (isUrgent == true)
+            {
+                cmdString = cmdString + " and O.[isUrgent] = 1 ";
+            }
+            if (showAll == false)
+            {
+                cmdString = cmdString + " and O.[Employee ID] = " + id.ToString();
+            }
+
+            cmdString = cmdString + " order by [GRC ID] desc";
+            ;
+            SqlDataAdapter dataTable = new SqlDataAdapter(cmdString, GRC_Connection);
+            return dataTable;
+        }
+
+        public SqlDataAdapter getDefaultOrdersDatatable(int ID)
+        {
+            SqlDataAdapter dataTable = new SqlDataAdapter("SELECT[GRC ID], [Status Name] as 'Status', [Patients].[Last Name] + ', ' + [Patients].[First Name] as 'Patient', [Patients].[Personal Health Number] as 'PHN',  CONVERT(VARCHAR(10), Patients.DOB , 126) as 'Date of Birth', CASE when[IsUrgent] = 1 then 'Yes' else 'No' end as 'Is Urgent?', CASE when Orders.[Paperwork Received Date] IS NULL then 'No' else 'Yes' end as 'Paperwork Received?', [Received Date] as 'Application Submission Date' , [Employees].[First Name] + ' ' + Employees.[Last Name] as 'Submitted by' FROM [GRC].[dbo].[Orders], [GRC].[dbo].Patients, [GRC].[dbo].[Orders Status], [GRC].[dbo].employees where [Patient ID] = [GRC].[dbo].Patients.ID and[GRC].[dbo].[Orders].[Status ID] = [GRC].[dbo].[Orders Status].[Status ID] and [Employee ID] = [GRC].[dbo].employees.ID and [Employee ID] = " + ID, GRC_Connection);
+            return dataTable;
+        }
+        internal SqlCommand GetOrderID(string grcID)
+        {
+            return new SqlCommand("select [Order ID]  FROM [GRC].[dbo].[Orders] where [GRC ID] = '" + grcID + "' ", GRC_Connection);
+        }
+        internal SqlCommand GetExistingGRC(int OrderID)
+        {
+            // Get GRC Data (GetExistingGRC)
+            SqlCommand cmd = new SqlCommand("SELECT[Order ID],[Order Date],[Received Date],[GRC ID],[GRC Coordinator ID],[Employee ID],[Customer ID],[Lab ID] ,[Patient Care Provider ID],[Patient Care Provider Contact ID],[Patient ID],[Patient Specimen Type ID],[Counsellor 1],[IsReviewed1],[Counsellor 2],[IsReviewed2],[Counsellor 3],[IsReviewed3],[Approved Letter ID],[Approved Notification Via ID],[Approved Notification Date],[Declined Letter ID],[Declined Notification Via ID],[Declined Notification Date],[Withdraw Letter ID],[Withdraw Notification Via ID],[Withdraw Notification Date],[Appeal Letter ID],[Appeal Notification Via ID],[Appeal Notification Date],[ReSubmission Letter ID],[ReSubmission Notification Via ID],[ReSubmission Notification Date],[Notified Name],[Notified Address],[Notified City],[Notified State/Province],[Notified ZIP/Postal Code],[Notified Country/Region],[More Info 1 Letter ID],[More Info 1  Date],[More info 2 Letter ID],[More Info 2  Date],[More Info 3 Letter ID],[More Info 3  Date],[Shipper ID],[Shipped Date],[Ship Lab],[Ship Name],[Ship Address],[Ship City],[Ship State/Province],[Ship ZIP/Postal Code],[Ship Country/Region],[Shipping Fee],[Shipping Notes],[Taxes],[Payment Type],[Paid Date],[Paid Currency ID],[Tax Rate],[Tax Status],[IsUrgent],[Urgent Reason],[Urgent Other Reasons],[IsPatientClinicallyAffected],[IsFetalTesting],[IsFetalPostmortemTest],[IsFamilialMutation],[IsOtherReasonForTesting],[Reason For Testing ID],[IsApplicationCompleted],[IsApplicationApproved],[IsApplicationApprovedNotified],[Approved Reasons],[Approved Other Reasons],[IsApplicationDeclined],[IsApplicationDeclinedNotified],[Declined Reasons],[Declined Other Reasons],[IsApplicationWithdrawn],[IsApplicationWithdrawnNotified],[Withdraw Reasons],[Withdraw Other Reasons],[IsAppealed],[IsAppealedNotified],[Appeal Decision],[IsResumission],[IsResumissiondNotified],[Resubmission Decision],[IsApplicationScanned],[IsClinicalReviewRequired],[Updated By],[Disease1 ID],[Disease2 ID],[Test Requested ID],[Current Task ID],[Current Task Updated Date]  ,[Current Task Updated Time],[Current Task Updated By],[Updated Date],[Updated Time],[UPdated  User Name],[UPdated  Computer Name],[Attachments],[Notes],[Status ID],[upsize_ts],[IsResultsReceived],[Invoice Amount],[Paid Amount],[IsSampleShipped],[IsPaymentApproved],[Paperwork Received Date],[Shippers Reference ID],[Applications_ID] FROM [GRC].[dbo].[Orders]  WHERE [Order ID] = '" + OrderID + "' ", GRC_Connection);
+            return cmd;
+        }
+
+        internal SqlCommand GetGRCStatus(int OrderID)
+        {
+            // Get GRC Status Data (GetGRCStatus)
+            SqlCommand sam = new SqlCommand("SELECT Upper(OS.[Status Name]) As GRC_STATUS FROM [GRC].[dbo].[Orders Status] OS Inner Join [GRC].[dbo].[Orders] O on O.[Status ID] = OS.[Status ID] WHERE O.[Order ID] = '" + OrderID + "' ", GRC_Connection);
+            return sam;
+        }
+
+        internal SqlDataAdapter GetOrderDetails(int OrderID)
+        {// Get Oder Details (GetOrderDetails)
+            SqlDataAdapter sam = new SqlDataAdapter("SELECT OD.[Product ID] As Test_ID, P.[Product Name] As Test_Name, l.[Company] As Lab_Name, OD.[Quantity], OD.[Unit Price], [Status Name], OD.[Required Sample Type], OD.[Send Sample Type], OD.[TestIsPreApproved], OD.[Genes]  FROM[GRC].[dbo].[Order Details] OD  inner join[GRC].[dbo].[Orders] O on o.[Order ID] = OD.[Order ID] inner join[GRC].[dbo].[Suppliers] L on l.id = O.[Lab ID] and od.[Order ID] = O.[Order ID]inner join[GRC].[dbo].[Products] P on P.ID = OD.[Product ID]inner join[GRC].[dbo].[Order Details Status] ODS on ODS.[Status ID] = OD.[Status ID] WHERE O.[Order ID] = '" + OrderID + "' order by L.ID, P.ID ", GRC_Connection);
+            return sam;
+        }
+
+        internal SqlDataAdapter GetProductName(int LabID, int ProductID)
+        {// Get Product ID Details (GetProducDetails)
+            SqlDataAdapter sam = new SqlDataAdapter("Select [Product Name] FROM [GRC].[dbo].[Products] P  where  p.[Supplier IDs] = ' " + LabID + "'  Order by case when p.ID =  '" + ProductID + "'  then  1  else 2 end,[Product Name] ", GRC_Connection);
+            return sam;
+        }
+        internal SqlDataAdapter GetLabName(int LabID, int OrderID)
+        {// Get Product ID Details (GetProducDetails)
+            SqlDataAdapter sam = new SqlDataAdapter("Select [Company]  FROM [GRC].[dbo].[Suppliers] L inner join [GRC].[dbo].[Orders] O on  O.[Lab Id] = ' " + LabID + "'  and O.[Order ID] = '" + OrderID + "' ", GRC_Connection);
+            return sam;
+        }
+
+        internal SqlDataAdapter GetNotificationList(int OrderID)
+        {
+            SqlDataAdapter doc = new SqlDataAdapter("SELECT [Archive Letter]  FROM [GRC].[dbo].[Letters Archives]  where [Order ID] = '" + OrderID + "' ", GRC_Connection);
+            return doc;
+        }
+
+        internal SqlCommand GetNotPath(int OrderID, string docName)
+        {
+            SqlCommand docPath = new SqlCommand("SELECT [Archive Folder] + [Archive Letter] FROM [GRC].[dbo].[Letters Archives] where [Order ID] = '" + OrderID + "' and [Archive Letter] = '" + docName + "' ", GRC_Connection);
+            return docPath;
+        }
+
+        //GetShippingViaList
+        internal SqlDataAdapter GetShippingViaList()
+        {
+            SqlDataAdapter ShippingViaName = new SqlDataAdapter("SELECT [Company] as [Shipping Via] FROM [GRC].[dbo].[Shippers]  Order by  [State/Province] , [City] ", GRC_Connection);
+            return ShippingViaName;
+        }
+
+        //GetShippingVia
+        internal SqlCommand GetShippingViaName(int ID)
+        {
+            SqlCommand ShipViaName = new SqlCommand("SELECT  [Company] as [Shipping Via]  FROM [GRC].[dbo].[Shippers] where id = '" + ID + "' Order by  [State/Province] , [City] ", GRC_Connection);
+            return ShipViaName;
+        }
+
+
+        #endregion
     }
 }
 

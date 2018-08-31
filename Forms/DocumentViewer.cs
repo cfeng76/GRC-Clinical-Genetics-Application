@@ -28,7 +28,15 @@ namespace GRC_Clinical_Genetics_Application
         private void DocumentViewer_Load(object sender, EventArgs e)
         {
             DataTable dt = UpdateDocumentsList();
-            DocumentListComboBox.DisplayMember = "Document Name";
+
+            if(typeOfTable == 3)
+            {
+                DocumentListComboBox.DisplayMember = "Archive Letter";
+            }
+            else
+            {
+                DocumentListComboBox.DisplayMember = "Document Name";
+            }
             DocumentListComboBox.DataSource = dt;
         }
 
@@ -36,7 +44,16 @@ namespace GRC_Clinical_Genetics_Application
         {
             DataTable docList = new DataTable();
             docConnection.GRC_Connection.Open();
-            SqlDataAdapter adapt = docConnection.GetDocumentList(ID, typeOfTable);
+            SqlDataAdapter adapt;
+
+            if (typeOfTable == 3)
+            {
+                adapt = docConnection.GetNotificationList(ID);
+            }
+            else
+            {
+                adapt = docConnection.GetDocumentList(ID, typeOfTable);
+            }
             adapt.Fill(docList);
             docConnection.GRC_Connection.Close();
             return docList;
@@ -48,12 +65,21 @@ namespace GRC_Clinical_Genetics_Application
             string documentName = "";
             if(drv != null)
             {
-                documentName = drv.Row["Document Name"] as string;
+                documentName = (typeOfTable != 3) ? drv.Row["Document Name"] as string : drv.Row["Archive Letter"] as string;
             }
 
             string docPath = "";
             docConnection.GRC_Connection.Open();
-            SqlCommand cmd = docConnection.GetDocPath(ID, documentName, typeOfTable);
+            SqlCommand cmd;
+            if (typeOfTable == 3)
+            {
+                cmd = docConnection.GetNotPath(ID, documentName);
+            }
+            else
+            {
+                cmd = docConnection.GetDocPath(ID, documentName, typeOfTable);
+            }
+
             SqlDataReader sdr = cmd.ExecuteReader();
             while (sdr.Read())
             {

@@ -71,7 +71,6 @@ namespace GRC_Clinical_Genetics_Application
         private bool deleted = false;
         private bool saved = false;
         private int employee_ID = 0;
-        private string savedFileName = "";
 
         private bool canFinalize = false;
         private bool newTest = false;
@@ -118,17 +117,6 @@ namespace GRC_Clinical_Genetics_Application
             }
         }
 
-        // OrderDetail Initialize Data Table
-        //public void InitializeOderDetailDataTable()
-        //{
-        //    defaultData = true;
-        //    DataTable dt = dashboard.UpdateAppTable(defaultData);
-        //    ApplicationListTableView.DataSource = dt;
-
-        //    UpdateMetricLabels();
-        //}
-
-
         private void ApplicationForm_Load(object sender, EventArgs e)
         {
 
@@ -172,18 +160,8 @@ namespace GRC_Clinical_Genetics_Application
             dt = GRC.OrderDetailDataTable(existOrderID);
             OrderDetailListTableView.DataSource = dt;
             GRC.FillOrderDetails(existOrderID);
-
-            DataGridViewComboBoxColumn testName = new DataGridViewComboBoxColumn();
-            DataRowView drv;
-            string s;
-
         }
-        private void CustomList(int row, int[] data)
-        {
-            DataGridViewComboBoxCell comboCell = OrderDetailListTableView[3, row] as DataGridViewComboBoxCell;
-            comboCell.DataSource = new BindingSource(data, null);
 
-        }
         private void ApplicationForm_Shown(object sender, EventArgs e)
         {
 
@@ -267,119 +245,6 @@ namespace GRC_Clinical_Genetics_Application
         #endregion
 
         #region CLICK EVENTS
-
-        private void NewPatientButton_Click(object sender, EventArgs e)
-        {
-            PHN = PHNTextBox.Text;
-            noPHN = (NoPHNCheckBox.CheckState == CheckState.Checked) ? true : false;
-            alternateID = AlternateIDTextbox.Text;
-            alternateExplanation = AlternateIDExplanationTextbox.Text;
-            firstName = FirstNameTextBox.Text;
-            lastName = LastNameTextBox.Text;
-            postalCode = PostalCodeTextBox.Text;
-           // DOB = DOBPicker.Value.ToString();
-            DataRowView drv = GenderComboBox.SelectedItem as DataRowView;
-            if (drv != null)
-            {
-                gender = drv.Row["Gender"] as string;
-            }
-            genderID = GRC.GetGenderID(gender);
-            CheckPatient();
-        }
-
-        private void FinalizeButton_Click(object sender, EventArgs e)
-        {
-            CaptureInformation();
-            
-            if (GRC.DemographicFieldsCorrect(PHN, noPHN, alternateID, alternateExplanation, firstName, lastName, postalCode)
-                && !GRC.OrderPhysicianFieldEmpty(orderingPhysician)
-                && GRC.TestInfoCorrect(isUrgent, otherReason, urgentExpl, otherReasonExpl, diagnosis, clinicalSpecialty, PTLLTest, gene, newTest, otherLab, otherLabDetail, urgentSelection))
-            {
-                canFinalize = true;
-
-                if (newTest && !GRC.OtherTestInfoCorrect(newTestReq, familyHistory, ethnicityRisk, otherTesting, otherRationale, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl))
-                {
-                    canFinalize = false;
-                }
-            }
-            else{
-                canFinalize = false;
-            }
-            Console.WriteLine(canFinalize);
-           
-            if (canFinalize)
-            {
-                CheckPatient();
-                if (createNewPatient && !noPHN)
-                {
-                    GRC.CreateNewPatient(PHN, firstName, lastName, genderID, DOB, postalCode, MRN, alternateID, alternateExplanation);
-                    MessageBox.Show("Patient " + firstName + " " + lastName + " has been created!");
-                }
-
-                if (MessageBox.Show("Are you sure you want to finalize this application? You will not be able to make any more changes to this application if you proceed.",
-                        "Finalize application",
-                          MessageBoxButtons.YesNo,
-                          MessageBoxIcon.Information) == DialogResult.No){
-                        return;
-                }
-
-                finalized = true;
-                GRC.SetTestID(PTLLTest, labName);
-                GRC.CreateNewApplication(PHN, primaryContact, secondaryContact, isUrgent, urgentExpl, reasonCheckboxes, 
-                    otherReason, otherReasonExpl, diagnosis, gene, comments, 
-                    urgentSelection, newTest, finalized, 2, geneticsID, subtype, sendOutLab, otherLab, otherLabDetail,
-                    newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
-                MessageBox.Show("Application created!");
-                this.Close();   
-            }
-
-        }
-        private void SubmitButton_Click(object sender, EventArgs e)
-        {
-            if (finalized)
-            {
-                if (MessageBox.Show("Submitting this application will generate a GRC ID and will be open for review. Do you wish to proceed?",
-                         "Submit application",
-                          MessageBoxButtons.YesNo,
-                          MessageBoxIcon.Information) == DialogResult.No)
-                {
-                    return;
-                }
-                CaptureInformation();
-                GRC.SetTestID(PTLLTest, labName);
-                MessageBox.Show("Application Submitted!");
-                GRC.SubmitApplication(currentOrderID, employee_ID);
-                this.Close();
-            }
-        }
-        private void SaveButton_Click(object sender, EventArgs e)
-        {
-            CaptureInformation();
-            if(PHN == "" || orderingPhysician == "")
-            {
-                MessageBox.Show("Please enter patient demographics and or the Ordering Physician before saving!");
-                return;
-            }
-            deleted = false;
-            saved = true;
-            finalized = false;
-            CheckPatient();
-            if (createNewPatient) {
-                GRC.CreateNewPatient(PHN, firstName, lastName, genderID, DOB, postalCode, MRN, alternateID, alternateExplanation);
-                MessageBox.Show("Patient " + firstName + " " + lastName + " has been created!");
-            }
-            
-            GRC.CreateNewApplication(PHN, primaryContact, secondaryContact, isUrgent, urgentExpl, 
-                reasonCheckboxes, otherReason, otherReasonExpl, diagnosis, gene, comments, urgentSelection, 
-                newTest, finalized, 1, geneticsID, subtype, sendOutLab, otherLab, otherLabDetail,
-                newTestReq, newPrefMethod, newPrefLab, famHistExpl, ethRiskExpl, otherTstExpl, otherRationaleExpl, familyHistory, ethnicityRisk, otherTesting, otherRationale, additional, rationaleCheckboxes);
-            this.Close();
-        }
-        private void DeleteButton_Click(object sender, EventArgs e)
-        {
-            deleted = true;
-            this.Close();
-        }
 
         private void NoPHNCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -515,14 +380,14 @@ namespace GRC_Clinical_Genetics_Application
         }
         private void ViewDocumentsLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DocumentViewer appDocs = new DocumentViewer(GRC.GetApplicationId(), false);
+            DocumentViewer appDocs = new DocumentViewer(GRC.GetApplicationId(), 1);
             appDocs.Show();
         }
 
         private void ViewNotificationLinkLabe_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DocumentViewer appDocs = new DocumentViewer(currentOrderID, true);
-            appDocs.Show();
+            DocumentViewer notify = new DocumentViewer(currentOrderID, 3);
+            notify.Show();
         }
         #endregion
 

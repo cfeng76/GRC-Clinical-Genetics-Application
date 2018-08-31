@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Classes\ApplicationFormClass.cs" />
     <Compile Include="Classes\Connections.cs" />
+    <Compile Include="Classes\GRCFormClass.cs" />
     <Compile Include="Forms\AddClinicalContact.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +106,12 @@
     </Compile>
     <Compile Include="Forms\DocumentViewer.Designer.cs">
       <DependentUpon>DocumentViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GRCForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GRCForm.designer.cs">
+      <DependentUpon>GRCForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ResultsForm.cs">
       <SubType>Form</SubType>
@@ -137,6 +144,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DocumentViewer.resx">
       <DependentUpon>DocumentViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GRCForm.resx">
+      <DependentUpon>GRCForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

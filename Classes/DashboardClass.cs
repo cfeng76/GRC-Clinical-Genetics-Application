@@ -81,5 +81,27 @@ namespace GRC_Clinical_Genetics_Application
             }
         }
 
+        internal DataTable UpdateGRCTable(bool def, string GRCnum = "", string status = "", string patientFirstName = "", string patientLastName = "", int PHN = 0, bool isUrgent = false, bool showAll = false, string AppStat = "")
+        {
+            DataTable data = new DataTable();
+            if (def)//default table
+            {
+                dashCon.GRC_Connection.Open();
+                SqlDataAdapter adapt = dashCon.getDefaultOrdersDatatable(userID); //(userID)
+                adapt.Fill(data);
+                dashCon.GRC_Connection.Close();
+                return data;
+            }
+            else
+            {
+
+                //create table with optional search parameters 
+                dashCon.GRC_Connection.Open();
+                SqlDataAdapter adt = dashCon.getCustomOrdersDatatable(GRCnum, status, patientFirstName, patientLastName, PHN, isUrgent, showAll, userID, AppStat);
+                adt.Fill(data);
+                dashCon.GRC_Connection.Close();
+                return data;
+            }
+        }
     }
 }

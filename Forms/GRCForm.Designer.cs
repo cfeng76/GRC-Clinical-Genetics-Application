@@ -1033,7 +1033,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.PeachPuff;
-            this.ClientSize = new System.Drawing.Size(875, 730);
+            this.ClientSize = new System.Drawing.Size(892, 730);
             this.Controls.Add(this.DOBDateTextbox);
             this.Controls.Add(this.ShippingViaComboBox);
             this.Controls.Add(this.label19);
