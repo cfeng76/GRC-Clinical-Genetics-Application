@@ -196,6 +196,7 @@ namespace GRC_Clinical_Genetics_Application
             isClinicalApp = !isClinicalApp;
             if (!isClinicalApp)
             {
+                //GRC
                 SearchButton.Hide();
                 GRCSearchButton.Show();
                 GRCDashboardButton.Text = "Clinical Application";
@@ -217,6 +218,7 @@ namespace GRC_Clinical_Genetics_Application
             }
             else
             {
+                //Clinical
                 SearchButton.Show();
                 GRCSearchButton.Hide();
                 GRCDashboardButton.Text = "GRC Application";
@@ -230,7 +232,7 @@ namespace GRC_Clinical_Genetics_Application
                 label9.Show();
                 AppStatus.Show();
 
-                defaultData = (GRCNumber == "" && ApplicationStatus == "Any" && GRCStatus == "Any" && patientFirstName == "" && patientLastName == "" && PHNTextBox.Text == "" && !isUrgent && !listAll) ? true : false;
+                defaultData = true;
                 ApplicationListTableView.DataSource = null;
                 DataTable dt = dashboard.UpdateAppTable(defaultData, GRCNumber, GRCStatus, patientFirstName, patientLastName, personalHealthNumber, isUrgent, listAll, ApplicationStatus);
                 ApplicationListTableView.DataSource = dt;
