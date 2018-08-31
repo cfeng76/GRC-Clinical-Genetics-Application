@@ -11,7 +11,7 @@ namespace GRC_Clinical_Genetics_Application
 {
     class Connections : IDisposable
     {
-        public SqlConnection GRC_Connection = new SqlConnection("Server=WSSQLC011V01\prdinst01;database=GRC;integrated security=true;");
+        public SqlConnection GRC_Connection = new SqlConnection("Server=WSSQLC011V01\\prdinst01;database=GRC;integrated security=true;");
         private string sConnection = Properties.Settings.Default.GRCConnectionString;
         public Connections()
         {
